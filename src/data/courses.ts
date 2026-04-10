@@ -27,7 +27,6 @@ export interface Course {
 }
 
 export const courses: Course[] = [
-  // ===================== BEGINNER COURSES =====================
   {
     id: "first-aid",
     title: "Первая гражданская помощь",
@@ -43,7 +42,7 @@ export const courses: Course[] = [
     spotsLeft: 4,
     nextDate: "Апрель 2026",
     hasDate: false,
-    image: "/training-medical.jpg",
+    image: "/first-aid-course.png",
     program: [
       "Правовые нормы оказания гражданской первой помощи",
       "Основные жизнеугрожающие и острые состояния",
@@ -128,7 +127,7 @@ export const courses: Course[] = [
     spotsLeft: 5,
     nextDate: "Апрель 2026",
     hasDate: false,
-    image: "/training-tactical.jpg",
+    image: "/operator-ak.png",
     program: [
       "Безопасность обращения с оружием",
       "Разборка/сборка, обслуживание, снаряжение магазина",
@@ -176,7 +175,7 @@ export const courses: Course[] = [
     spotsLeft: 6,
     nextDate: "25–26 апреля 2026",
     hasDate: true,
-    image: "/training-medical.jpg",
+    image: "/tactical-medicine-course.png",
     program: [
       "Понятие «Красной», «Жёлтой», «Зелёной зоны» и действия в них",
       "Алгоритм К.У.Л.А.К. Б.А.Р.И.Н. / S-M.A.R.C.H.-P.A.W.S.",
@@ -269,7 +268,7 @@ export const courses: Course[] = [
     spotsLeft: 5,
     nextDate: "23–24 мая 2026",
     hasDate: true,
-    image: "/training-tactical.jpg",
+    image: "/applied-pistol.png",
     program: [
       "ТТХ оружия, меры безопасности",
       "Стойка, прицеливание, обработка спуска",
@@ -335,8 +334,6 @@ export const courses: Course[] = [
     location: "НСО, с. Ленинское",
     discount: "Скидка 1 000 ₽ ранее проходившим курсы ЦСП, участникам БД, военнослужащим",
   },
-
-  // ===================== ADVANCED COURSES =====================
   {
     id: "first-aid-advanced",
     title: "Первая помощь. Продвинутый",
@@ -351,7 +348,7 @@ export const courses: Course[] = [
     spotsLeft: 4,
     nextDate: "Апрель 2026",
     hasDate: false,
-    image: "/training-medical.jpg",
+    image: "/first-aid-course.png",
     program: [
       "Сортировка пострадавших (триаж)",
       "Работа с множественными травмами",
@@ -420,7 +417,7 @@ export const courses: Course[] = [
     spotsLeft: 4,
     nextDate: "Апрель 2026",
     hasDate: false,
-    image: "/training-tactical.jpg",
+    image: "/operator-ak.png",
     program: [
       "Стрельба в движении на повышенных скоростях",
       "Работа в паре и группе: огневое взаимодействие",
@@ -456,7 +453,7 @@ export const courses: Course[] = [
     spotsLeft: 4,
     nextDate: "Апрель 2026",
     hasDate: false,
-    image: "/training-medical.jpg",
+    image: "/tactical-medicine-course.png",
     program: [
       "Расширенные протоколы ТАКМЕД",
       "Работа с множественными пострадавшими",
@@ -526,7 +523,7 @@ export const courses: Course[] = [
     spotsLeft: 4,
     nextDate: "Май 2026",
     hasDate: false,
-    image: "/training-tactical.jpg",
+    image: "/applied-pistol.png",
     program: [
       "Скоростная стрельба по множественным целям",
       "Работа в ограниченном пространстве",
@@ -582,8 +579,6 @@ export const courses: Course[] = [
     installment: true,
     certificate: "Именной сертификат «Инженерная подготовка. Продвинутый»",
   },
-
-  // ===================== COMPLEX =====================
   {
     id: "field-intensive-june",
     title: "Полевой интенсив",
@@ -599,7 +594,7 @@ export const courses: Course[] = [
     spotsLeft: 2,
     nextDate: "22–27 июня 2026",
     hasDate: true,
-    image: "/tactical-trenches.png",
+    image: "/field-intensive.png",
     program: [
       "Огневая подготовка: расширенный курс АК",
       "Гранатометание",
@@ -640,7 +635,7 @@ export const courses: Course[] = [
     spotsLeft: 3,
     nextDate: "21–26 июля 2026",
     hasDate: true,
-    image: "/tactical-trenches.png",
+    image: "/field-intensive.png",
     program: [
       "Огневая подготовка: расширенный курс АК",
       "Гранатометание",
@@ -670,7 +665,7 @@ export const courses: Course[] = [
     spotsLeft: 4,
     nextDate: "10–15 августа 2026",
     hasDate: true,
-    image: "/tactical-trenches.png",
+    image: "/field-intensive.png",
     program: [
       "Огневая подготовка: расширенный курс АК",
       "Гранатометание",
@@ -686,8 +681,6 @@ export const courses: Course[] = [
     includes: ["Макеты автоматов, гранаты, снаряжение, пиротехника", "Проживание, питание"],
     location: "НСО, с. Ленинское",
   },
-
-  // ===================== INDIVIDUAL & EVENTS =====================
   {
     id: "weekend-practice",
     title: "Практика боевой подготовки",
