@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import { Clock, Users, ChevronRight, ArrowLeft, CheckCircle, AlertTriangle, Calendar, CalendarSearch } from "lucide-react";
+import { Clock, Users, ChevronRight, ArrowLeft, CheckCircle, AlertTriangle, Calendar, CalendarSearch, Shirt, MapPin, Award, Tag } from "lucide-react";
 import AnimatedSection from "@/components/AnimatedSection";
 import BookingForm from "@/components/BookingForm";
 import CourseCard from "@/components/CourseCard";
@@ -115,6 +115,42 @@ const CourseDetailPage = () => {
                 ))}
               </div>
             </AnimatedSection>
+
+            {/* EQUIPMENT */}
+            {course.equipment && course.equipment.length > 0 && (
+              <AnimatedSection delay={0.25}>
+                <div className="bg-card-gradient border border-border rounded-lg p-6 mb-12">
+                  <h2 className="font-heading text-xl font-bold text-foreground mb-4 flex items-center gap-2">
+                    <Shirt className="w-5 h-5 text-primary" /> Что взять с собой
+                  </h2>
+                  <ul className="space-y-2">
+                    {course.equipment.map((item, i) => (
+                      <li key={i} className="flex items-start gap-2 text-foreground text-sm">
+                        <ChevronRight className="w-4 h-4 text-primary shrink-0 mt-0.5" /> {item}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </AnimatedSection>
+            )}
+
+            {/* INCLUDES */}
+            {course.includes && course.includes.length > 0 && (
+              <AnimatedSection delay={0.3}>
+                <div className="bg-primary/5 border border-primary/20 rounded-lg p-6 mb-12">
+                  <h3 className="font-heading text-lg font-bold text-foreground mb-3 flex items-center gap-2">
+                    <Tag className="w-5 h-5 text-primary" /> Включено в стоимость
+                  </h3>
+                  <ul className="space-y-2">
+                    {course.includes.map((item, i) => (
+                      <li key={i} className="flex items-start gap-2 text-foreground text-sm">
+                        <CheckCircle className="w-4 h-4 text-primary shrink-0 mt-0.5" /> {item}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </AnimatedSection>
+            )}
           </div>
 
           {/* SIDEBAR */}
@@ -123,8 +159,14 @@ const CourseDetailPage = () => {
               <div className="sticky top-24 bg-card-gradient border border-border rounded-lg p-6 space-y-6">
                 <div>
                   <span className="text-4xl font-heading font-bold text-foreground">{course.price.toLocaleString("ru-RU")} ₽</span>
+                  {course.priceNote && (
+                    <p className="text-xs text-muted-foreground mt-1">{course.priceNote}</p>
+                  )}
                   {course.installment && (
-                    <p className="text-xs text-primary mt-1">Доступна без% рассрочка</p>
+                    <p className="text-xs text-primary mt-1">Доступна без% рассрочка 6/12 мес.</p>
+                  )}
+                  {course.discount && (
+                    <p className="text-xs text-accent mt-1">{course.discount}</p>
                   )}
                 </div>
 
@@ -132,6 +174,11 @@ const CourseDetailPage = () => {
                   <div className="flex items-center gap-2 text-muted-foreground">
                     <Clock className="w-4 h-4 text-primary" /> {course.duration}
                   </div>
+                  {course.schedule && (
+                    <div className="flex items-start gap-2 text-muted-foreground text-xs">
+                      <Clock className="w-3.5 h-3.5 text-primary mt-0.5 shrink-0" /> {course.schedule}
+                    </div>
+                  )}
                   <div className="flex items-center gap-2 text-muted-foreground">
                     <Users className="w-4 h-4 text-primary" /> {course.format}
                   </div>
@@ -146,6 +193,16 @@ const CourseDetailPage = () => {
                     >
                       <CalendarSearch className="w-4 h-4" /> Уточнить дату
                     </button>
+                  )}
+                  {course.location && (
+                    <div className="flex items-start gap-2 text-muted-foreground text-xs">
+                      <MapPin className="w-3.5 h-3.5 text-primary mt-0.5 shrink-0" /> {course.location}
+                    </div>
+                  )}
+                  {course.certificate && (
+                    <div className="flex items-start gap-2 text-muted-foreground text-xs">
+                      <Award className="w-3.5 h-3.5 text-primary mt-0.5 shrink-0" /> {course.certificate}
+                    </div>
                   )}
                 </div>
 
