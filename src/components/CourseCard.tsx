@@ -43,7 +43,7 @@ const CourseCard = ({ course }: Props) => {
   return (
     <>
       <div className="group bg-card-gradient border border-border rounded-lg overflow-hidden hover:border-primary/50 transition-all duration-300 hover:shadow-glow flex flex-col">
-        <div className="relative h-48 overflow-hidden">
+        <div className="relative h-48 overflow-hidden flex items-center justify-center bg-muted">
           <img
             src={course.image}
             alt={course.title}
