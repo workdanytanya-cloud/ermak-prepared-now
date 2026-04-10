@@ -295,28 +295,32 @@ const Index = () => {
               {
                 name: "Данюкин Андрей Игоревич",
                 role: "Руководитель ЦСП «ЕРМАК»",
+                photo: "/instructor-danyukin.png",
                 exp: "Профессиональный военный, участник боевых действий. Инструктор по армейской тактической стрельбе. Действующий инструктор фонда «Антитеррор» ФСБ России. Стаж работы с детьми более 10 лет. Награждён государственными наградами.",
               },
               {
                 name: "Дедов Михаил Владимирович",
                 role: "Старший инструктор",
+                photo: "/instructor-dedov.jpg",
                 exp: "Инструкторская деятельность с 2014 года. Участник боевых действий. Прошёл курсы: «Партизан Интенсив» (СПб), инструктор «Волк» (Ростов), тактическая медицина (ВМА им. Кирова). Инструктор по тактико-специальной подготовке.",
               },
               {
                 name: "Подоксенов Владимир Александрович",
                 role: "Инструктор",
+                photo: "/instructor-podoksenov.jpg",
                 exp: "ВМА им. Кирова (Москва). Подготовка ТССС (ТАКМЕД), расширенный курс РАТМЕД. Повышение квалификации: Академия Боткина, преподаватель первой помощи «Искрум».",
               },
               {
                 name: "Воронков Алексей Евгеньевич",
                 role: "Инструктор",
+                photo: "/instructor-voronkov.jpg",
                 exp: "Высшее педагогическое, среднее — лечебное дело (фельдшер). Инструктор тактической медицины (ВМА им. Кирова, «Технологии выживания»). Инструктор первой помощи (АГМУ, Сибирский институт безопасности).",
               },
             ].map((inst, i) => (
               <AnimatedSection key={i} delay={i * 0.1}>
                 <div className="text-center p-6 bg-card-gradient border border-border rounded-lg hover:border-primary/30 transition-all h-full">
-                  <div className="w-20 h-20 rounded-full bg-muted mx-auto mb-4 flex items-center justify-center">
-                    <Users className="w-8 h-8 text-muted-foreground" />
+                  <div className="w-24 h-24 rounded-full mx-auto mb-4 overflow-hidden border-2 border-primary/30">
+                    <img src={inst.photo} alt={inst.name} className="w-full h-full object-cover" />
                   </div>
                   <h3 className="font-heading text-lg font-semibold text-foreground">{inst.name}</h3>
                   <p className="text-sm text-primary mb-3">{inst.role}</p>
