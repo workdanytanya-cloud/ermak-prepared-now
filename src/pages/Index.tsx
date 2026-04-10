@@ -1,7 +1,8 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { Shield, Heart, Target, Users, Clock, ChevronRight, Star, AlertTriangle, ArrowRight } from "lucide-react";
+import { Shield, Heart, Target, Users, Clock, ChevronRight, Star, AlertTriangle, ArrowRight, HelpCircle, MessageCircle } from "lucide-react";
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import AnimatedSection from "@/components/AnimatedSection";
 import CourseCard from "@/components/CourseCard";
 import BookingForm from "@/components/BookingForm";
@@ -12,11 +13,62 @@ import trainingMedical from "@/assets/training-medical.jpg";
 import trainingTactical from "@/assets/training-tactical.jpg";
 import trainingWomen from "@/assets/training-women.jpg";
 
+const faqData = [
+  {
+    q: "Нужен ли опыт, чтобы прийти на курс?",
+    a: "Нет. На базовые форматы можно приходить с нуля. Мы начинаем с простого, объясняем порядок, показываем руками и только потом добавляем темп. Если вы без подготовки — это нормально, просто скажите об этом заранее."
+  },
+  {
+    q: "Можно ли прийти без физподготовки?",
+    a: "Можно. Мы не делаем отбор «по спорту» на гражданских программах. Нагрузка дозируется, а акцент ставится на правильность действий. В профессиональных форматах уровень выше, но и там программа настраивается под состав группы."
+  },
+  {
+    q: "Что брать с собой на занятие?",
+    a: "Обычно — удобную закрытую одежду, воду, блокнот по желанию и спокойный настрой на работу. Если нужен специфический комплект, мы отправляем список заранее, чтобы не было сюрпризов в день тренировки."
+  },
+  {
+    q: "Больше теория или практика?",
+    a: "Короткая теория нужна, чтобы не делать опасных ошибок. Но основа — практика. Мы строим занятие так: объяснение, показ, отработка, разбор, повтор. На выходе у вас должен быть рабочий навык, а не только «понятие о теме»."
+  },
+  {
+    q: "Можно ли девушкам на ваши программы?",
+    a: "Да. У нас есть и отдельные форматы, и смешанные группы. Мы не делим людей по стереотипам — только по задаче и уровню. Главное, чтобы человеку было понятно, безопасно и полезно."
+  },
+  {
+    q: "Можно ли отправить подростка или ребёнка?",
+    a: "Да, но в правильный возрастной формат. Для подростков важна не «жёсткость», а дисциплина, алгоритмы и безопасная практика. Мы всегда обсуждаем это с родителями до старта."
+  },
+  {
+    q: "Есть ли корпоративные и групповые форматы?",
+    a: "Да. Мы делаем отдельные программы для компаний, организаций и команд. Можно собрать занятие под конкретную задачу: первая помощь на объекте, командное взаимодействие, выездной интенсив."
+  },
+  {
+    q: "Чем вы отличаетесь от «обычных курсов»?",
+    a: "Структурой и глубиной отработки. Мы не ограничиваемся лекцией и разовой практикой. Наша задача — чтобы человек мог повторить действия в реальном стрессе, а не только пересказать материал."
+  },
+  {
+    q: "Можно ли собрать программу под задачу подразделения?",
+    a: "Да, это стандартная работа для профессионального направления. Вы описываете задачу, состав и уровень группы, а мы предлагаем сценарий с логикой, этапностью и понятным контролем результата."
+  },
+  {
+    q: "Есть ли выездной формат?",
+    a: "Есть. Проводим выездные занятия и практики под запрос. Важно заранее согласовать площадку, длительность и цели, чтобы выезд действительно дал результат."
+  },
+  {
+    q: "Как записаться?",
+    a: "Самый быстрый путь — кнопка заявки на сайте. Оставляете имя, телефон и запрос. Мы связываемся, задаём 2–3 уточняющих вопроса и предлагаем ближайший уместный формат."
+  },
+  {
+    q: "Как понять, какой курс мне подходит?",
+    a: "Если сомневаетесь — это нормально. Опишите вашу ситуацию: для себя, для семьи, для команды или подразделения. Мы подскажем маршрут без «продажи ради продажи»."
+  },
+];
+
 const Index = () => {
   const [bookingOpen, setBookingOpen] = useState(false);
   const [quizOpen, setQuizOpen] = useState(false);
 
-  const featuredCourses = courses.slice(0, 4);
+  const featuredCourses = courses.filter(c => c.level === "beginner" && c.category !== "individual" && c.category !== "events").slice(0, 4);
 
   return (
     <div className="min-h-screen">
@@ -40,7 +92,7 @@ const Index = () => {
           </AnimatedSection>
           <AnimatedSection delay={0.2}>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Button onClick={() => setBookingOpen(true)} size="lg" className="bg-cta-gradient text-accent-foreground font-heading text-lg tracking-wider shadow-cta hover:opacity-90 transition-opacity animate-pulse-glow px-8 py-6">
+              <Button onClick={() => setBookingOpen(true)} size="lg" className="bg-cta-gradient text-accent-foreground font-heading text-lg tracking-wider shadow-cta hover:opacity-90 animate-pulse-glow px-8 py-6">
                 Записаться на курс
               </Button>
               <Button onClick={() => setQuizOpen(true)} variant="outline" size="lg" className="border-primary/50 text-foreground font-heading text-lg tracking-wider hover:bg-primary/10 px-8 py-6">
@@ -300,6 +352,39 @@ const Index = () => {
               </AnimatedSection>
             ))}
           </div>
+        </div>
+      </section>
+
+      {/* FAQ */}
+      <section id="faq" className="section-padding">
+        <div className="container mx-auto max-w-3xl">
+          <AnimatedSection>
+            <h2 className="font-heading text-3xl md:text-5xl font-bold text-foreground text-center mb-4">
+              Частые <span className="text-gradient">вопросы</span>
+            </h2>
+            <p className="text-muted-foreground text-center mb-12">
+              Честные ответы на вопросы, которые мы слышим чаще всего
+            </p>
+          </AnimatedSection>
+          <AnimatedSection delay={0.1}>
+            <Accordion type="single" collapsible className="space-y-3">
+              {faqData.map((item, i) => (
+                <AccordionItem key={i} value={`faq-${i}`} className="bg-card-gradient border border-border rounded-lg px-6 data-[state=open]:border-primary/30">
+                  <AccordionTrigger className="font-heading text-foreground text-left hover:no-underline py-5">
+                    {item.q}
+                  </AccordionTrigger>
+                  <AccordionContent className="text-muted-foreground leading-relaxed pb-5">
+                    {item.a}
+                  </AccordionContent>
+                </AccordionItem>
+              ))}
+            </Accordion>
+            <div className="text-center mt-8">
+              <Button onClick={() => setBookingOpen(true)} variant="outline" className="border-primary/30 text-foreground hover:bg-primary/10 font-heading tracking-wider gap-2">
+                <MessageCircle className="w-4 h-4" /> Задать свой вопрос
+              </Button>
+            </div>
+          </AnimatedSection>
         </div>
       </section>
 
