@@ -51,7 +51,7 @@ const Index = () => {
           <AnimatedSection delay={0.4}>
             <div className="flex justify-center gap-8 md:gap-16 mt-16 text-center">
               {[
-                { num: "2000+", label: "Выпускников" },
+                { num: "1000+", label: "Выпускников" },
                 { num: "50+", label: "Курсов проведено" },
                 { num: "15", label: "Лет опыта" },
               ].map((s, i) => (
@@ -79,9 +79,9 @@ const Index = () => {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             {[
               { icon: AlertTriangle, title: "Скорая не успеет", text: "Среднее время приезда — 20 минут. Человек с артериальным кровотечением без помощи не проживёт и пяти." },
-              { icon: Shield, title: "Нападение на улице", text: "Количество уличных нападений растёт. Без навыков самозащиты вы — лёгкая мишень." },
+              { icon: Shield, title: "Нападение на улице", text: "Количество уличных нападений растёт. Без навыков самозащиты и умения видеть опасность — вы лёгкая мишень." },
               { icon: Heart, title: "ДТП на трассе", text: "Вы единственный, кто может помочь. Но знаете ли вы, что делать, когда человек не дышит?" },
-              { icon: Target, title: "Вдали от цивилизации", text: "Поход, рыбалка, пикник. Связи нет, помощь далеко. Всё зависит только от вас." },
+              { icon: Target, title: "Вдали от цивилизации", text: "Чаще всего непредвиденные обстоятельства случаются именно тогда, когда под рукой ничего нет. Поход, рыбалка, пикник. Связи нет, помощь далеко. Всё зависит только от вас." },
             ].map((item, i) => (
               <AnimatedSection key={i} delay={i * 0.1}>
                 <div className="bg-card-gradient border border-border rounded-lg p-6 hover:border-primary/30 transition-all h-full">
@@ -187,7 +187,10 @@ const Index = () => {
               </AnimatedSection>
             ))}
           </div>
-          <div className="mt-8 text-center md:hidden">
+          <AnimatedSection>
+            <p className="text-center text-sm text-primary mt-8 font-medium">На все курсы доступна без% рассрочка</p>
+          </AnimatedSection>
+          <div className="mt-4 text-center md:hidden">
             <Link to="/courses">
               <Button variant="outline" className="border-primary/30 text-foreground hover:bg-primary/10 font-heading">
                 Все курсы <ArrowRight className="w-4 h-4 ml-2" />
@@ -235,20 +238,37 @@ const Index = () => {
               <span className="text-gradient">Инструкторы</span>
             </h2>
           </AnimatedSection>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-4xl mx-auto">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 max-w-6xl mx-auto">
             {[
-              { name: "Дмитрий Волков", role: "Основатель ЦСП «ЕРМАК»", exp: "15 лет боевого опыта. Инструктор по тактической медицине и огневой подготовке." },
-              { name: "Андрей Сергеев", role: "Старший инструктор", exp: "Ветеран спецподразделений. Специализация — тактика и городской бой." },
-              { name: "Елена Козлова", role: "Инструктор", exp: "Мастер спорта по самообороне. Автор программы «Женская безопасность»." },
+              {
+                name: "Данюкин Андрей Игоревич",
+                role: "Руководитель ЦСП «ЕРМАК»",
+                exp: "Профессиональный военный, участник боевых действий. Инструктор по армейской тактической стрельбе. Действующий инструктор фонда «Антитеррор» ФСБ России. Стаж работы с детьми более 10 лет. Награждён государственными наградами.",
+              },
+              {
+                name: "Дедов Михаил Владимирович",
+                role: "Старший инструктор",
+                exp: "Инструкторская деятельность с 2014 года. Участник боевых действий. Прошёл курсы: «Партизан Интенсив» (СПб), инструктор «Волк» (Ростов), тактическая медицина (ВМА им. Кирова). Инструктор по тактико-специальной подготовке.",
+              },
+              {
+                name: "Подоксенов Владимир Александрович",
+                role: "Инструктор",
+                exp: "ВМА им. Кирова (Москва). Подготовка ТССС (ТАКМЕД), расширенный курс РАТМЕД. Повышение квалификации: Академия Боткина, преподаватель первой помощи «Искрум».",
+              },
+              {
+                name: "Воронков Алексей Евгеньевич",
+                role: "Инструктор",
+                exp: "Высшее педагогическое, среднее — лечебное дело (фельдшер). Инструктор тактической медицины (ВМА им. Кирова, «Технологии выживания»). Инструктор первой помощи (АГМУ, Сибирский институт безопасности).",
+              },
             ].map((inst, i) => (
               <AnimatedSection key={i} delay={i * 0.1}>
-                <div className="text-center p-6 bg-card-gradient border border-border rounded-lg hover:border-primary/30 transition-all">
+                <div className="text-center p-6 bg-card-gradient border border-border rounded-lg hover:border-primary/30 transition-all h-full">
                   <div className="w-20 h-20 rounded-full bg-muted mx-auto mb-4 flex items-center justify-center">
                     <Users className="w-8 h-8 text-muted-foreground" />
                   </div>
                   <h3 className="font-heading text-lg font-semibold text-foreground">{inst.name}</h3>
                   <p className="text-sm text-primary mb-3">{inst.role}</p>
-                  <p className="text-sm text-muted-foreground">{inst.exp}</p>
+                  <p className="text-sm text-muted-foreground leading-relaxed">{inst.exp}</p>
                 </div>
               </AnimatedSection>
             ))}

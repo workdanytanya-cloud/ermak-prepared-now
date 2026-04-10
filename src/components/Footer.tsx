@@ -25,14 +25,14 @@ const Footer = () => (
         <div>
           <h4 className="font-heading text-sm font-semibold text-foreground mb-4 tracking-wider">Контакты</h4>
           <div className="flex flex-col gap-3">
-            <a href="tel:+79001234567" className="flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors">
-              <Phone className="w-4 h-4 text-primary" /> +7 (900) 123-45-67
+            <a href="tel:+79994675684" className="flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors">
+              <Phone className="w-4 h-4 text-primary" /> +7 999 467 56 84
             </a>
-            <a href="mailto:info@ermak-nsk.ru" className="flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors">
-              <Mail className="w-4 h-4 text-primary" /> info@ermak-nsk.ru
+            <a href="mailto:ermakcentrnsk@gmail.com" className="flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors">
+              <Mail className="w-4 h-4 text-primary" /> ermakcentrnsk@gmail.com
             </a>
             <div className="flex items-start gap-2 text-sm text-muted-foreground">
-              <MapPin className="w-4 h-4 text-primary mt-0.5" /> г. Новосибирск
+              <MapPin className="w-4 h-4 text-primary mt-0.5" /> Красный проспект, 11, Новосибирск
             </div>
           </div>
         </div>
@@ -40,9 +40,9 @@ const Footer = () => (
         <div>
           <h4 className="font-heading text-sm font-semibold text-foreground mb-4 tracking-wider">Соцсети</h4>
           <div className="flex flex-col gap-2">
-            <a href="#" className="text-sm text-muted-foreground hover:text-foreground transition-colors">Telegram</a>
-            <a href="#" className="text-sm text-muted-foreground hover:text-foreground transition-colors">ВКонтакте</a>
-            <a href="#" className="text-sm text-muted-foreground hover:text-foreground transition-colors">YouTube</a>
+            <a href="https://t.me/ErmakCenter" target="_blank" rel="noopener noreferrer" className="text-sm text-muted-foreground hover:text-foreground transition-colors">Telegram</a>
+            <a href="https://vk.com/ermakcentr" target="_blank" rel="noopener noreferrer" className="text-sm text-muted-foreground hover:text-foreground transition-colors">ВКонтакте</a>
+            <a href="https://max.ru/join/huVj5A5o7ptBjq5ibPQpQnpsNGa4MxilwblaupwU4aE" target="_blank" rel="noopener noreferrer" className="text-sm text-muted-foreground hover:text-foreground transition-colors">MAX</a>
           </div>
         </div>
       </div>

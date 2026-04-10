@@ -3,15 +3,21 @@ import { useParams, Link } from "react-router-dom";
 import { courses, levelLabels, categoryLabels } from "@/data/courses";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Clock, Users, ChevronRight, ArrowLeft, CheckCircle, AlertTriangle, Calendar } from "lucide-react";
+import { Input } from "@/components/ui/input";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { Clock, Users, ChevronRight, ArrowLeft, CheckCircle, AlertTriangle, Calendar, CalendarSearch } from "lucide-react";
 import AnimatedSection from "@/components/AnimatedSection";
 import BookingForm from "@/components/BookingForm";
 import CourseCard from "@/components/CourseCard";
+import { toast } from "sonner";
 
 const CourseDetailPage = () => {
   const { id } = useParams();
   const course = courses.find(c => c.id === id);
   const [bookingOpen, setBookingOpen] = useState(false);
+  const [dateDialogOpen, setDateDialogOpen] = useState(false);
+  const [phone, setPhone] = useState("");
+  const [dateSubmitted, setDateSubmitted] = useState(false);
 
   if (!course) {
     return (
@@ -23,6 +29,25 @@ const CourseDetailPage = () => {
   }
 
   const related = courses.filter(c => c.category === course.category && c.id !== course.id).slice(0, 3);
+
+  const handleDateInquiry = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!phone.trim()) { toast.error("Введите номер телефона"); return; }
+    const apps = JSON.parse(localStorage.getItem("ermak_applications") || "[]");
+    apps.push({
+      id: crypto.randomUUID(),
+      name: "Запрос даты",
+      phone: phone.trim(),
+      course: course.title,
+      date: new Date().toLocaleDateString("ru-RU"),
+      status: "new",
+      comments: [`Запрос даты курса: ${course.title}`],
+      createdAt: new Date().toISOString(),
+    });
+    localStorage.setItem("ermak_applications", JSON.stringify(apps));
+    setDateSubmitted(true);
+    setPhone("");
+  };
 
   return (
     <div className="min-h-screen pt-24 pb-20">
@@ -98,6 +123,9 @@ const CourseDetailPage = () => {
               <div className="sticky top-24 bg-card-gradient border border-border rounded-lg p-6 space-y-6">
                 <div>
                   <span className="text-4xl font-heading font-bold text-foreground">{course.price.toLocaleString("ru-RU")} ₽</span>
+                  {course.installment && (
+                    <p className="text-xs text-primary mt-1">Доступна без% рассрочка</p>
+                  )}
                 </div>
 
                 <div className="space-y-3 text-sm">
@@ -107,9 +135,18 @@ const CourseDetailPage = () => {
                   <div className="flex items-center gap-2 text-muted-foreground">
                     <Users className="w-4 h-4 text-primary" /> {course.format}
                   </div>
-                  <div className="flex items-center gap-2 text-muted-foreground">
-                    <Calendar className="w-4 h-4 text-primary" /> {course.nextDate}
-                  </div>
+                  {course.hasDate ? (
+                    <div className="flex items-center gap-2 text-muted-foreground">
+                      <Calendar className="w-4 h-4 text-primary" /> {course.nextDate}
+                    </div>
+                  ) : (
+                    <button
+                      onClick={() => { setDateDialogOpen(true); setDateSubmitted(false); }}
+                      className="flex items-center gap-2 text-primary hover:text-primary/80 transition-colors"
+                    >
+                      <CalendarSearch className="w-4 h-4" /> Уточнить дату
+                    </button>
+                  )}
                 </div>
 
                 {course.spotsLeft <= 5 && (
@@ -149,6 +186,30 @@ const CourseDetailPage = () => {
       </div>
 
       <BookingForm open={bookingOpen} onOpenChange={setBookingOpen} preselectedCourse={course.id} />
+
+      <Dialog open={dateDialogOpen} onOpenChange={setDateDialogOpen}>
+        <DialogContent className="bg-card border-border max-w-sm">
+          {dateSubmitted ? (
+            <div className="text-center py-6">
+              <DialogTitle className="font-heading text-xl text-foreground mb-3">Заявка отправлена!</DialogTitle>
+              <p className="text-sm text-muted-foreground">Мы отправим вам ближайшую дату курса на телефон, который вы указали.</p>
+              <Button onClick={() => setDateDialogOpen(false)} className="mt-4 bg-cta-gradient text-accent-foreground font-heading shadow-cta">Хорошо</Button>
+            </div>
+          ) : (
+            <>
+              <DialogHeader>
+                <DialogTitle className="font-heading text-lg text-foreground">Уточнить дату: {course.shortTitle}</DialogTitle>
+              </DialogHeader>
+              <form onSubmit={handleDateInquiry} className="space-y-4 mt-2">
+                <Input placeholder="Ваш телефон" type="tel" value={phone} onChange={e => setPhone(e.target.value)} className="bg-input border-border text-foreground placeholder:text-muted-foreground" />
+                <Button type="submit" className="w-full bg-cta-gradient text-accent-foreground font-heading tracking-wider shadow-cta hover:opacity-90">
+                  Узнать дату
+                </Button>
+              </form>
+            </>
+          )}
+        </DialogContent>
+      </Dialog>
     </div>
   );
 };
