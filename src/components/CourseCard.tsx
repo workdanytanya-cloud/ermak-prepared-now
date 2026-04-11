@@ -44,7 +44,7 @@ const CourseCard = ({ course, lightMode }: Props) => {
   return (
     <>
       <div className={`group border rounded-lg overflow-hidden transition-all duration-300 hover:shadow-glow flex flex-col ${lightMode ? "bg-white border-[hsl(40,5%,80%)] hover:border-[hsl(38,90%,50%)]/50" : "bg-card-gradient border-border hover:border-primary/50"}`}>
-        <div className="relative h-48 overflow-hidden flex items-center justify-center bg-muted">
+        <div className="relative h-40 sm:h-48 overflow-hidden flex items-center justify-center bg-muted">
           <img
             src={course.image}
             alt={course.title}
@@ -61,18 +61,18 @@ const CourseCard = ({ course, lightMode }: Props) => {
           )}
         </div>
 
-        <div className="p-5 flex flex-col flex-1">
-          <h3 className={`font-heading text-lg font-semibold mb-2 ${lightMode ? "text-civil" : "text-foreground"}`}>{course.title}</h3>
-          <p className={`text-sm mb-4 line-clamp-2 flex-1 ${lightMode ? "text-civil-muted" : "text-muted-foreground"}`}>{course.result}</p>
+        <div className="p-4 sm:p-5 flex flex-col flex-1">
+          <h3 className={`font-heading text-base sm:text-lg font-semibold mb-1.5 sm:mb-2 leading-tight ${lightMode ? "text-civil" : "text-foreground"}`}>{course.title}</h3>
+          <p className={`text-xs sm:text-sm mb-3 sm:mb-4 line-clamp-2 flex-1 ${lightMode ? "text-civil-muted" : "text-muted-foreground"}`}>{course.result}</p>
 
-          <div className={`flex items-center gap-4 text-xs mb-4 ${lightMode ? "text-civil-muted" : "text-muted-foreground"}`}>
-            <span className="flex items-center gap-1"><Clock className="w-3.5 h-3.5" /> {course.duration}</span>
-            <span className="flex items-center gap-1"><Users className="w-3.5 h-3.5" /> {course.format}</span>
+          <div className={`flex items-center gap-3 sm:gap-4 text-[10px] sm:text-xs mb-3 sm:mb-4 ${lightMode ? "text-civil-muted" : "text-muted-foreground"}`}>
+            <span className="flex items-center gap-1"><Clock className="w-3 sm:w-3.5 h-3 sm:h-3.5" /> {course.duration}</span>
+            <span className="flex items-center gap-1"><Users className="w-3 sm:w-3.5 h-3 sm:h-3.5" /> {course.format}</span>
           </div>
 
-          <div className="flex items-center justify-between mb-3">
-            <div>
-              <span className={`text-xl font-heading font-bold ${lightMode ? "text-civil" : "text-foreground"}`}>{course.price.toLocaleString("ru-RU")} ₽</span>
+          <div className="flex items-center justify-between gap-2 mb-2 sm:mb-3">
+            <div className="min-w-0">
+              <span className={`text-lg sm:text-xl font-heading font-bold ${lightMode ? "text-civil" : "text-foreground"}`}>{course.price.toLocaleString("ru-RU")} ₽</span>
               {course.hasDate ? (
                 <span className={`text-xs block ${lightMode ? "text-civil-muted" : "text-muted-foreground"}`}>{course.nextDate}</span>
               ) : (
