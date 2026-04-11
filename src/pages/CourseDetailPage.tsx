@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useParams, Link } from "react-router-dom";
+import { useParams, Link, useNavigate } from "react-router-dom";
 import { courses, levelLabels, categoryLabels } from "@/data/courses";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -12,6 +12,7 @@ import CourseCard from "@/components/CourseCard";
 import { toast } from "sonner";
 
 const CourseDetailPage = () => {
+  const navigate = useNavigate();
   const { id } = useParams();
   const course = courses.find(c => c.id === id);
   const [bookingOpen, setBookingOpen] = useState(false);
@@ -53,9 +54,9 @@ const CourseDetailPage = () => {
     <div className="min-h-screen pt-24 pb-20">
       <div className="container mx-auto px-4">
         <AnimatedSection>
-          <Link to="/courses" className="inline-flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground mb-8 transition-colors">
-            <ArrowLeft className="w-4 h-4" /> Все курсы
-          </Link>
+          <button onClick={() => navigate(-1)} className="inline-flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground mb-8 transition-colors">
+            <ArrowLeft className="w-4 h-4" /> Назад
+          </button>
         </AnimatedSection>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
