@@ -8,7 +8,7 @@ import BookingForm from "@/components/BookingForm";
 const navItems = [
   { label: "Главная", href: "/" },
   { label: "Курсы", href: "/courses" },
-  { label: "О нас", href: "/#instructors" },
+  { label: "Инструкторы", href: "/#instructors" },
   { label: "Контакты", href: "/#contacts" },
 ];
 
