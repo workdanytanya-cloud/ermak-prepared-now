@@ -14,7 +14,7 @@ interface Props {
   lightMode?: boolean;
 }
 
-const CourseCard = ({ course }: Props) => {
+const CourseCard = ({ course, lightMode }: Props) => {
   const [dateDialogOpen, setDateDialogOpen] = useState(false);
   const [phone, setPhone] = useState("");
   const [submitted, setSubmitted] = useState(false);
