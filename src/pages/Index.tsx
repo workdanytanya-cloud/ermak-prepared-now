@@ -174,8 +174,6 @@ const Index = () => {
   const [quizOpen, setQuizOpen] = useState(false);
   const [activeInstructor, setActiveInstructor] = useState<number | null>(null);
   const [hoveredSide, setHoveredSide] = useState<"civil" | "military" | null>(null);
-  const [mobileSlide, setMobileSlide] = useState(0);
-  const [touchStart, setTouchStart] = useState(0);
 
   const civilCourses = courses.filter(c => civilCourseIds.includes(c.id));
   const militaryCourses = courses.filter(c => militaryCourseIds.includes(c.id));
