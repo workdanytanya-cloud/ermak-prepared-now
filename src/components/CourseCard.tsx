@@ -11,6 +11,7 @@ import { courses } from "@/data/courses";
 
 interface Props {
   course: Course;
+  lightMode?: boolean;
 }
 
 const CourseCard = ({ course }: Props) => {
