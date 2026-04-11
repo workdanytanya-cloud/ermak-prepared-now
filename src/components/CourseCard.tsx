@@ -59,9 +59,6 @@ const CourseCard = ({ course, lightMode }: Props) => {
               </Badge>
             </div>
           )}
-          <Badge className="absolute top-3 left-3 bg-secondary text-secondary-foreground text-xs font-body">
-            {levelLabels[course.level]}
-          </Badge>
         </div>
 
         <div className="p-5 flex flex-col flex-1">
