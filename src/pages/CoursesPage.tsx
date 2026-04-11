@@ -1,23 +1,20 @@
 import { useState, useMemo } from "react";
-import { courses, categoryLabels, levelLabels } from "@/data/courses";
+import { courses, categoryLabels } from "@/data/courses";
 import CourseCard from "@/components/CourseCard";
 import AnimatedSection from "@/components/AnimatedSection";
 import { Button } from "@/components/ui/button";
 
 const CoursesPage = () => {
   const [category, setCategory] = useState<string>("all");
-  const [level, setLevel] = useState<string>("all");
 
   const filtered = useMemo(() => {
     return courses.filter(c => {
       if (category !== "all" && c.category !== category) return false;
-      if (level !== "all" && c.level !== level) return false;
       return true;
     });
-  }, [category, level]);
+  }, [category]);
 
   const categories = ["all", ...Object.keys(categoryLabels)];
-  const levels = ["all", ...Object.keys(levelLabels)];
 
   return (
     <div className="min-h-screen pt-24 pb-20">
@@ -38,15 +35,6 @@ const CoursesPage = () => {
                 onClick={() => setCategory(c)}
                 className={category === c ? "bg-primary text-primary-foreground font-heading" : "border-border text-muted-foreground hover:text-foreground font-heading"}>
                 {c === "all" ? "Все направления" : categoryLabels[c]}
-              </Button>
-            ))}
-          </div>
-          <div className="flex flex-wrap gap-2 justify-center mb-12">
-            {levels.map(l => (
-              <Button key={l} variant={level === l ? "default" : "outline"} size="sm"
-                onClick={() => setLevel(l)}
-                className={level === l ? "bg-primary text-primary-foreground font-heading" : "border-border text-muted-foreground hover:text-foreground font-heading"}>
-                {l === "all" ? "Все уровни" : levelLabels[l]}
               </Button>
             ))}
           </div>
