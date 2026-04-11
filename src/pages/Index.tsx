@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { Shield, Heart, Target, AlertTriangle, ArrowRight, ChevronRight, Star, Phone, Send, Clock, Users, MessageCircle, HelpCircle, X } from "lucide-react";
+import { Shield, Heart, Target, AlertTriangle, ArrowRight, ChevronRight, Star, Phone, Send, Clock } from "lucide-react";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import AnimatedSection from "@/components/AnimatedSection";
