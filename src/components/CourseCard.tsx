@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { Clock, Users, ArrowRight, CalendarSearch } from "lucide-react";
-import { Course, levelLabels } from "@/data/courses";
+import { Course } from "@/data/courses";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
