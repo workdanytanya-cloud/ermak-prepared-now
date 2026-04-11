@@ -195,12 +195,12 @@ const Index = () => {
             <img src="/hero-civil.jpg" alt="Гражданская подготовка" className="w-full h-full object-cover" width={960} height={1080} />
             <div className="absolute inset-0 bg-gradient-to-b from-[hsl(40,10%,20%)]/70 via-[hsl(40,10%,15%)]/50 to-[hsl(40,10%,10%)]/80" />
           </div>
-          <div className="relative z-10 text-center px-4 sm:px-6 py-12 md:py-0 max-w-lg flex flex-col items-center">
+          <div className="relative z-10 text-center px-4 sm:px-6 py-12 md:py-0 max-w-lg flex flex-col items-center justify-end md:justify-center md:h-auto h-full pb-24 md:pb-0">
             <p className="font-heading text-[10px] sm:text-xs tracking-[0.3em] text-[hsl(40,10%,80%)] mb-2 sm:mb-3">ЦЕНТР СПЕЦИАЛЬНОЙ ПОДГОТОВКИ</p>
-            <h2 className="font-heading text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-white leading-[0.95] mb-3 sm:mb-4">
-              ГРАЖДАНСКАЯ<br />ПОДГОТОВКА
+            <h2 className="font-heading text-3xl sm:text-4xl md:text-4xl lg:text-5xl font-bold text-white leading-[0.95] mb-3 sm:mb-4 min-h-[2.4em] md:min-h-[3em] flex items-end justify-center">
+              <span>ГРАЖДАНСКАЯ<br />ПОДГОТОВКА</span>
             </h2>
-            <p className="text-[hsl(40,10%,80%)] text-sm sm:text-base md:text-lg mb-4 sm:mb-6 font-body">
+            <p className="text-[hsl(40,10%,80%)] text-sm sm:text-base md:text-base lg:text-lg mb-5 sm:mb-6 font-body h-12 flex items-center">
               Навыки, которые помогут защитить себя и близких
             </p>
             <a href="#civil">
