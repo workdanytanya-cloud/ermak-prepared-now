@@ -174,8 +174,6 @@ const Index = () => {
   const [quizOpen, setQuizOpen] = useState(false);
   const [activeInstructor, setActiveInstructor] = useState<number | null>(null);
   const [hoveredSide, setHoveredSide] = useState<"civil" | "military" | null>(null);
-  const [mobileSlide, setMobileSlide] = useState(0);
-  const [touchStart, setTouchStart] = useState(0);
 
   const civilCourses = courses.filter(c => civilCourseIds.includes(c.id));
   const militaryCourses = courses.filter(c => militaryCourseIds.includes(c.id));
@@ -183,12 +181,11 @@ const Index = () => {
 
   return (
     <div className="min-h-screen">
-      {/* SPLIT HERO — Desktop: side-by-side, Mobile: horizontal swipe */}
-      {/* Desktop version */}
-      <section className="relative min-h-[100svh] hidden md:flex flex-row overflow-hidden">
+      {/* SPLIT HERO */}
+      <section className="relative min-h-[100svh] flex flex-col md:flex-row overflow-hidden">
         {/* Civil side */}
         <motion.div
-          className="relative flex-1 flex items-center justify-center cursor-pointer overflow-hidden"
+          className="relative flex-1 min-h-[50svh] md:min-h-0 flex items-center justify-center cursor-pointer overflow-hidden"
           animate={{ flex: hoveredSide === "civil" ? 1.06 : hoveredSide === "military" ? 0.94 : 1 }}
           transition={{ duration: 0.4, ease: "easeOut" }}
           onMouseEnter={() => setHoveredSide("civil")}
@@ -198,25 +195,33 @@ const Index = () => {
             <img src="/hero-civil.jpg" alt="Гражданская подготовка" className="w-full h-full object-cover" width={960} height={1080} />
             <div className="absolute inset-0 bg-gradient-to-b from-[hsl(40,10%,20%)]/70 via-[hsl(40,10%,15%)]/50 to-[hsl(40,10%,10%)]/80" />
           </div>
-          <div className="relative z-10 text-center px-6 max-w-lg flex flex-col items-center">
-            <p className="font-heading text-xs tracking-[0.3em] text-[hsl(40,10%,80%)] mb-3">ЦЕНТР СПЕЦИАЛЬНОЙ ПОДГОТОВКИ</p>
-            <h2 className="font-heading text-5xl lg:text-6xl font-bold text-white leading-[0.95] mb-4">
+          <div className="relative z-10 text-center px-4 sm:px-6 py-12 md:py-0 max-w-lg flex flex-col items-center">
+            <p className="font-heading text-[10px] sm:text-xs tracking-[0.3em] text-[hsl(40,10%,80%)] mb-2 sm:mb-3">ЦЕНТР СПЕЦИАЛЬНОЙ ПОДГОТОВКИ</p>
+            <h2 className="font-heading text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-white leading-[0.95] mb-3 sm:mb-4">
               ГРАЖДАНСКАЯ<br />ПОДГОТОВКА
             </h2>
-            <p className="text-[hsl(40,10%,80%)] text-lg mb-6 font-body">
+            <p className="text-[hsl(40,10%,80%)] text-sm sm:text-base md:text-lg mb-4 sm:mb-6 font-body">
               Навыки, которые помогут защитить себя и близких
             </p>
             <a href="#civil">
-              <Button size="lg" className="bg-cta-gradient text-accent-foreground font-heading text-lg tracking-wider shadow-cta hover:opacity-90 px-8 py-6">
+              <Button size="lg" className="bg-cta-gradient text-accent-foreground font-heading text-base sm:text-lg tracking-wider shadow-cta hover:opacity-90 px-6 sm:px-8 py-5 sm:py-6">
                 Смотреть курсы
               </Button>
             </a>
           </div>
         </motion.div>
 
+        {/* Quiz button — divider between civil and military */}
+        <div className="relative z-20 flex items-center justify-center md:absolute md:inset-0 md:pointer-events-none bg-background/80 md:bg-transparent py-3 md:py-0">
+          <button onClick={() => setQuizOpen(true)} className="md:pointer-events-auto bg-background/90 backdrop-blur-md px-4 sm:px-6 py-2.5 sm:py-4 rounded-lg border border-border hover:border-accent/50 transition-all cursor-pointer group max-w-[90%] md:max-w-none">
+            <p className="font-heading text-[10px] sm:text-sm md:text-base text-accent tracking-wider group-hover:text-accent/80 transition-colors leading-tight">НАВЫКИ, КОТОРЫЕ НЕЛЬЗЯ ЗАГУГЛИТЬ В КРИТИЧЕСКИЙ МОМЕНТ</p>
+            <p className="text-[9px] sm:text-xs text-muted-foreground mt-0.5 sm:mt-1">Пройди тест — узнай свой уровень подготовки</p>
+          </button>
+        </div>
+
         {/* Military side */}
         <motion.div
-          className="relative flex-1 flex items-center justify-center cursor-pointer overflow-hidden"
+          className="relative flex-1 min-h-[50svh] md:min-h-0 flex items-center justify-center cursor-pointer overflow-hidden"
           animate={{ flex: hoveredSide === "military" ? 1.06 : hoveredSide === "civil" ? 0.94 : 1 }}
           transition={{ duration: 0.4, ease: "easeOut" }}
           onMouseEnter={() => setHoveredSide("military")}
@@ -226,101 +231,21 @@ const Index = () => {
             <img src="/hero-military.jpg" alt="Подготовка для силовых" className="w-full h-full object-cover" width={960} height={1080} />
             <div className="absolute inset-0 bg-gradient-to-b from-[hsl(220,20%,8%)]/80 via-[hsl(220,20%,8%)]/60 to-[hsl(220,20%,8%)]/90" />
           </div>
-          <div className="relative z-10 text-center px-6 max-w-lg flex flex-col items-center">
-            <p className="font-heading text-xs tracking-[0.3em] text-military-muted mb-3">ЦЕНТР СПЕЦИАЛЬНОЙ ПОДГОТОВКИ</p>
-            <h2 className="font-heading text-5xl lg:text-6xl font-bold text-military leading-[0.95] mb-4">
+          <div className="relative z-10 text-center px-4 sm:px-6 py-12 md:py-0 max-w-lg flex flex-col items-center">
+            <p className="font-heading text-[10px] sm:text-xs tracking-[0.3em] text-military-muted mb-2 sm:mb-3">ЦЕНТР СПЕЦИАЛЬНОЙ ПОДГОТОВКИ</p>
+            <h2 className="font-heading text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-military leading-[0.95] mb-3 sm:mb-4">
               ПОДГОТОВКА<br />ДЛЯ СИЛОВЫХ<br />НАПРАВЛЕНИЙ
             </h2>
-            <p className="text-military-muted text-lg mb-6 font-body">
+            <p className="text-military-muted text-sm sm:text-base md:text-lg mb-4 sm:mb-6 font-body">
               Навыки, от которых зависит жизнь
             </p>
             <a href="#military">
-              <Button size="lg" className="bg-cta-gradient text-accent-foreground font-heading text-lg tracking-wider shadow-cta hover:opacity-90 px-8 py-6">
+              <Button size="lg" className="bg-cta-gradient text-accent-foreground font-heading text-base sm:text-lg tracking-wider shadow-cta hover:opacity-90 px-6 sm:px-8 py-5 sm:py-6">
                 Смотреть курсы
               </Button>
             </a>
           </div>
         </motion.div>
-
-        {/* Central text — desktop */}
-        <div className="absolute bottom-8 left-0 right-0 z-20 text-center px-4">
-          <button onClick={() => setQuizOpen(true)} className="bg-background/90 backdrop-blur-md px-6 py-4 rounded-lg border border-border inline-block hover:border-accent/50 transition-all cursor-pointer group">
-            <p className="font-heading text-sm md:text-base text-accent tracking-wider group-hover:text-accent/80 transition-colors">НАВЫКИ, КОТОРЫЕ НЕЛЬЗЯ ЗАГУГЛИТЬ В КРИТИЧЕСКИЙ МОМЕНТ</p>
-            <p className="text-xs text-muted-foreground mt-1">Пройди тест — узнай свой уровень подготовки</p>
-          </button>
-        </div>
-      </section>
-
-      {/* Mobile hero — horizontal swipe */}
-      <section className="relative md:hidden h-[100svh] overflow-hidden">
-        <div
-          className="flex h-full transition-transform duration-500 ease-out"
-          style={{ transform: `translateX(-${mobileSlide * 100}%)`, width: "200%" }}
-          onTouchStart={(e) => setTouchStart(e.touches[0].clientX)}
-          onTouchEnd={(e) => {
-            const diff = touchStart - e.changedTouches[0].clientX;
-            if (diff > 50 && mobileSlide === 0) setMobileSlide(1);
-            if (diff < -50 && mobileSlide === 1) setMobileSlide(0);
-          }}
-        >
-          {/* Civil slide */}
-          <div className="relative w-1/2 h-full flex items-center justify-center">
-            <div className="absolute inset-0">
-              <img src="/hero-civil.jpg" alt="Гражданская подготовка" className="w-full h-full object-cover" />
-              <div className="absolute inset-0 bg-gradient-to-b from-[hsl(40,10%,20%)]/70 via-[hsl(40,10%,15%)]/50 to-[hsl(40,10%,10%)]/80" />
-            </div>
-            <div className="relative z-10 text-center px-6 max-w-sm flex flex-col items-center">
-              <p className="font-heading text-[10px] tracking-[0.3em] text-[hsl(40,10%,80%)] mb-2">ЦЕНТР СПЕЦИАЛЬНОЙ ПОДГОТОВКИ</p>
-              <h2 className="font-heading text-4xl font-bold text-white leading-[0.95] mb-3">
-                ГРАЖДАНСКАЯ<br />ПОДГОТОВКА
-              </h2>
-              <p className="text-[hsl(40,10%,80%)] text-sm mb-5 font-body">
-                Навыки, которые помогут защитить себя и близких
-              </p>
-              <a href="#civil">
-                <Button size="lg" className="bg-cta-gradient text-accent-foreground font-heading text-base tracking-wider shadow-cta hover:opacity-90 px-6 py-5">
-                  Смотреть курсы
-                </Button>
-              </a>
-            </div>
-          </div>
-
-          {/* Military slide */}
-          <div className="relative w-1/2 h-full flex items-center justify-center">
-            <div className="absolute inset-0">
-              <img src="/hero-military.jpg" alt="Подготовка для силовых" className="w-full h-full object-cover" />
-              <div className="absolute inset-0 bg-gradient-to-b from-[hsl(220,20%,8%)]/80 via-[hsl(220,20%,8%)]/60 to-[hsl(220,20%,8%)]/90" />
-            </div>
-            <div className="relative z-10 text-center px-6 max-w-sm flex flex-col items-center">
-              <p className="font-heading text-[10px] tracking-[0.3em] text-military-muted mb-2">ЦЕНТР СПЕЦИАЛЬНОЙ ПОДГОТОВКИ</p>
-              <h2 className="font-heading text-4xl font-bold text-military leading-[0.95] mb-3">
-                ПОДГОТОВКА<br />ДЛЯ СИЛОВЫХ<br />НАПРАВЛЕНИЙ
-              </h2>
-              <p className="text-military-muted text-sm mb-5 font-body">
-                Навыки, от которых зависит жизнь
-              </p>
-              <a href="#military">
-                <Button size="lg" className="bg-cta-gradient text-accent-foreground font-heading text-base tracking-wider shadow-cta hover:opacity-90 px-6 py-5">
-                  Смотреть курсы
-                </Button>
-              </a>
-            </div>
-          </div>
-        </div>
-
-        {/* Slide indicators */}
-        <div className="absolute bottom-16 left-0 right-0 z-20 flex justify-center gap-2">
-          <button onClick={() => setMobileSlide(0)} className={`w-2.5 h-2.5 rounded-full transition-all ${mobileSlide === 0 ? "bg-accent w-6" : "bg-foreground/30"}`} />
-          <button onClick={() => setMobileSlide(1)} className={`w-2.5 h-2.5 rounded-full transition-all ${mobileSlide === 1 ? "bg-accent w-6" : "bg-foreground/30"}`} />
-        </div>
-
-        {/* Central text — mobile */}
-        <div className="absolute bottom-3 left-0 right-0 z-20 text-center px-3">
-          <button onClick={() => setQuizOpen(true)} className="bg-background/90 backdrop-blur-md px-4 py-2.5 rounded-lg border border-border inline-block hover:border-accent/50 transition-all cursor-pointer group max-w-full">
-            <p className="font-heading text-[10px] text-accent tracking-wider leading-tight">НАВЫКИ, КОТОРЫЕ НЕЛЬЗЯ ЗАГУГЛИТЬ В КРИТИЧЕСКИЙ МОМЕНТ</p>
-            <p className="text-[9px] text-muted-foreground mt-0.5">Пройди тест — узнай свой уровень</p>
-          </button>
-        </div>
       </section>
 
       {/* FOR WHOM */}
