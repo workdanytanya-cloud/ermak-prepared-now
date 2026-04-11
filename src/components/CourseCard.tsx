@@ -11,9 +11,10 @@ import { courses } from "@/data/courses";
 
 interface Props {
   course: Course;
+  lightMode?: boolean;
 }
 
-const CourseCard = ({ course }: Props) => {
+const CourseCard = ({ course, lightMode }: Props) => {
   const [dateDialogOpen, setDateDialogOpen] = useState(false);
   const [phone, setPhone] = useState("");
   const [submitted, setSubmitted] = useState(false);
@@ -42,7 +43,7 @@ const CourseCard = ({ course }: Props) => {
 
   return (
     <>
-      <div className="group bg-card-gradient border border-border rounded-lg overflow-hidden hover:border-primary/50 transition-all duration-300 hover:shadow-glow flex flex-col">
+      <div className={`group border rounded-lg overflow-hidden transition-all duration-300 hover:shadow-glow flex flex-col ${lightMode ? "bg-white border-[hsl(40,5%,80%)] hover:border-[hsl(38,90%,50%)]/50" : "bg-card-gradient border-border hover:border-primary/50"}`}>
         <div className="relative h-48 overflow-hidden flex items-center justify-center bg-muted">
           <img
             src={course.image}
@@ -64,19 +65,19 @@ const CourseCard = ({ course }: Props) => {
         </div>
 
         <div className="p-5 flex flex-col flex-1">
-          <h3 className="font-heading text-lg font-semibold text-foreground mb-2">{course.title}</h3>
-          <p className="text-sm text-muted-foreground mb-4 line-clamp-2 flex-1">{course.result}</p>
+          <h3 className={`font-heading text-lg font-semibold mb-2 ${lightMode ? "text-civil" : "text-foreground"}`}>{course.title}</h3>
+          <p className={`text-sm mb-4 line-clamp-2 flex-1 ${lightMode ? "text-civil-muted" : "text-muted-foreground"}`}>{course.result}</p>
 
-          <div className="flex items-center gap-4 text-xs text-muted-foreground mb-4">
+          <div className={`flex items-center gap-4 text-xs mb-4 ${lightMode ? "text-civil-muted" : "text-muted-foreground"}`}>
             <span className="flex items-center gap-1"><Clock className="w-3.5 h-3.5" /> {course.duration}</span>
             <span className="flex items-center gap-1"><Users className="w-3.5 h-3.5" /> {course.format}</span>
           </div>
 
           <div className="flex items-center justify-between mb-3">
             <div>
-              <span className="text-xl font-heading font-bold text-foreground">{course.price.toLocaleString("ru-RU")} ₽</span>
+              <span className={`text-xl font-heading font-bold ${lightMode ? "text-civil" : "text-foreground"}`}>{course.price.toLocaleString("ru-RU")} ₽</span>
               {course.hasDate ? (
-                <span className="text-xs text-muted-foreground block">{course.nextDate}</span>
+                <span className={`text-xs block ${lightMode ? "text-civil-muted" : "text-muted-foreground"}`}>{course.nextDate}</span>
               ) : (
                 <button
                   onClick={() => { setDateDialogOpen(true); setSubmitted(false); }}
