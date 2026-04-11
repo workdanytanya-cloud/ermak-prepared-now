@@ -43,7 +43,7 @@ const CourseCard = ({ course, lightMode }: Props) => {
 
   return (
     <>
-      <div className="group bg-card-gradient border border-border rounded-lg overflow-hidden hover:border-primary/50 transition-all duration-300 hover:shadow-glow flex flex-col">
+      <div className={`group border rounded-lg overflow-hidden transition-all duration-300 hover:shadow-glow flex flex-col ${lightMode ? "bg-white border-[hsl(40,5%,80%)] hover:border-[hsl(38,90%,50%)]/50" : "bg-card-gradient border-border hover:border-primary/50"}`}>
         <div className="relative h-48 overflow-hidden flex items-center justify-center bg-muted">
           <img
             src={course.image}
