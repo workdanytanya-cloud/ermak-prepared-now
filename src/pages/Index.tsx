@@ -24,7 +24,7 @@ const faqData = [
 ];
 
 const civilCourseIds = ["first-aid", "women-safety", "tactical-medicine", "pistol", "weekend-practice", "individual", "events"];
-const militaryCourseIds = ["ak-operator", "tactical-medicine", "tactical-training", "pistol", "engineering", "field-intensive-beginner", "field-intensive-advanced", "weekend-practice", "individual", "events"];
+const militaryCourseIds = ["ak-operator", "tactical-medicine", "tactical-training", "pistol", "engineering", "field-intensive", "weekend-practice", "individual", "events"];
 
 const instructorsData = [
   {
@@ -32,61 +32,138 @@ const instructorsData = [
     role: "Руководитель ЦСП «ЕРМАК»",
     photo: "/instructor-danyukin.png",
     shortExp: "Профессиональный военный, участник боевых действий. Инструктор по армейской тактической стрельбе.",
-    fullExp: "Профессиональный военный, участник боевых действий. Инструктор по армейской тактической стрельбе. Действующий инструктор фонда «Антитеррор» ФСБ России. Стаж работы с детьми более 10 лет. Награждён государственными наградами.",
+    fullExp: `Данюкин Андрей Игоревич – руководитель центра специальной подготовки "Ермак", а также тренер СК "РОСТ".
+
+Образование — высшее. Профессиональный военный. Службу проходил в различных силах специального назначения (в том числе на должности инструктора по физической подготовке и рукопашному бою).
+
+Участник боевых действий.
+
+Инструктор по армейской тактической стрельбе.
+
+Действующий инструктор фонда ветеранов спецподразделений и сотрудников ФСБ России «Антитеррор» г. Новосибирск.
+
+Инструктор по тактико-специальной подготовке (Новосибирская региональная общественная организация по развитию армейских тактических дисциплин «Звезда») № 043-Т.
+
+Стаж работы с детьми более 10 лет.
+
+Постоянный участник и разработчик программ для детских лагерей военно-патриотической и военно-приключенческой направленности.
+
+Награждён государственными наградами, а также благодарственными письмами правительства за личный вклад в воспитании детей.
+
+Если ваши дети ездили на наши военные сезоны, то знают о его брутальности не понаслышке. Андрей Игоревич будет интересен вашему ребёнку, как личность, а вам, как профессионал своего дела. Он очень компетентен и востребован в том, что делает.`,
   },
   {
     name: "Дедов Михаил Владимирович",
     role: "Старший инструктор",
     photo: "/instructor-dedov.jpg",
     shortExp: "Инструкторская деятельность с 2014 года. Участник боевых действий.",
-    fullExp: "Инструкторская деятельность с 2014 года. Участник боевых действий. Прошёл курсы: «Партизан Интенсив» (СПб), инструктор «Волк» (Ростов), тактическая медицина (ВМА им. Кирова). Инструктор по тактико-специальной подготовке.",
+    fullExp: `Дедов Михаил Владимирович — старший инструктор центра специальной подготовки "Ермак".
+
+Опыт инструкторской деятельности с 2014 года.
+
+2014–2018 – инструктор по рукопашному и ножевому бою, СК «РОСТ».
+2022–наст.время – инструктор ЦСП «Ермак».
+
+Участник боевых действий.
+
+Стаж работы с детьми с 2015 года, на регулярной основе принимал участие в организации и проведении детских летних военных лагерей от СК «РОСТ».
+
+Постоянный участник и организатор мастер-классов по рукопашному бою, стрельбе и специальной подготовке:
+
+• Центр тактической и огневой подготовки «Партизан» (Санкт-Петербург), курс «Партизан Интенсив»
+• Международный центр боевой и специальной подготовки «Волк» (Ростов-на-Дону), курс «Инструктор личной безопасности»
+• АНО «Первая помощь» (Новосибирск), курс «Первая помощь в условиях ведения боевых действий»
+• Инструктор по тактической медицине (Военно-медицинская Академия имени Кирова, г. Санкт-Петербург)
+• АНО ДПО «Учебный центр «Профессионал» (Новосибирск), курс «Инструктор армейской тактической стрельбы»
+• Проект «Технологии выживания» (Новосибирск), курс «Тактическая медицина»
+• Инструктор по тактико-специальной подготовке (Новосибирская региональная общественная организация по развитию армейских тактических дисциплин «Звезда») № 044-Т
+
+Постоянный участник и разработчик программ для детских лагерей военно-патриотической и военно-приключенческой направленности.
+
+Награждён благодарственными письмами правительства за личный вклад в воспитании детей.`,
   },
   {
     name: "Подоксенов Владимир Александрович",
     role: "Инструктор",
     photo: "/instructor-podoksenov.jpg",
     shortExp: "ВМА им. Кирова. Подготовка ТССС (ТАКМЕД), расширенный курс РАТМЕД.",
-    fullExp: "ВМА им. Кирова (Москва). Подготовка ТССС (ТАКМЕД), расширенный курс РАТМЕД. Повышение квалификации: Академия Боткина, преподаватель первой помощи «Искрум».",
+    fullExp: `Подоксенов Владимир Александрович — инструктор центра специальной подготовки "Ермак".
+
+Обучение в Военно-медицинской академии имени Кирова (филиал Москва).
+
+Подготовка по протоколу ТССС (ЦСП ТАКМЕД).
+
+Подготовка по остановке жизнеугрожающих кровотечений (УЦ Территория безопасности Ангел).
+
+Подготовка «Расширенный курс по тактической медицине. Догоспитальная помощь. Санитарный инструктор» (УЦ РАТМЕД).
+
+Повышение квалификации в Московской академии медицины им. Боткина «Сестринское дело» и «Общая врачебная практика».
+
+Повышение квалификации в ООО «Центр современного обучения первой помощи «Искрум» по программе «Преподаватель, обучающий приемам оказания первой помощи».`,
   },
   {
     name: "Воронков Алексей Евгеньевич",
     role: "Инструктор",
     photo: "/instructor-voronkov.jpg",
     shortExp: "Высшее педагогическое, фельдшер. Инструктор тактической медицины.",
-    fullExp: "Высшее педагогическое, среднее — лечебное дело (фельдшер). Инструктор тактической медицины (ВМА им. Кирова, «Технологии выживания»). Инструктор первой помощи (АГМУ, Сибирский институт безопасности). Инструкторская деятельность с 2021 года.",
+    fullExp: `Воронков Алексей Евгеньевич — инструктор центра специальной подготовки "Ермак".
+
+Опыт инструкторской деятельности с 2021 года.
+
+Образование: высшее педагогическое, среднее по специальности: лечебное дело (фельдшер) (Барнаульский базовый медицинский колледж).
+
+Инструктор по тактической медицине (Военно-медицинская Академия имени Кирова, г. Санкт-Петербург).
+
+Инструктор по тактической медицине (проект «Технологии выживания»).
+
+Инструктор по первой помощи (Алтайский государственный медицинский университет, г. Барнаул).
+
+Инструктор по первой помощи (АНО ДПО Сибирский институт безопасности).`,
   },
   {
-    name: "Инструктор по женской безопасности",
-    role: "Инструктор",
+    name: "Мария Александровна",
+    role: "Инструктор по женской безопасности",
     photo: "/audience-women.png",
     shortExp: "Высшее юридическое. Более 16 лет опыта. Личный спортивный опыт 10+ лет: ММА, CJJ, Крав-мага.",
-    fullExp: "Образование: высшее юридическое, стаж оказания юридических услуг широкого спектра в области семейного, трудового, гражданского права и арбитражного процесса более 16 лет, с опытом консультирования и представления интересов потерпевших по уголовным делам о причинении вреда здоровью.\n\nДополнительное изучение дисциплин: Криминология, психология, судебная психиатрия с участием в проведении патолого-анатомических вскрытий (ФБГУ «РЦСМЭ» Минздрава России).\n\nЛичный спортивный опыт более 10 лет: смешанные единоборства (ММА), Combat Jiu-Jitsu (CJJ), Крав-мага.\n\nПостоянный участник курсов и интенсивов в ЦСП «Ермак»: «Оператор АК», «Тактическая медицина», комплексные интенсивы, выездной интенсив по тактической медицине в Новороссийск (сентябрь 2025).\n\nНевольный участник массированной атаки БПЛА на Волгоград, сентябрь 2025.\n\nОператор в ЦСП «Ермак» с 2023 года.",
+    fullExp: `Мария Александровна — инструктор по женской безопасности.
+
+Образование: высшее юридическое, стаж оказания юридических услуг широкого спектра в области семейного, трудового, гражданского права и арбитражного процесса более 16 лет, с опытом консультирования и представления интересов потерпевших по уголовным делам о причинении вреда здоровью.
+
+Дополнительное изучение дисциплин на базе высшего юридического образования: Криминология, психология, судебная психиатрия с участием в проведении патолого-анатомических вскрытий (ФБГУ «РЦСМЭ» Минздрава России).
+
+Личный спортивный опыт более 10 лет: смешанные единоборства (ММА), Combat Jiu-Jitsu (CJJ) — гибридная дисциплина, сочетающая традиционное бразильское джиу-джитсу (BJJ) с элементами смешанных единоборств (ММА), Крав-мага — разработанная в Израиле военная система рукопашного боя.
+
+Постоянный участник курсов и интенсивов в ЦСП «Ермак»: «Оператор АК» — расширенный курс огневой подготовки на базе автомата Калашникова, включая боевые стрельбы, «Тактическая медицина», комплексные интенсивы в формате полевых выходов, включающие в себя все базовые дисциплины (огневая, тактико-специальная и инженерная подготовка, тактическая медицина, военная топография и пр.), выездной интенсив сентябрь 2025 по тактической медицине с инструкторами ЦСП «Ермак» в Новороссийск.
+
+Невольный участник массированной атаки БПЛА на Волгоград, сентябрь 2025.
+
+Оператор в ЦСП «Ермак» с 2023 года.`,
   },
 ];
 
 const audienceGroups = [
   {
-    title: "🚗 Гражданская жизнь",
+    title: "Гражданская жизнь",
     color: "text-accent",
     items: ["мотоциклисты", "эндуристы", "велосипедисты", "самокатчики", "автомобилисты", "дальнобойщики", "курьеры"],
   },
   {
-    title: "🌲 Активный отдых",
+    title: "Активный отдых",
     color: "text-primary",
     items: ["туристы", "походники", "альпинисты", "скалолазы", "рыбаки", "охотники", "джиперы", "экстремалы"],
   },
   {
-    title: "👨‍👩‍👧 Повседневная жизнь",
+    title: "Повседневная жизнь",
     color: "text-accent",
     items: ["родители", "мамы с детьми", "семьи", "учителя", "воспитатели", "офисные сотрудники", "предприниматели"],
   },
   {
-    title: "⚡ Риск и работа",
+    title: "Риск и работа",
     color: "text-destructive",
     items: ["строители", "монтажники", "электрики", "высотники", "рабочие на производстве", "горняки"],
   },
   {
-    title: "💪 Физически активные",
+    title: "Физически активные",
     color: "text-primary",
     items: ["спортсмены", "фитнес-тренеры", "единоборцы", "кроссфитеры"],
   },
@@ -98,10 +175,8 @@ const Index = () => {
   const [activeInstructor, setActiveInstructor] = useState<number | null>(null);
   const [hoveredSide, setHoveredSide] = useState<"civil" | "military" | null>(null);
 
-  // Get unique courses for each section
-  const civilCourses = courses.filter(c => civilCourseIds.includes(c.id) && c.level === "beginner");
+  const civilCourses = courses.filter(c => civilCourseIds.includes(c.id));
   const militaryCourses = courses.filter(c => militaryCourseIds.includes(c.id));
-  // Remove duplicates for military, keep unique by id
   const uniqueMilitaryCourses = militaryCourses.filter((c, i, arr) => arr.findIndex(x => x.id === c.id) === i);
 
   return (
@@ -118,14 +193,14 @@ const Index = () => {
         >
           <div className="absolute inset-0">
             <img src="/hero-civil.jpg" alt="Гражданская подготовка" className="w-full h-full object-cover" width={960} height={1080} />
-            <div className="absolute inset-0 bg-gradient-to-b from-[hsl(40,10%,92%)]/80 via-[hsl(40,10%,92%)]/60 to-[hsl(40,10%,92%)]/90" />
+            <div className="absolute inset-0 bg-gradient-to-b from-[hsl(40,10%,20%)]/70 via-[hsl(40,10%,15%)]/50 to-[hsl(40,10%,10%)]/80" />
           </div>
           <div className="relative z-10 text-center px-6 py-32 md:py-0 max-w-lg">
-            <p className="font-heading text-xs tracking-[0.3em] text-civil-muted mb-3">ЦЕНТР СПЕЦИАЛЬНОЙ ПОДГОТОВКИ</p>
-            <h2 className="font-heading text-4xl md:text-5xl lg:text-6xl font-bold text-civil leading-[0.95] mb-4">
+            <p className="font-heading text-xs tracking-[0.3em] text-[hsl(40,10%,80%)] mb-3">ЦЕНТР СПЕЦИАЛЬНОЙ ПОДГОТОВКИ</p>
+            <h2 className="font-heading text-4xl md:text-5xl lg:text-6xl font-bold text-white leading-[0.95] mb-4">
               ГРАЖДАНСКАЯ<br />ПОДГОТОВКА
             </h2>
-            <p className="text-civil-muted text-base md:text-lg mb-8 font-body">
+            <p className="text-[hsl(40,10%,80%)] text-base md:text-lg mb-8 font-body">
               Навыки, которые помогут защитить себя и близких
             </p>
             <a href="#civil">
@@ -135,14 +210,6 @@ const Index = () => {
             </a>
           </div>
         </motion.div>
-
-        {/* Divider with central text */}
-        <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-20 hidden md:block text-center pointer-events-none">
-          <div className="bg-background/90 backdrop-blur-md px-6 py-5 rounded-lg border border-border">
-            <p className="font-heading text-sm md:text-base text-accent tracking-wider">НАВЫКИ, КОТОРЫЕ НЕЛЬЗЯ ЗАГУГЛИТЬ<br />В КРИТИЧЕСКИЙ МОМЕНТ</p>
-            <p className="text-xs text-muted-foreground mt-2">Выбери свой уровень подготовки</p>
-          </div>
-        </div>
 
         {/* Military side */}
         <motion.div
@@ -172,61 +239,16 @@ const Index = () => {
           </div>
         </motion.div>
 
-        {/* Mobile central text */}
-        <div className="md:hidden absolute bottom-8 left-0 right-0 z-20 text-center px-4">
-          <div className="bg-background/90 backdrop-blur-md px-4 py-3 rounded-lg border border-border inline-block">
-            <p className="font-heading text-xs text-accent tracking-wider">НАВЫКИ, КОТОРЫЕ НЕЛЬЗЯ ЗАГУГЛИТЬ В КРИТИЧЕСКИЙ МОМЕНТ</p>
+        {/* Central text — bottom of hero, not overlapping */}
+        <div className="absolute bottom-8 left-0 right-0 z-20 text-center pointer-events-none px-4">
+          <div className="bg-background/90 backdrop-blur-md px-6 py-4 rounded-lg border border-border inline-block">
+            <p className="font-heading text-sm md:text-base text-accent tracking-wider">НАВЫКИ, КОТОРЫЕ НЕЛЬЗЯ ЗАГУГЛИТЬ В КРИТИЧЕСКИЙ МОМЕНТ</p>
+            <p className="text-xs text-muted-foreground mt-1">Выбери свой уровень подготовки</p>
           </div>
         </div>
       </section>
 
-      {/* STATS BAR */}
-      <section className="bg-card border-y border-border py-8">
-        <div className="container mx-auto flex justify-center gap-8 md:gap-16">
-          {[
-            { num: "1000+", label: "Выпускников" },
-            { num: "50+", label: "Курсов проведено" },
-            { num: "15", label: "Лет опыта" },
-          ].map((s, i) => (
-            <div key={i} className="text-center">
-              <span className="text-3xl md:text-4xl font-heading font-bold text-foreground">{s.num}</span>
-              <span className="block text-xs text-muted-foreground mt-1">{s.label}</span>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      {/* WHY IT MATTERS */}
-      <section className="section-padding bg-card">
-        <div className="container mx-auto">
-          <AnimatedSection>
-            <h2 className="font-heading text-3xl md:text-5xl font-bold text-foreground text-center mb-4">
-              Почему это <span className="text-gradient">важно</span>
-            </h2>
-            <p className="text-muted-foreground text-center max-w-xl mx-auto mb-16">
-              Каждый день кто-то оказывается в ситуации, к которой не был готов
-            </p>
-          </AnimatedSection>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {[
-              { icon: AlertTriangle, title: "Скорая не успеет", text: "Среднее время приезда — 20 минут. Человек с артериальным кровотечением без помощи не проживёт и пяти." },
-              { icon: Shield, title: "Нападение на улице", text: "Количество уличных нападений растёт. Без навыков самозащиты и умения видеть опасность — вы лёгкая мишень." },
-              { icon: Heart, title: "ДТП на трассе", text: "Вы единственный, кто может помочь. Но знаете ли вы, что делать, когда человек не дышит?" },
-              { icon: Target, title: "Вдали от цивилизации", text: "Поход, рыбалка, пикник. Связи нет, помощь далеко. Всё зависит только от вас." },
-            ].map((item, i) => (
-              <AnimatedSection key={i} delay={i * 0.1}>
-                <div className="bg-card-gradient border border-border rounded-lg p-6 hover:border-primary/30 transition-all h-full">
-                  <item.icon className="w-10 h-10 text-accent mb-4" />
-                  <h3 className="font-heading text-lg font-semibold text-foreground mb-2">{item.title}</h3>
-                  <p className="text-sm text-muted-foreground leading-relaxed">{item.text}</p>
-                </div>
-              </AnimatedSection>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* FOR WHOM — expanded grid */}
+      {/* FOR WHOM */}
       <section className="section-padding">
         <div className="container mx-auto">
           <AnimatedSection>
@@ -273,6 +295,36 @@ const Index = () => {
               </Link>
             </div>
           </AnimatedSection>
+        </div>
+      </section>
+
+      {/* WHY IT MATTERS */}
+      <section className="section-padding bg-card">
+        <div className="container mx-auto">
+          <AnimatedSection>
+            <h2 className="font-heading text-3xl md:text-5xl font-bold text-foreground text-center mb-4">
+              Почему это <span className="text-gradient">важно</span>
+            </h2>
+            <p className="text-muted-foreground text-center max-w-xl mx-auto mb-16">
+              Каждый день кто-то оказывается в ситуации, к которой не был готов
+            </p>
+          </AnimatedSection>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            {[
+              { icon: AlertTriangle, title: "Скорая не успеет", text: "Среднее время приезда — 20 минут. Человек с артериальным кровотечением без помощи не проживёт и пяти." },
+              { icon: Shield, title: "Нападение на улице", text: "Количество уличных нападений растёт. Без навыков самозащиты и умения видеть опасность — вы лёгкая мишень." },
+              { icon: Heart, title: "ДТП на трассе", text: "Вы единственный, кто может помочь. Но знаете ли вы, что делать, когда человек не дышит?" },
+              { icon: Target, title: "Вдали от цивилизации", text: "Поход, рыбалка, пикник. Связи нет, помощь далеко. Всё зависит только от вас." },
+            ].map((item, i) => (
+              <AnimatedSection key={i} delay={i * 0.1}>
+                <div className="bg-card-gradient border border-border rounded-lg p-6 hover:border-primary/30 transition-all h-full">
+                  <item.icon className="w-10 h-10 text-accent mb-4" />
+                  <h3 className="font-heading text-lg font-semibold text-foreground mb-2">{item.title}</h3>
+                  <p className="text-sm text-muted-foreground leading-relaxed">{item.text}</p>
+                </div>
+              </AnimatedSection>
+            ))}
+          </div>
         </div>
       </section>
 
