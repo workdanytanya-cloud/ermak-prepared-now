@@ -6,18 +6,15 @@ import { Button } from "@/components/ui/button";
 
 const CoursesPage = () => {
   const [category, setCategory] = useState<string>("all");
-  const [level, setLevel] = useState<string>("all");
 
   const filtered = useMemo(() => {
     return courses.filter(c => {
       if (category !== "all" && c.category !== category) return false;
-      if (level !== "all" && c.level !== level) return false;
       return true;
     });
-  }, [category, level]);
+  }, [category]);
 
   const categories = ["all", ...Object.keys(categoryLabels)];
-  const levels = ["all", ...Object.keys(levelLabels)];
 
   return (
     <div className="min-h-screen pt-24 pb-20">
