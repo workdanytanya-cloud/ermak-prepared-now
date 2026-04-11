@@ -182,10 +182,10 @@ const Index = () => {
   return (
     <div className="min-h-screen">
       {/* SPLIT HERO */}
-      <section className="relative min-h-screen flex flex-col md:flex-row overflow-hidden">
+      <section className="relative min-h-[100svh] flex flex-col md:flex-row overflow-hidden">
         {/* Civil side */}
         <motion.div
-          className="relative flex-1 flex items-center justify-center cursor-pointer overflow-hidden"
+          className="relative flex-1 min-h-[50svh] md:min-h-0 flex items-center justify-center cursor-pointer overflow-hidden"
           animate={{ flex: hoveredSide === "civil" ? 1.06 : hoveredSide === "military" ? 0.94 : 1 }}
           transition={{ duration: 0.4, ease: "easeOut" }}
           onMouseEnter={() => setHoveredSide("civil")}
@@ -195,27 +195,25 @@ const Index = () => {
             <img src="/hero-civil.jpg" alt="Гражданская подготовка" className="w-full h-full object-cover" width={960} height={1080} />
             <div className="absolute inset-0 bg-gradient-to-b from-[hsl(40,10%,20%)]/70 via-[hsl(40,10%,15%)]/50 to-[hsl(40,10%,10%)]/80" />
           </div>
-          <div className="relative z-10 text-center px-6 py-32 md:py-0 max-w-lg flex flex-col items-center">
-            <p className="font-heading text-xs tracking-[0.3em] text-[hsl(40,10%,80%)] mb-3">ЦЕНТР СПЕЦИАЛЬНОЙ ПОДГОТОВКИ</p>
-            <h2 className="font-heading text-4xl md:text-5xl lg:text-6xl font-bold text-white leading-[0.95] mb-4">
+          <div className="relative z-10 text-center px-4 sm:px-6 py-16 md:py-0 max-w-lg flex flex-col items-center">
+            <p className="font-heading text-[10px] sm:text-xs tracking-[0.3em] text-[hsl(40,10%,80%)] mb-2 sm:mb-3">ЦЕНТР СПЕЦИАЛЬНОЙ ПОДГОТОВКИ</p>
+            <h2 className="font-heading text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-white leading-[0.95] mb-3 sm:mb-4">
               ГРАЖДАНСКАЯ<br />ПОДГОТОВКА
             </h2>
-            <p className="text-[hsl(40,10%,80%)] text-base md:text-lg mb-6 font-body">
+            <p className="text-[hsl(40,10%,80%)] text-sm sm:text-base md:text-lg mb-4 sm:mb-6 font-body">
               Навыки, которые помогут защитить себя и близких
             </p>
-            <div className="mt-auto">
-              <a href="#civil">
-                <Button size="lg" className="bg-cta-gradient text-accent-foreground font-heading text-lg tracking-wider shadow-cta hover:opacity-90 px-8 py-6">
-                  Смотреть курсы
-                </Button>
-              </a>
-            </div>
+            <a href="#civil">
+              <Button size="lg" className="bg-cta-gradient text-accent-foreground font-heading text-base sm:text-lg tracking-wider shadow-cta hover:opacity-90 px-6 sm:px-8 py-5 sm:py-6">
+                Смотреть курсы
+              </Button>
+            </a>
           </div>
         </motion.div>
 
         {/* Military side */}
         <motion.div
-          className="relative flex-1 flex items-center justify-center cursor-pointer overflow-hidden"
+          className="relative flex-1 min-h-[50svh] md:min-h-0 flex items-center justify-center cursor-pointer overflow-hidden"
           animate={{ flex: hoveredSide === "military" ? 1.06 : hoveredSide === "civil" ? 0.94 : 1 }}
           transition={{ duration: 0.4, ease: "easeOut" }}
           onMouseEnter={() => setHoveredSide("military")}
@@ -225,42 +223,40 @@ const Index = () => {
             <img src="/hero-military.jpg" alt="Подготовка для силовых" className="w-full h-full object-cover" width={960} height={1080} />
             <div className="absolute inset-0 bg-gradient-to-b from-[hsl(220,20%,8%)]/80 via-[hsl(220,20%,8%)]/60 to-[hsl(220,20%,8%)]/90" />
           </div>
-          <div className="relative z-10 text-center px-6 py-32 md:py-0 max-w-lg flex flex-col items-center">
-            <p className="font-heading text-xs tracking-[0.3em] text-military-muted mb-3">ЦЕНТР СПЕЦИАЛЬНОЙ ПОДГОТОВКИ</p>
-            <h2 className="font-heading text-4xl md:text-5xl lg:text-6xl font-bold text-military leading-[0.95] mb-4">
+          <div className="relative z-10 text-center px-4 sm:px-6 py-16 md:py-0 max-w-lg flex flex-col items-center">
+            <p className="font-heading text-[10px] sm:text-xs tracking-[0.3em] text-military-muted mb-2 sm:mb-3">ЦЕНТР СПЕЦИАЛЬНОЙ ПОДГОТОВКИ</p>
+            <h2 className="font-heading text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-military leading-[0.95] mb-3 sm:mb-4">
               ПОДГОТОВКА<br />ДЛЯ СИЛОВЫХ<br />НАПРАВЛЕНИЙ
             </h2>
-            <p className="text-military-muted text-base md:text-lg mb-6 font-body">
+            <p className="text-military-muted text-sm sm:text-base md:text-lg mb-4 sm:mb-6 font-body">
               Навыки, от которых зависит жизнь
             </p>
-            <div className="mt-auto">
-              <a href="#military">
-                <Button size="lg" className="bg-cta-gradient text-accent-foreground font-heading text-lg tracking-wider shadow-cta hover:opacity-90 px-8 py-6">
-                  Смотреть курсы
-                </Button>
-              </a>
-            </div>
+            <a href="#military">
+              <Button size="lg" className="bg-cta-gradient text-accent-foreground font-heading text-base sm:text-lg tracking-wider shadow-cta hover:opacity-90 px-6 sm:px-8 py-5 sm:py-6">
+                Смотреть курсы
+              </Button>
+            </a>
           </div>
         </motion.div>
 
         {/* Central text — bottom of hero, clickable quiz */}
-        <div className="absolute bottom-8 left-0 right-0 z-20 text-center px-4">
-          <button onClick={() => setQuizOpen(true)} className="bg-background/90 backdrop-blur-md px-6 py-4 rounded-lg border border-border inline-block hover:border-accent/50 transition-all cursor-pointer group">
-            <p className="font-heading text-sm md:text-base text-accent tracking-wider group-hover:text-accent/80 transition-colors">НАВЫКИ, КОТОРЫЕ НЕЛЬЗЯ ЗАГУГЛИТЬ В КРИТИЧЕСКИЙ МОМЕНТ</p>
-            <p className="text-xs text-muted-foreground mt-1">Пройди тест — узнай свой уровень подготовки</p>
+        <div className="absolute bottom-4 sm:bottom-8 left-0 right-0 z-20 text-center px-3 sm:px-4">
+          <button onClick={() => setQuizOpen(true)} className="bg-background/90 backdrop-blur-md px-4 sm:px-6 py-3 sm:py-4 rounded-lg border border-border inline-block hover:border-accent/50 transition-all cursor-pointer group max-w-full">
+            <p className="font-heading text-[11px] sm:text-sm md:text-base text-accent tracking-wider group-hover:text-accent/80 transition-colors leading-tight">НАВЫКИ, КОТОРЫЕ НЕЛЬЗЯ ЗАГУГЛИТЬ В КРИТИЧЕСКИЙ МОМЕНТ</p>
+            <p className="text-[10px] sm:text-xs text-muted-foreground mt-1">Пройди тест — узнай свой уровень подготовки</p>
           </button>
         </div>
       </section>
 
       {/* FOR WHOM */}
-      <section className="section-padding">
+      <section className="py-14 md:py-28 px-4 md:px-8">
         <div className="container mx-auto">
           <AnimatedSection>
-            <h2 className="font-heading text-3xl md:text-5xl font-bold text-foreground text-center mb-16">
+            <h2 className="font-heading text-2xl sm:text-3xl md:text-5xl font-bold text-foreground text-center mb-8 md:mb-16">
               Для кого <span className="text-gradient">наши курсы</span>
             </h2>
           </AnimatedSection>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-10">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 mb-8 md:mb-10">
             {audienceGroups.map((group, gi) => (
               <AnimatedSection key={gi} delay={gi * 0.1}>
                 <div className="bg-card-gradient border border-border rounded-lg p-6 hover:border-primary/30 transition-all h-full">
@@ -303,17 +299,17 @@ const Index = () => {
       </section>
 
       {/* WHY IT MATTERS */}
-      <section className="section-padding bg-card">
+      <section className="py-14 md:py-28 px-4 md:px-8 bg-card">
         <div className="container mx-auto">
           <AnimatedSection>
-            <h2 className="font-heading text-3xl md:text-5xl font-bold text-foreground text-center mb-4">
+            <h2 className="font-heading text-2xl sm:text-3xl md:text-5xl font-bold text-foreground text-center mb-3 sm:mb-4">
               Почему это <span className="text-gradient">важно</span>
             </h2>
-            <p className="text-muted-foreground text-center max-w-xl mx-auto mb-16">
+            <p className="text-muted-foreground text-center max-w-xl mx-auto mb-8 md:mb-16 text-sm sm:text-base">
               Каждый день кто-то оказывается в ситуации, к которой не был готов
             </p>
           </AnimatedSection>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
             {[
               { icon: AlertTriangle, title: "Скорая не успеет", text: "Среднее время приезда — 20 минут. Человек с артериальным кровотечением без помощи не проживёт и пяти." },
               { icon: Shield, title: "Нападение на улице", text: "Количество уличных нападений растёт. Без навыков самозащиты и умения видеть опасность — вы лёгкая мишень." },
@@ -333,21 +329,21 @@ const Index = () => {
       </section>
 
       {/* CIVIL COURSES */}
-      <section id="civil" className="section-padding bg-civil">
+      <section id="civil" className="py-14 md:py-28 px-4 md:px-8 bg-civil">
         <div className="container mx-auto">
           <AnimatedSection>
-            <h2 className="font-heading text-3xl md:text-5xl font-bold text-civil text-center mb-4">
+            <h2 className="font-heading text-2xl sm:text-3xl md:text-5xl font-bold text-civil text-center mb-3 sm:mb-4">
               Гражданская <span className="text-gradient-dark">подготовка</span>
             </h2>
-            <div className="max-w-2xl mx-auto mb-12">
-              <div className="flex flex-wrap justify-center gap-3 text-sm text-civil-muted">
+            <div className="max-w-2xl mx-auto mb-8 md:mb-12">
+              <div className="flex flex-wrap justify-center gap-2 sm:gap-3 text-xs sm:text-sm text-civil-muted">
                 {["Родители, которые хотят защитить семью", "Водители — первая помощь при ДТП", "Туристы и путешественники", "Все, кто ценит свою безопасность"].map((t, i) => (
                   <span key={i} className="flex items-center gap-1"><ChevronRight className="w-3 h-3 text-accent" />{t}</span>
                 ))}
               </div>
             </div>
           </AnimatedSection>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
             {civilCourses.map((course, i) => (
               <AnimatedSection key={course.id} delay={i * 0.05}>
                 <CourseCard course={course} lightMode />
@@ -358,21 +354,21 @@ const Index = () => {
       </section>
 
       {/* MILITARY COURSES */}
-      <section id="military" className="section-padding bg-military">
+      <section id="military" className="py-14 md:py-28 px-4 md:px-8 bg-military">
         <div className="container mx-auto">
           <AnimatedSection>
-            <h2 className="font-heading text-3xl md:text-5xl font-bold text-military text-center mb-4">
+            <h2 className="font-heading text-2xl sm:text-3xl md:text-5xl font-bold text-military text-center mb-3 sm:mb-4">
               Подготовка для <span className="text-gradient">силовых</span>
             </h2>
-            <div className="max-w-2xl mx-auto mb-12">
-              <div className="flex flex-wrap justify-center gap-3 text-sm text-military-muted">
+            <div className="max-w-2xl mx-auto mb-8 md:mb-12">
+              <div className="flex flex-wrap justify-center gap-2 sm:gap-3 text-xs sm:text-sm text-military-muted">
                 {["Действующие военнослужащие", "Сотрудники охранных предприятий", "Контрактники и добровольцы", "Резервисты / призывники"].map((t, i) => (
                   <span key={i} className="flex items-center gap-1"><ChevronRight className="w-3 h-3 text-accent" />{t}</span>
                 ))}
               </div>
             </div>
           </AnimatedSection>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
             {uniqueMilitaryCourses.map((course, i) => (
               <AnimatedSection key={course.id} delay={i * 0.05}>
                 <CourseCard course={course} />
@@ -383,27 +379,27 @@ const Index = () => {
       </section>
 
       {/* INSTRUCTORS */}
-      <section id="instructors" className="section-padding bg-card">
+      <section id="instructors" className="py-14 md:py-28 px-4 md:px-8 bg-card">
         <div className="container mx-auto">
           <AnimatedSection>
-            <h2 className="font-heading text-3xl md:text-5xl font-bold text-foreground text-center mb-16">
+            <h2 className="font-heading text-2xl sm:text-3xl md:text-5xl font-bold text-foreground text-center mb-8 md:mb-16">
               <span className="text-gradient">Инструкторы</span>
             </h2>
           </AnimatedSection>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6 max-w-7xl mx-auto">
+          <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3 sm:gap-4 md:gap-6 max-w-7xl mx-auto">
             {instructorsData.map((inst, i) => (
               <AnimatedSection key={i} delay={i * 0.1}>
-                <div className="text-center p-5 bg-card-gradient border border-border rounded-lg hover:border-primary/30 transition-all h-full flex flex-col">
-                  <div className="w-24 h-24 rounded-full mx-auto mb-4 overflow-hidden border-2 border-primary/30">
+                <div className="text-center p-3 sm:p-5 bg-card-gradient border border-border rounded-lg hover:border-primary/30 transition-all h-full flex flex-col">
+                  <div className="w-16 h-16 sm:w-24 sm:h-24 rounded-full mx-auto mb-3 sm:mb-4 overflow-hidden border-2 border-primary/30">
                     <img src={inst.photo} alt={inst.name} className="w-full h-full object-cover" loading="lazy" />
                   </div>
-                  <h3 className="font-heading text-base font-semibold text-foreground">{inst.name}</h3>
-                  <p className="text-xs text-primary mb-2">{inst.role}</p>
-                  <p className="text-xs text-muted-foreground leading-relaxed flex-1">{inst.shortExp}</p>
+                  <h3 className="font-heading text-xs sm:text-base font-semibold text-foreground leading-tight">{inst.name}</h3>
+                  <p className="text-[10px] sm:text-xs text-primary mb-1 sm:mb-2">{inst.role}</p>
+                  <p className="text-[10px] sm:text-xs text-muted-foreground leading-relaxed flex-1 hidden sm:block">{inst.shortExp}</p>
                   <Button
                     variant="outline"
                     size="sm"
-                    className="mt-3 border-primary/30 text-foreground hover:bg-primary/10 font-heading text-xs tracking-wider"
+                    className="mt-2 sm:mt-3 border-primary/30 text-foreground hover:bg-primary/10 font-heading text-[10px] sm:text-xs tracking-wider"
                     onClick={() => setActiveInstructor(i)}
                   >
                     Подробнее
@@ -438,14 +434,14 @@ const Index = () => {
       </Dialog>
 
       {/* REVIEWS */}
-      <section className="section-padding">
+      <section className="py-14 md:py-28 px-4 md:px-8">
         <div className="container mx-auto">
           <AnimatedSection>
-            <h2 className="font-heading text-3xl md:text-5xl font-bold text-foreground text-center mb-16">
+            <h2 className="font-heading text-2xl sm:text-3xl md:text-5xl font-bold text-foreground text-center mb-8 md:mb-16">
               Реальные <span className="text-gradient">отзывы</span>
             </h2>
           </AnimatedSection>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl mx-auto">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-8 max-w-5xl mx-auto">
             {[
               { text: "На трассе попал в ДТП. Пострадавший истекал кровью. Я наложил турникет за 15 секунд — как на тренировке. Врачи сказали: ещё 3 минуты — и было бы поздно.", author: "Алексей, 34 года", role: "Выпускник «Тактическая медицина»", type: "civil" },
               { text: "Дочь подавилась на площадке. Я не паниковала — сделала всё, как учили. Через 10 секунд она дышала.", author: "Мария, 28 лет", role: "Выпускница «Первая помощь»", type: "civil" },
@@ -470,14 +466,14 @@ const Index = () => {
       </section>
 
       {/* HOW TRAINING WORKS */}
-      <section className="section-padding bg-card">
+      <section className="py-14 md:py-28 px-4 md:px-8 bg-card">
         <div className="container mx-auto">
           <AnimatedSection>
-            <h2 className="font-heading text-3xl md:text-5xl font-bold text-foreground text-center mb-16">
+            <h2 className="font-heading text-2xl sm:text-3xl md:text-5xl font-bold text-foreground text-center mb-8 md:mb-16">
               Как проходит <span className="text-gradient">обучение</span>
             </h2>
           </AnimatedSection>
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-8 max-w-5xl mx-auto">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-8 max-w-5xl mx-auto">
             {[
               { step: "01", title: "Практика с первого часа", text: "Минимум лекций. Берёте в руки, делаете, разбираете ошибки.", icon: Target },
               { step: "02", title: "Реальные сценарии", text: "Не абстрактная теория — а ситуации, взятые из жизни и боевого опыта.", icon: Shield },
@@ -486,9 +482,9 @@ const Index = () => {
             ].map((s, i) => (
               <AnimatedSection key={i} delay={i * 0.1}>
                 <div className="text-center">
-                  <span className="text-5xl font-heading font-bold text-primary/20">{s.step}</span>
-                  <h3 className="font-heading text-lg font-semibold text-foreground mt-2 mb-2">{s.title}</h3>
-                  <p className="text-sm text-muted-foreground">{s.text}</p>
+                  <span className="text-3xl sm:text-5xl font-heading font-bold text-primary/20">{s.step}</span>
+                  <h3 className="font-heading text-sm sm:text-lg font-semibold text-foreground mt-1 sm:mt-2 mb-1 sm:mb-2">{s.title}</h3>
+                  <p className="text-xs sm:text-sm text-muted-foreground">{s.text}</p>
                 </div>
               </AnimatedSection>
             ))}
@@ -497,10 +493,10 @@ const Index = () => {
       </section>
 
       {/* FAQ */}
-      <section id="faq" className="section-padding">
+      <section id="faq" className="py-14 md:py-28 px-4 md:px-8">
         <div className="container mx-auto max-w-3xl">
           <AnimatedSection>
-            <h2 className="font-heading text-3xl md:text-5xl font-bold text-foreground text-center mb-12">
+            <h2 className="font-heading text-2xl sm:text-3xl md:text-5xl font-bold text-foreground text-center mb-8 md:mb-12">
               Частые <span className="text-gradient">вопросы</span>
             </h2>
           </AnimatedSection>
@@ -522,30 +518,30 @@ const Index = () => {
       </section>
 
       {/* CONTACT / CTA */}
-      <section id="contacts" className="section-padding bg-card">
+      <section id="contacts" className="py-14 md:py-28 px-4 md:px-8 bg-card">
         <div className="container mx-auto max-w-2xl text-center">
           <AnimatedSection>
-            <h2 className="font-heading text-3xl md:text-5xl font-bold text-foreground mb-4">
+            <h2 className="font-heading text-2xl sm:text-3xl md:text-5xl font-bold text-foreground mb-3 sm:mb-4">
               Не ждите, пока <span className="text-gradient">станет поздно</span>
             </h2>
-            <p className="text-muted-foreground mb-10 text-lg">
+            <p className="text-muted-foreground mb-6 sm:mb-10 text-sm sm:text-lg">
               Оставьте заявку — мы подберём курс под ваш уровень и задачи
             </p>
           </AnimatedSection>
           <AnimatedSection delay={0.1}>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center mb-8">
-              <Button onClick={() => setBookingOpen(true)} size="lg" className="bg-cta-gradient text-accent-foreground font-heading text-lg tracking-wider shadow-cta hover:opacity-90 animate-pulse-glow px-10 py-6">
+            <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center mb-6 sm:mb-8">
+              <Button onClick={() => setBookingOpen(true)} size="lg" className="w-full sm:w-auto bg-cta-gradient text-accent-foreground font-heading text-base sm:text-lg tracking-wider shadow-cta hover:opacity-90 animate-pulse-glow px-8 sm:px-10 py-5 sm:py-6">
                 Записаться
               </Button>
             </div>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <a href="https://t.me/ErmakCenter" target="_blank" rel="noopener noreferrer">
-                <Button variant="outline" size="lg" className="border-primary/30 text-foreground hover:bg-primary/10 font-heading tracking-wider gap-2 px-8 py-5">
+            <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center">
+              <a href="https://t.me/ErmakCenter" target="_blank" rel="noopener noreferrer" className="w-full sm:w-auto">
+                <Button variant="outline" size="lg" className="w-full sm:w-auto border-primary/30 text-foreground hover:bg-primary/10 font-heading tracking-wider gap-2 px-6 sm:px-8 py-4 sm:py-5">
                   <Send className="w-4 h-4" /> Написать в Telegram
                 </Button>
               </a>
-              <a href="tel:+79994675684">
-                <Button variant="outline" size="lg" className="border-primary/30 text-foreground hover:bg-primary/10 font-heading tracking-wider gap-2 px-8 py-5">
+              <a href="tel:+79994675684" className="w-full sm:w-auto">
+                <Button variant="outline" size="lg" className="w-full sm:w-auto border-primary/30 text-foreground hover:bg-primary/10 font-heading tracking-wider gap-2 px-6 sm:px-8 py-4 sm:py-5">
                   <Phone className="w-4 h-4" /> Позвонить
                 </Button>
               </a>
