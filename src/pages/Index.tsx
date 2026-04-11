@@ -233,7 +233,7 @@ const Index = () => {
           </div>
           <div className="relative z-10 text-center px-4 sm:px-6 py-12 md:py-0 max-w-lg flex flex-col items-center">
             <p className="font-heading text-[10px] sm:text-xs tracking-[0.3em] text-military-muted mb-2 sm:mb-3">ЦЕНТР СПЕЦИАЛЬНОЙ ПОДГОТОВКИ</p>
-            <h2 className="font-heading text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-military leading-[0.95] mb-3 sm:mb-4">
+            <h2 className="font-heading text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-military leading-[0.95] mb-3 sm:mb-4 my-px">
               ПОДГОТОВКА<br />ДЛЯ СИЛОВЫХ<br />НАПРАВЛЕНИЙ
             </h2>
             <p className="text-military-muted text-sm sm:text-base md:text-lg mb-4 sm:mb-6 font-body">
