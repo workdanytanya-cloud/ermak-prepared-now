@@ -5,7 +5,8 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import { Clock, Users, ChevronRight, ArrowLeft, CheckCircle, AlertTriangle, Calendar, CalendarSearch, Shirt, MapPin, Award, Tag } from "lucide-react";
+import { Clock, Users, ChevronRight, CheckCircle, AlertTriangle, Calendar, CalendarSearch, Shirt, MapPin, Award, Tag } from "lucide-react";
+import StickyBackButton from "@/components/StickyBackButton";
 import AnimatedSection from "@/components/AnimatedSection";
 import BookingForm from "@/components/BookingForm";
 import CourseCard from "@/components/CourseCard";
@@ -53,11 +54,7 @@ const CourseDetailPage = () => {
   return (
     <div className="min-h-screen pt-24 pb-20">
       <div className="container mx-auto px-4">
-        <AnimatedSection>
-          <button onClick={() => navigate(-1)} className="inline-flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground mb-8 transition-colors">
-            <ArrowLeft className="w-4 h-4" /> Назад
-          </button>
-        </AnimatedSection>
+        <StickyBackButton />
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
           <div className="lg:col-span-2">
