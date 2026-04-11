@@ -212,7 +212,7 @@ const Index = () => {
         </motion.div>
 
         {/* Quiz button — divider between civil and military */}
-        <div className="absolute z-20 left-0 right-0 top-1/2 -translate-y-1/2 md:top-auto md:bottom-0 md:translate-y-1/2 flex items-center justify-center pointer-events-none">
+        <div className="absolute z-20 left-0 right-0 top-1/2 -translate-y-1/2 md:top-auto md:bottom-6 md:translate-y-0 flex items-center justify-center pointer-events-none">
           <button onClick={() => setQuizOpen(true)} className="pointer-events-auto bg-background/90 backdrop-blur-md px-4 sm:px-6 py-2.5 sm:py-4 rounded-lg border border-border hover:border-accent/50 transition-all cursor-pointer group max-w-[90%] md:max-w-none">
             <p className="font-heading text-[10px] sm:text-sm md:text-base text-accent tracking-wider group-hover:text-accent/80 transition-colors leading-tight">НАВЫКИ, КОТОРЫЕ НЕЛЬЗЯ ЗАГУГЛИТЬ В КРИТИЧЕСКИЙ МОМЕНТ</p>
             <p className="text-[9px] sm:text-xs text-muted-foreground mt-0.5 sm:mt-1">Пройди тест — узнай свой уровень подготовки</p>
