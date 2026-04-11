@@ -195,19 +195,21 @@ const Index = () => {
             <img src="/hero-civil.jpg" alt="Гражданская подготовка" className="w-full h-full object-cover" width={960} height={1080} />
             <div className="absolute inset-0 bg-gradient-to-b from-[hsl(40,10%,20%)]/70 via-[hsl(40,10%,15%)]/50 to-[hsl(40,10%,10%)]/80" />
           </div>
-          <div className="relative z-10 text-center px-6 py-32 md:py-0 max-w-lg">
+          <div className="relative z-10 text-center px-6 py-32 md:py-0 max-w-lg flex flex-col items-center">
             <p className="font-heading text-xs tracking-[0.3em] text-[hsl(40,10%,80%)] mb-3">ЦЕНТР СПЕЦИАЛЬНОЙ ПОДГОТОВКИ</p>
             <h2 className="font-heading text-4xl md:text-5xl lg:text-6xl font-bold text-white leading-[0.95] mb-4">
               ГРАЖДАНСКАЯ<br />ПОДГОТОВКА
             </h2>
-            <p className="text-[hsl(40,10%,80%)] text-base md:text-lg mb-8 font-body">
+            <p className="text-[hsl(40,10%,80%)] text-base md:text-lg mb-6 font-body">
               Навыки, которые помогут защитить себя и близких
             </p>
-            <a href="#civil">
-              <Button size="lg" className="bg-cta-gradient text-accent-foreground font-heading text-lg tracking-wider shadow-cta hover:opacity-90 px-8 py-6">
-                Смотреть курсы
-              </Button>
-            </a>
+            <div className="mt-auto">
+              <a href="#civil">
+                <Button size="lg" className="bg-cta-gradient text-accent-foreground font-heading text-lg tracking-wider shadow-cta hover:opacity-90 px-8 py-6">
+                  Смотреть курсы
+                </Button>
+              </a>
+            </div>
           </div>
         </motion.div>
 
@@ -223,28 +225,30 @@ const Index = () => {
             <img src="/hero-military.jpg" alt="Подготовка для силовых" className="w-full h-full object-cover" width={960} height={1080} />
             <div className="absolute inset-0 bg-gradient-to-b from-[hsl(220,20%,8%)]/80 via-[hsl(220,20%,8%)]/60 to-[hsl(220,20%,8%)]/90" />
           </div>
-          <div className="relative z-10 text-center px-6 py-32 md:py-0 max-w-lg">
+          <div className="relative z-10 text-center px-6 py-32 md:py-0 max-w-lg flex flex-col items-center">
             <p className="font-heading text-xs tracking-[0.3em] text-military-muted mb-3">ЦЕНТР СПЕЦИАЛЬНОЙ ПОДГОТОВКИ</p>
             <h2 className="font-heading text-4xl md:text-5xl lg:text-6xl font-bold text-military leading-[0.95] mb-4">
-              ПОДГОТОВКА<br />ДЛЯ СИЛОВЫХ
+              ПОДГОТОВКА<br />ДЛЯ СИЛОВЫХ<br />НАПРАВЛЕНИЙ
             </h2>
-            <p className="text-military-muted text-base md:text-lg mb-8 font-body">
+            <p className="text-military-muted text-base md:text-lg mb-6 font-body">
               Навыки, от которых зависит жизнь
             </p>
-            <a href="#military">
-              <Button size="lg" className="bg-cta-gradient text-accent-foreground font-heading text-lg tracking-wider shadow-cta hover:opacity-90 px-8 py-6">
-                Смотреть курсы
-              </Button>
-            </a>
+            <div className="mt-auto">
+              <a href="#military">
+                <Button size="lg" className="bg-cta-gradient text-accent-foreground font-heading text-lg tracking-wider shadow-cta hover:opacity-90 px-8 py-6">
+                  Смотреть курсы
+                </Button>
+              </a>
+            </div>
           </div>
         </motion.div>
 
-        {/* Central text — bottom of hero, not overlapping */}
-        <div className="absolute bottom-8 left-0 right-0 z-20 text-center pointer-events-none px-4">
-          <div className="bg-background/90 backdrop-blur-md px-6 py-4 rounded-lg border border-border inline-block">
-            <p className="font-heading text-sm md:text-base text-accent tracking-wider">НАВЫКИ, КОТОРЫЕ НЕЛЬЗЯ ЗАГУГЛИТЬ В КРИТИЧЕСКИЙ МОМЕНТ</p>
-            <p className="text-xs text-muted-foreground mt-1">Выбери свой уровень подготовки</p>
-          </div>
+        {/* Central text — bottom of hero, clickable quiz */}
+        <div className="absolute bottom-8 left-0 right-0 z-20 text-center px-4">
+          <button onClick={() => setQuizOpen(true)} className="bg-background/90 backdrop-blur-md px-6 py-4 rounded-lg border border-border inline-block hover:border-accent/50 transition-all cursor-pointer group">
+            <p className="font-heading text-sm md:text-base text-accent tracking-wider group-hover:text-accent/80 transition-colors">НАВЫКИ, КОТОРЫЕ НЕЛЬЗЯ ЗАГУГЛИТЬ В КРИТИЧЕСКИЙ МОМЕНТ</p>
+            <p className="text-xs text-muted-foreground mt-1">Пройди тест — узнай свой уровень подготовки</p>
+          </button>
         </div>
       </section>
 
