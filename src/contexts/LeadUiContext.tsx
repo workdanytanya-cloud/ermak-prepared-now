@@ -1,4 +1,4 @@
-import { createContext, useCallback, useContext, useMemo, useState, type ReactNode } from "react";
+import { createContext, useCallback, useContext, useMemo, useState, type Context, type ReactNode } from "react";
 import BookingForm from "@/components/BookingForm";
 import QuizModal from "@/components/QuizModal";
 
@@ -7,7 +7,17 @@ type LeadUi = {
   openQuiz: () => void;
 };
 
-const LeadUiContext = createContext<LeadUi | null>(null);
+type LeadUiContextValue = LeadUi | null;
+type LeadUiGlobal = typeof globalThis & {
+  __leadUiContext?: Context<LeadUiContextValue>;
+};
+
+const leadUiGlobal = globalThis as LeadUiGlobal;
+const LeadUiContext = leadUiGlobal.__leadUiContext ?? createContext<LeadUiContextValue>(null);
+
+if (import.meta.env.DEV) {
+  leadUiGlobal.__leadUiContext = LeadUiContext;
+}
 
 export function LeadUiProvider({ children }: { children: ReactNode }) {
   const [bookingOpen, setBookingOpen] = useState(false);
