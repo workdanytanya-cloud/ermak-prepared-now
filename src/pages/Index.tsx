@@ -1,26 +1,51 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { Shield, Heart, Target, AlertTriangle, ArrowRight, ChevronRight, Star, Phone, Send, Clock } from "lucide-react";
+import {
+  Shield,
+  Heart,
+  Target,
+  AlertTriangle,
+  ArrowRight,
+  ChevronRight,
+  Star,
+  Phone,
+  Send,
+  Clock,
+  ShieldCheck,
+  Sparkles,
+  Crosshair,
+  GraduationCap,
+} from "lucide-react";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import AnimatedSection from "@/components/AnimatedSection";
 import CourseCard from "@/components/CourseCard";
-import BookingForm from "@/components/BookingForm";
-import QuizModal from "@/components/QuizModal";
 import { courses } from "@/data/courses";
-import { Input } from "@/components/ui/input";
-import { toast } from "sonner";
 import { motion } from "framer-motion";
+import { useLeadUi } from "@/contexts/LeadUiContext";
 
 const faqData = [
-  { q: "Нужен ли опыт, чтобы прийти на курс?", a: "Нет. На базовые форматы можно приходить с нуля. Мы начинаем с простого." },
-  { q: "Можно ли прийти без физподготовки?", a: "Можно. Нагрузка дозируется, акцент на правильность действий." },
-  { q: "Что брать с собой?", a: "Удобную закрытую одежду, воду, блокнот. Если нужен спецкомплект — отправим список заранее." },
-  { q: "Больше теория или практика?", a: "Основа — практика. Объяснение → показ → отработка → разбор → повтор." },
-  { q: "Можно ли девушкам?", a: "Да. Есть отдельные форматы и смешанные группы." },
-  { q: "Есть ли корпоративные форматы?", a: "Да. Делаем программы для компаний и команд под задачу." },
-  { q: "Как записаться?", a: "Кнопка заявки → имя, телефон → мы связываемся и подбираем формат." },
+  { q: "Нужен ли опыт?", a: "Нет для большинства базовых курсов. Если формат продвинутый — это указано в карточке, и мы заранее согласуем входной уровень." },
+  { q: "Можно ли прийти без физподготовки?", a: "Да. Мы не гоняем «на спортзал»: важна техника, безопасность и правильные решения. Нагрузку дозируем под группу." },
+  { q: "Подойдёт ли курс обычному человеку без службы?", a: "Да. Гражданские программы как раз про повседневную жизнь: семья, дорога, работа, город. Силовые форматы — отдельным блоком." },
+  { q: "Помогаете ли устроиться на контракт?", a: "Мы даём прикладную подготовку и сертификаты по программам. Вопросы трудоустройства зависят от работодателя — подскажем, какие курсы чаще всего закрывают пробелы." },
+  { q: "Можно ли девушкам?", a: "Да. Есть женская безопасность и смешанные группы. Условия уточняем заранее, чтобы вам было комфортно." },
+  { q: "Что брать с собой?", a: "Закрытая удобная одежда, вода. Для части курсов нужен камуфляж/берцы — пришлём список после записи." },
+  { q: "Есть ли корпоративный формат?", a: "Да: выезды, тимформаты, интерактив под вашу задачу. Оставьте заявку — соберём программу под срок и состав." },
+  { q: "Можно ли подарить сертификат?", a: "Да, оформим подарочный сертификат на сумму или конкретный курс. Напишите в Telegram или оставьте заявку." },
+  { q: "Есть ли индивидуальные занятия?", a: "Да: персональные тренировки по огневой и такмеду, а также подготовка под узкую задачу." },
+  { q: "Как понять, какой курс выбрать?", a: "Нажмите «Подобрать курс» на главной — короткий квиз подскажет стартовый формат. Или запишитесь на звонок: администратор соберёт маршрут под вашу задачу." },
+  { q: "Больше теория или практика?", a: "Практика — основа. Сначала понятный алгоритм, затем отработка руками, разбор ошибок, повтор до уверенности." },
+  { q: "Как записаться?", a: "Кнопка «Записаться» в шапке, на карточке курса или внизу страницы — оставьте контакты, мы подтвердим дату и место." },
+];
+
+const trustItems = [
+  { icon: Crosshair, title: "Практика, а не лекции", text: "Отработка навыков на сценариях, близких к реальности." },
+  { icon: GraduationCap, title: "Инструкторы с опытом", text: "Многолетняя служебная и преподавательская практика." },
+  { icon: Sparkles, title: "Прикладные сценарии", text: "Город, дорога, быт, работа — не абстрактные «кейсы из интернета»." },
+  { icon: ShieldCheck, title: "Гражданские и силовые треки", text: "Понятное разделение задач: жизнь/семья и служба/профессия." },
+  { icon: Heart, title: "Навыки «на сейчас»", text: "То, что применимо, когда помощь нужна немедленно." },
 ];
 
 const civilCourseIds = ["first-aid", "women-safety", "tactical-medicine", "pistol", "weekend-practice", "individual", "events"];
@@ -31,7 +56,9 @@ const instructorsData = [
     name: "Данюкин Андрей Игоревич",
     role: "Руководитель ЦСП «ЕРМАК»",
     photo: "/instructor-danyukin.png",
-    shortExp: "Профессиональный военный, участник боевых действий. Инструктор по армейской тактической стрельбе.",
+    specialization: "Тактическая и огневая подготовка, работа с группами",
+    experienceLabel: "Служебный и инструкторский опыт — многие годы",
+    directions: ["Огневая подготовка", "ТСП", "Детские лагеря"],
     fullExp: `Данюкин Андрей Игоревич – руководитель центра специальной подготовки "Ермак", а также тренер СК "РОСТ".
 
 Образование — высшее. Профессиональный военный. Службу проходил в различных силах специального назначения (в том числе на должности инструктора по физической подготовке и рукопашному бою).
@@ -56,7 +83,9 @@ const instructorsData = [
     name: "Дедов Михаил Владимирович",
     role: "Старший инструктор",
     photo: "/instructor-dedov.jpg",
-    shortExp: "Инструкторская деятельность с 2014 года. Участник боевых действий.",
+    specialization: "Рукопашный бой, стрельба, спецподготовка",
+    experienceLabel: "Инструктор с 2014 года, участник БД",
+    directions: ["Ножевой бой", "Тактика", "Такмед"],
     fullExp: `Дедов Михаил Владимирович — старший инструктор центра специальной подготовки "Ермак".
 
 Опыт инструкторской деятельности с 2014 года.
@@ -86,7 +115,9 @@ const instructorsData = [
     name: "Подоксенов Владимир Александрович",
     role: "Инструктор",
     photo: "/instructor-podoksenov.jpg",
-    shortExp: "ВМА им. Кирова. Подготовка ТССС (ТАКМЕД), расширенный курс РАТМЕД.",
+    specialization: "Тактическая медицина, догоспитальная помощь",
+    experienceLabel: "ВМА им. Кирова, протоколы ТССС / ТАКМЕД",
+    directions: ["Такмед", "Кровотечения", "Санинструктор"],
     fullExp: `Подоксенов Владимир Александрович — инструктор центра специальной подготовки "Ермак".
 
 Обучение в Военно-медицинской академии имени Кирова (филиал Москва).
@@ -105,7 +136,9 @@ const instructorsData = [
     name: "Воронков Алексей Евгеньевич",
     role: "Инструктор",
     photo: "/instructor-voronkov.jpg",
-    shortExp: "Высшее педагогическое, фельдшер. Инструктор тактической медицины.",
+    specialization: "Тактическая медицина и первая помощь",
+    experienceLabel: "Педагогическое образование, фельдшер",
+    directions: ["Такмед", "Первая помощь"],
     fullExp: `Воронков Алексей Евгеньевич — инструктор центра специальной подготовки "Ермак".
 
 Опыт инструкторской деятельности с 2021 года.
@@ -124,7 +157,9 @@ const instructorsData = [
     name: "Мария Александровна",
     role: "Инструктор по женской безопасности",
     photo: "/audience-women.png",
-    shortExp: "Высшее юридическое. Более 16 лет опыта. Личный спортивный опыт 10+ лет: ММА, CJJ, Крав-мага.",
+    specialization: "Личная безопасность женщин, правовой контекст",
+    experienceLabel: "Юрист 16+ лет, спорт — ММА / CJJ / крав-мага",
+    directions: ["Женская безопасность", "Самооборона"],
     fullExp: `Мария Александровна — инструктор по женской безопасности.
 
 Образование: высшее юридическое, стаж оказания юридических услуг широкого спектра в области семейного, трудового, гражданского права и арбитражного процесса более 16 лет, с опытом консультирования и представления интересов потерпевших по уголовным делам о причинении вреда здоровью.
@@ -170,8 +205,7 @@ const audienceGroups = [
 ];
 
 const Index = () => {
-  const [bookingOpen, setBookingOpen] = useState(false);
-  const [quizOpen, setQuizOpen] = useState(false);
+  const { openBooking, openQuiz } = useLeadUi();
   const [activeInstructor, setActiveInstructor] = useState<number | null>(null);
   const [hoveredSide, setHoveredSide] = useState<"civil" | "military" | null>(null);
 
@@ -179,8 +213,12 @@ const Index = () => {
   const militaryCourses = courses.filter(c => militaryCourseIds.includes(c.id));
   const uniqueMilitaryCourses = militaryCourses.filter((c, i, arr) => arr.findIndex(x => x.id === c.id) === i);
 
+  const scrollToId = (id: string) => {
+    document.getElementById(id)?.scrollIntoView({ behavior: "smooth", block: "start" });
+  };
+
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen pb-28 md:pb-0">
       {/* SPLIT HERO */}
       <section className="relative min-h-[100svh] flex flex-col md:flex-row overflow-hidden">
         {/* Civil side */}
@@ -195,7 +233,7 @@ const Index = () => {
             <img src="/hero-civil.jpg" alt="Гражданская подготовка" className="w-full h-full object-cover" width={960} height={1080} />
             <div className="absolute inset-0 bg-gradient-to-b from-[hsl(40,10%,20%)]/70 via-[hsl(40,10%,15%)]/50 to-[hsl(40,10%,10%)]/80" />
           </div>
-          <div className="relative z-10 text-center px-4 sm:px-6 py-12 md:py-0 max-w-lg flex flex-col items-center justify-end md:justify-center md:h-auto h-full pb-24 md:pb-0">
+          <div className="relative z-10 text-center px-4 sm:px-6 py-12 md:py-0 max-w-lg flex flex-col items-center justify-end md:justify-center md:h-auto h-full pb-36 md:pb-0">
             <p className="font-heading text-[10px] sm:text-xs tracking-[0.3em] text-[hsl(40,10%,80%)] mb-2 sm:mb-3">​</p>
             <h2 className="font-heading text-3xl sm:text-4xl md:text-4xl lg:text-5xl font-bold text-white leading-[0.95] mb-3 sm:mb-4 min-h-[2.4em] md:min-h-[3em] flex items-end justify-center">
               <span className="text-5xl">ГРАЖДАНСКАЯ<br />ПОДГОТОВКА</span>
@@ -211,14 +249,6 @@ const Index = () => {
           </div>
         </motion.div>
 
-        {/* Quiz button — divider between civil and military */}
-        <div className="absolute z-20 left-0 right-0 top-1/2 -translate-y-1/2 md:top-auto md:bottom-6 md:translate-y-0 flex items-center justify-center pointer-events-none">
-          <button onClick={() => setQuizOpen(true)} className="pointer-events-auto bg-background/90 backdrop-blur-md px-4 sm:px-6 py-2.5 sm:py-4 rounded-lg border border-border hover:border-accent/50 transition-all cursor-pointer group max-w-[90%] md:max-w-none">
-            <p className="font-heading text-[10px] sm:text-sm md:text-base text-accent tracking-wider group-hover:text-accent/80 transition-colors leading-tight">НАВЫКИ, КОТОРЫЕ НЕЛЬЗЯ ЗАГУГЛИТЬ В КРИТИЧЕСКИЙ МОМЕНТ</p>
-            <p className="text-[9px] sm:text-xs text-muted-foreground mt-0.5 sm:mt-1">Пройди тест — узнай свой уровень подготовки</p>
-          </button>
-        </div>
-
         {/* Military side */}
         <motion.div
           className="relative flex-1 min-h-[50svh] md:min-h-0 flex items-center justify-center cursor-pointer overflow-hidden"
@@ -231,7 +261,7 @@ const Index = () => {
             <img src="/hero-military.jpg" alt="Подготовка для силовых" className="w-full h-full object-cover" width={960} height={1080} />
             <div className="absolute inset-0 bg-gradient-to-b from-[hsl(220,20%,8%)]/80 via-[hsl(220,20%,8%)]/60 to-[hsl(220,20%,8%)]/90" />
           </div>
-          <div className="relative z-10 text-center px-4 sm:px-6 py-12 md:py-0 max-w-lg flex flex-col items-center justify-end md:justify-center md:h-auto h-full pb-24 md:pb-0">
+          <div className="relative z-10 text-center px-4 sm:px-6 py-12 md:py-0 max-w-lg flex flex-col items-center justify-end md:justify-center md:h-auto h-full pb-36 md:pb-0">
             <p className="font-heading text-[10px] sm:text-xs tracking-[0.3em] text-military-muted mb-2 sm:mb-3">​</p>
             <h2 className="font-heading text-3xl sm:text-4xl md:text-4xl lg:text-5xl font-bold text-military leading-[0.95] mb-3 sm:mb-4 min-h-[2.4em] md:min-h-[3em] flex items-end justify-center">
               <span className="text-5xl">ПОДГОТОВКА<br /> СИЛОВЫХ<br />НАПРАВЛЕНИЙ</span>
@@ -246,6 +276,112 @@ const Index = () => {
             </a>
           </div>
         </motion.div>
+
+        <div className="absolute bottom-0 left-0 right-0 z-30 pointer-events-none bg-gradient-to-t from-background via-background/90 to-transparent pt-16 pb-4 md:pb-6">
+          <div className="pointer-events-auto container mx-auto px-3 sm:px-4">
+            <p className="text-center font-heading text-[9px] sm:text-[10px] tracking-[0.2em] text-muted-foreground mb-3">
+              НАВЫКИ, КОТОРЫЕ НЕ РАБОТАЮТ «НА ГЛАЗ» — ИХ НУЖНО ПРОЖИТЬ РУКАМИ
+            </p>
+            <div className="flex flex-col sm:flex-row gap-2 sm:gap-3 justify-center items-stretch sm:items-center max-w-4xl mx-auto">
+              <Button
+                type="button"
+                size="lg"
+                variant="outline"
+                className="w-full sm:flex-1 border-white/25 bg-background/70 backdrop-blur-md text-foreground hover:bg-background/90 hover:border-accent/50 font-heading tracking-wide py-5"
+                onClick={() => scrollToId("civil")}
+              >
+                Я для себя
+              </Button>
+              <Button
+                type="button"
+                size="lg"
+                variant="outline"
+                className="w-full sm:flex-1 border-white/25 bg-background/70 backdrop-blur-md text-foreground hover:bg-background/90 hover:border-accent/50 font-heading tracking-wide py-5"
+                onClick={() => scrollToId("military")}
+              >
+                Я для службы / работы
+              </Button>
+              <Button
+                type="button"
+                size="lg"
+                className="w-full sm:flex-1 bg-cta-gradient text-accent-foreground font-heading tracking-wider shadow-cta hover:opacity-95 py-5"
+                onClick={() => openQuiz()}
+              >
+                Подобрать курс
+              </Button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* TRUST */}
+      <section className="py-12 md:py-20 px-4 md:px-8 border-b border-border/60 bg-card/40">
+        <div className="container mx-auto">
+          <AnimatedSection>
+            <h2 className="font-heading text-2xl sm:text-3xl md:text-4xl font-bold text-foreground text-center mb-2 md:mb-4">
+              Почему нам <span className="text-gradient">доверяют</span>
+            </h2>
+            <p className="text-center text-muted-foreground text-sm max-w-2xl mx-auto mb-8 md:mb-12 leading-relaxed">
+              Коротко — без лозунгов. То, что видят люди после первой же отработки.
+            </p>
+          </AnimatedSection>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3 md:gap-4">
+            {trustItems.map((item, i) => (
+              <AnimatedSection key={item.title} delay={i * 0.06}>
+                <div className="h-full rounded-lg border border-border bg-card-gradient p-4 md:p-5 hover:border-accent/35 hover:shadow-glow transition-all duration-300">
+                  <item.icon className="w-8 h-8 text-accent mb-3" />
+                  <h3 className="font-heading text-sm md:text-base text-foreground mb-2 leading-snug">{item.title}</h3>
+                  <p className="text-xs md:text-sm text-muted-foreground leading-relaxed">{item.text}</p>
+                </div>
+              </AnimatedSection>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* START PATH */}
+      <section className="py-12 md:py-20 px-4 md:px-8">
+        <div className="container mx-auto max-w-5xl">
+          <AnimatedSection>
+            <h2 className="font-heading text-2xl sm:text-3xl md:text-4xl font-bold text-foreground text-center mb-8 md:mb-12">
+              Не знаете, <span className="text-gradient">с чего начать</span>?
+            </h2>
+          </AnimatedSection>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6">
+            {[
+              {
+                title: "Научиться помогать в критической ситуации и не растеряться",
+                hint: "Первая помощь и такмед под гражданские и служебные сценарии",
+                track: "help",
+              },
+              {
+                title: "Повысить личную безопасность",
+                hint: "Женская безопасность, уверенность в городе и быту",
+                track: "safety",
+              },
+              {
+                title: "Прикладная тактика, огневая подготовка, пистолет",
+                hint: "Силовой трек: от базы до полевых форматов",
+                track: "tactical",
+              },
+            ].map((card, i) => (
+              <AnimatedSection key={card.track} delay={i * 0.08}>
+                <Link
+                  to={`/courses?track=${card.track}`}
+                  className="group block h-full rounded-lg border border-border bg-card-gradient p-5 md:p-6 hover:border-accent/45 hover:-translate-y-0.5 hover:shadow-glow transition-all duration-300"
+                >
+                  <h3 className="font-heading text-base md:text-lg text-foreground mb-2 leading-snug group-hover:text-accent transition-colors">
+                    {card.title}
+                  </h3>
+                  <p className="text-sm text-muted-foreground leading-relaxed mb-4">{card.hint}</p>
+                  <span className="font-heading text-xs tracking-widest text-accent flex items-center gap-1">
+                    Смотреть курсы <ArrowRight className="w-3.5 h-3.5" />
+                  </span>
+                </Link>
+              </AnimatedSection>
+            ))}
+          </div>
+        </div>
       </section>
 
       {/* FOR WHOM */}
@@ -299,28 +435,60 @@ const Index = () => {
       </section>
 
       {/* WHY IT MATTERS */}
-      <section className="py-14 md:py-28 px-4 md:px-8 bg-card">
+      <section className="py-16 md:py-28 px-4 md:px-8 bg-[hsl(220,18%,8%)] border-y border-border/80">
         <div className="container mx-auto">
           <AnimatedSection>
             <h2 className="font-heading text-2xl sm:text-3xl md:text-5xl font-bold text-foreground text-center mb-3 sm:mb-4">
               Почему это <span className="text-gradient">важно</span>
             </h2>
-            <p className="text-muted-foreground text-center max-w-xl mx-auto mb-8 md:mb-16 text-sm sm:text-base">
-              Каждый день кто-то оказывается в ситуации, к которой не был готов
+            <p className="text-muted-foreground text-center max-w-2xl mx-auto mb-10 md:mb-16 text-sm sm:text-base leading-relaxed">
+              Не про страх ради страха — про реальные разрывы между «ждать помощь» и «сделать самому».
             </p>
           </AnimatedSection>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
             {[
-              { icon: AlertTriangle, title: "Скорая не успеет", text: "Среднее время приезда — 20 минут. Человек с артериальным кровотечением без помощи не проживёт и пяти." },
-              { icon: Shield, title: "Нападение на улице", text: "Количество уличных нападений растёт. Без навыков самозащиты и умения видеть опасность — вы лёгкая мишень." },
-              { icon: Heart, title: "ДТП на трассе", text: "Вы единственный, кто может помочь. Но знаете ли вы, что делать, когда человек не дышит?" },
-              { icon: Target, title: "Вдали от цивилизации", text: "Поход, рыбалка, пикник. Связи нет, помощь далеко. Всё зависит только от вас." },
+              {
+                icon: AlertTriangle,
+                title: "Скорая всегда успевает",
+                text: (
+                  <>
+                    Это миф. <strong className="text-accent font-semibold">Ошибка стоит минут</strong> — и дальше уже не «лечение», а шанс.
+                  </>
+                ),
+              },
+              {
+                icon: Heart,
+                title: "На трассе помочь можете только вы",
+                text: (
+                  <>
+                    Пока едет бригада, <strong className="text-accent font-semibold">решения принимаете вы</strong> — или никто.
+                  </>
+                ),
+              },
+              {
+                icon: Shield,
+                title: "Улица не про «вдруг повезёт»",
+                text: (
+                  <>
+                    Нужна <strong className="text-accent font-semibold">трезвая модель поведения</strong>, а не надежда, что «обойдётся».
+                  </>
+                ),
+              },
+              {
+                icon: Target,
+                title: "Вдали от города — на себя",
+                text: (
+                  <>
+                    Без связи и инфраструктуры <strong className="text-accent font-semibold">рассчитывать придётся на себя</strong> — это не походный романтизм, это математика.
+                  </>
+                ),
+              },
             ].map((item, i) => (
               <AnimatedSection key={i} delay={i * 0.1}>
-                <div className="bg-card-gradient border border-border rounded-lg p-6 hover:border-primary/30 transition-all h-full">
-                  <item.icon className="w-10 h-10 text-accent mb-4" />
-                  <h3 className="font-heading text-lg font-semibold text-foreground mb-2">{item.title}</h3>
-                  <p className="text-sm text-muted-foreground leading-relaxed">{item.text}</p>
+                <div className="bg-card-gradient border border-border rounded-lg p-6 md:p-7 hover:border-accent/30 hover:shadow-glow transition-all duration-300 h-full min-h-[220px] flex flex-col">
+                  <item.icon className="w-10 h-10 text-accent mb-4 shrink-0" />
+                  <h3 className="font-heading text-lg md:text-xl font-semibold text-foreground mb-3 leading-tight">{item.title}</h3>
+                  <p className="text-sm text-muted-foreground leading-relaxed flex-1">{item.text}</p>
                 </div>
               </AnimatedSection>
             ))}
@@ -379,27 +547,39 @@ const Index = () => {
       </section>
 
       {/* INSTRUCTORS */}
-      <section id="instructors" className="py-14 md:py-28 px-4 md:px-8 bg-card">
+      <section id="instructors" className="py-16 md:py-28 px-4 md:px-8 bg-card">
         <div className="container mx-auto">
           <AnimatedSection>
             <h2 className="font-heading text-2xl sm:text-3xl md:text-5xl font-bold text-foreground text-center mb-8 md:mb-16">
               <span className="text-gradient">Инструкторы</span>
             </h2>
           </AnimatedSection>
-          <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3 sm:gap-4 md:gap-6 max-w-7xl mx-auto">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-4 md:gap-6 max-w-7xl mx-auto">
             {instructorsData.map((inst, i) => (
-              <AnimatedSection key={i} delay={i * 0.1}>
-                <div className="text-center p-3 sm:p-5 bg-card-gradient border border-border rounded-lg hover:border-primary/30 transition-all h-full flex flex-col">
-                  <div className="w-16 h-16 sm:w-24 sm:h-24 rounded-full mx-auto mb-3 sm:mb-4 overflow-hidden border-2 border-primary/30">
+              <AnimatedSection key={i} delay={i * 0.08}>
+                <div className="text-left p-4 sm:p-5 bg-card-gradient border border-border rounded-lg hover:border-accent/35 hover:shadow-glow transition-all duration-300 h-full min-h-[420px] flex flex-col">
+                  <div className="w-20 h-20 rounded-full mb-4 overflow-hidden border-2 border-accent/30 shrink-0 mx-auto sm:mx-0">
                     <img src={inst.photo} alt={inst.name} className="w-full h-full object-cover" loading="lazy" />
                   </div>
-                  <h3 className="font-heading text-xs sm:text-base font-semibold text-foreground leading-tight">{inst.name}</h3>
-                  <p className="text-[10px] sm:text-xs text-primary mb-1 sm:mb-2">{inst.role}</p>
-                  <p className="text-[10px] sm:text-xs text-muted-foreground leading-relaxed flex-1 hidden sm:block">{inst.shortExp}</p>
+                  <h3 className="font-heading text-sm sm:text-base font-semibold text-foreground leading-tight text-center sm:text-left">{inst.name}</h3>
+                  <p className="text-[11px] sm:text-xs text-accent mb-2 text-center sm:text-left font-heading tracking-wide">{inst.role}</p>
+                  <p className="text-xs text-foreground/90 leading-snug mb-1">
+                    <span className="text-muted-foreground font-heading text-[10px] uppercase tracking-wider">Специализация</span>
+                    <br />
+                    {inst.specialization}
+                  </p>
+                  <p className="text-[11px] text-muted-foreground mb-3">{inst.experienceLabel}</p>
+                  <div className="flex flex-wrap gap-1.5 mb-4 flex-1 content-start">
+                    {inst.directions.map((d) => (
+                      <span key={d} className="text-[10px] px-2 py-0.5 rounded-full bg-secondary text-secondary-foreground border border-border">
+                        {d}
+                      </span>
+                    ))}
+                  </div>
                   <Button
                     variant="outline"
                     size="sm"
-                    className="mt-2 sm:mt-3 border-primary/30 text-foreground hover:bg-primary/10 font-heading text-[10px] sm:text-xs tracking-wider"
+                    className="mt-auto w-full border-border text-muted-foreground hover:text-foreground hover:border-accent/40 font-heading text-xs tracking-wider"
                     onClick={() => setActiveInstructor(i)}
                   >
                     Подробнее
@@ -434,34 +614,93 @@ const Index = () => {
       </Dialog>
 
       {/* REVIEWS */}
-      <section className="py-14 md:py-28 px-4 md:px-8">
-        <div className="container mx-auto">
+      <section className="py-16 md:py-28 px-4 md:px-8 bg-card/30">
+        <div className="container mx-auto max-w-6xl">
           <AnimatedSection>
-            <h2 className="font-heading text-2xl sm:text-3xl md:text-5xl font-bold text-foreground text-center mb-8 md:mb-16">
+            <h2 className="font-heading text-2xl sm:text-3xl md:text-5xl font-bold text-foreground text-center mb-3">
               Реальные <span className="text-gradient">отзывы</span>
             </h2>
+            <p className="text-center text-muted-foreground text-sm mb-10 md:mb-14 max-w-2xl mx-auto">
+              Разделяем гражданский и силовой опыт — чтобы было проще соотнести с вашей задачей.
+            </p>
           </AnimatedSection>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-8 max-w-5xl mx-auto">
-            {[
-              { text: "На трассе попал в ДТП. Пострадавший истекал кровью. Я наложил турникет за 15 секунд — как на тренировке. Врачи сказали: ещё 3 минуты — и было бы поздно.", author: "Алексей, 34 года", role: "Выпускник «Тактическая медицина»", type: "civil" },
-              { text: "Дочь подавилась на площадке. Я не паниковала — сделала всё, как учили. Через 10 секунд она дышала.", author: "Мария, 28 лет", role: "Выпускница «Первая помощь»", type: "civil" },
-              { text: "После курса тактики действовал уверенно. Знал, как работать в группе, как входить в помещение, как прикрывать. Это не теория — это навык.", author: "Сергей, 29 лет", role: "Выпускник «Тактическая подготовка»", type: "military" },
-              { text: "Прошла женскую безопасность. Теперь иначе смотрю на привычные маршруты. Вижу опасности, знаю, как реагировать. Это спокойствие, а не паранойя.", author: "Екатерина, 31 год", role: "Выпускница «Женская безопасность»", type: "civil" },
-            ].map((story, i) => (
-              <AnimatedSection key={i} delay={i * 0.1}>
-                <div className={`rounded-lg p-6 border transition-all h-full ${story.type === "civil" ? "bg-civil border-[hsl(40,5%,80%)]" : "bg-card-gradient border-border"}`}>
-                  <div className="flex gap-1 mb-3">
-                    {[...Array(5)].map((_, j) => <Star key={j} className="w-3.5 h-3.5 fill-accent text-accent" />)}
-                  </div>
-                  <p className={`leading-relaxed mb-4 text-sm italic ${story.type === "civil" ? "text-civil" : "text-foreground"}`}>«{story.text}»</p>
-                  <div>
-                    <p className={`font-heading font-semibold text-sm ${story.type === "civil" ? "text-civil" : "text-foreground"}`}>{story.author}</p>
-                    <p className={`text-xs ${story.type === "civil" ? "text-civil-muted" : "text-muted-foreground"}`}>{story.role}</p>
-                  </div>
-                </div>
-              </AnimatedSection>
-            ))}
-          </div>
+
+          {(["civil", "military"] as const).map((segment) => (
+            <div key={segment} className="mb-12 last:mb-0">
+              <h3 className="font-heading text-xs tracking-[0.25em] text-accent text-center mb-6">
+                {segment === "civil" ? "ГРАЖДАНСКИЕ ФОРМАТЫ" : "СИЛОВОЙ ТРЕК"}
+              </h3>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
+                {[
+                  {
+                    text: "На трассе попал в ДТП. Пострадавший истекал кровью. Я наложил турникет за 15 секунд — как на тренировке. Врачи сказали: ещё 3 минуты — и было бы поздно.",
+                    author: "Алексей, 34 года",
+                    course: "Тактическая медицина",
+                    outcome: "Применил алгоритм на дороге — время работало на пострадавшего",
+                    type: "civil" as const,
+                  },
+                  {
+                    text: "Дочь подавилась на площадке. Я не паниковала — сделала всё, как учили. Через 10 секунд она дышала.",
+                    author: "Мария, 28 лет",
+                    course: "Первая помощь",
+                    outcome: "Спокойные действия вместо паники",
+                    type: "civil" as const,
+                  },
+                  {
+                    text: "После курса тактики действовал уверенно. Знал, как работать в группе, как входить в помещение, как прикрывать. Это не теория — это навык.",
+                    author: "Сергей, 29 лет",
+                    course: "Тактическая подготовка",
+                    outcome: "Уверенная работа в составе звена",
+                    type: "military" as const,
+                  },
+                  {
+                    text: "Освежил работу с АК и манипуляции под стрессом — на учениях меньше шума в голове, больше автоматизма и безопасности обращения.",
+                    author: "Иван, 32 года",
+                    course: "Оператор АК",
+                    outcome: "Спокойнее техника под нагрузкой",
+                    type: "military" as const,
+                  },
+                  {
+                    text: "Прошла женскую безопасность. Теперь иначе смотрю на привычные маршруты. Вижу опасности, знаю, как реагировать. Это спокойствие, а не паранойя.",
+                    author: "Екатерина, 31 год",
+                    course: "Женская безопасность",
+                    outcome: "Иначе читаю среду и риски",
+                    type: "civil" as const,
+                  },
+                ]
+                  .filter((s) => s.type === segment)
+                  .map((story, i) => (
+                    <AnimatedSection key={story.author} delay={i * 0.08}>
+                      <div
+                        className={`rounded-lg p-6 border h-full min-h-[260px] flex flex-col transition-all duration-300 hover:border-accent/35 hover:shadow-glow ${
+                          story.type === "civil" ? "bg-civil border-[hsl(40,5%,80%)]" : "bg-card-gradient border-border"
+                        }`}
+                      >
+                        <div className="flex flex-wrap items-center gap-2 mb-3">
+                          <span
+                            className={`text-[10px] font-heading tracking-wider uppercase px-2 py-0.5 rounded border ${
+                              story.type === "civil" ? "border-civil-muted text-civil" : "border-border text-muted-foreground"
+                            }`}
+                          >
+                            {story.course}
+                          </span>
+                          <div className="flex gap-0.5">
+                            {[...Array(5)].map((_, j) => (
+                              <Star key={j} className="w-3 h-3 fill-accent text-accent" />
+                            ))}
+                          </div>
+                        </div>
+                        <p className={`leading-relaxed mb-4 text-sm flex-1 ${story.type === "civil" ? "text-civil" : "text-foreground"}`}>«{story.text}»</p>
+                        <div className={`text-xs font-medium mb-2 ${story.type === "civil" ? "text-civil" : "text-accent"}`}>Итог: {story.outcome}</div>
+                        <div>
+                          <p className={`font-heading font-semibold text-sm ${story.type === "civil" ? "text-civil" : "text-foreground"}`}>{story.author}</p>
+                        </div>
+                      </div>
+                    </AnimatedSection>
+                  ))}
+              </div>
+            </div>
+          ))}
         </div>
       </section>
 
@@ -503,11 +742,15 @@ const Index = () => {
           <AnimatedSection delay={0.1}>
             <Accordion type="single" collapsible className="space-y-3">
               {faqData.map((item, i) => (
-                <AccordionItem key={i} value={`faq-${i}`} className="bg-card-gradient border border-border rounded-lg px-6 data-[state=open]:border-primary/30">
-                  <AccordionTrigger className="font-heading text-foreground text-left hover:no-underline py-5">
+                <AccordionItem
+                  key={i}
+                  value={`faq-${i}`}
+                  className="bg-card-gradient border border-border rounded-lg px-6 data-[state=open]:border-accent/35 data-[state=open]:shadow-glow transition-all duration-300"
+                >
+                  <AccordionTrigger className="font-heading text-foreground text-left hover:no-underline py-5 hover:text-accent/90 transition-colors">
                     {item.q}
                   </AccordionTrigger>
-                  <AccordionContent className="text-muted-foreground leading-relaxed pb-5">
+                  <AccordionContent className="text-muted-foreground leading-relaxed pb-5 text-sm md:text-[15px]">
                     {item.a}
                   </AccordionContent>
                 </AccordionItem>
@@ -518,30 +761,52 @@ const Index = () => {
       </section>
 
       {/* CONTACT / CTA */}
-      <section id="contacts" className="py-14 md:py-28 px-4 md:px-8 bg-card">
-        <div className="container mx-auto max-w-2xl text-center">
+      <section id="contact-cta" className="py-16 md:py-28 px-4 md:px-8 bg-gradient-to-b from-card to-background border-t border-border">
+        <div className="container mx-auto max-w-3xl text-center">
           <AnimatedSection>
-            <h2 className="font-heading text-2xl sm:text-3xl md:text-5xl font-bold text-foreground mb-3 sm:mb-4">
+            <h2 className="font-heading text-2xl sm:text-3xl md:text-5xl font-bold text-foreground mb-4 sm:mb-5 leading-tight">
               Не ждите, пока <span className="text-gradient">станет поздно</span>
             </h2>
-            <p className="text-muted-foreground mb-6 sm:mb-10 text-sm sm:text-lg">
-              Оставьте заявку — мы подберём курс под ваш уровень и задачи
+            <p className="text-muted-foreground mb-8 sm:mb-10 text-sm sm:text-lg leading-relaxed max-w-2xl mx-auto">
+              Оставьте заявку — поможем подобрать курс под ваш уровень, задачу и ближайшую доступную дату.
             </p>
           </AnimatedSection>
           <AnimatedSection delay={0.1}>
             <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center mb-6 sm:mb-8">
-              <Button onClick={() => setBookingOpen(true)} size="lg" className="w-full sm:w-auto bg-cta-gradient text-accent-foreground font-heading text-base sm:text-lg tracking-wider shadow-cta hover:opacity-90 animate-pulse-glow px-8 sm:px-10 py-5 sm:py-6">
+              <Button
+                type="button"
+                onClick={() => openBooking()}
+                size="lg"
+                className="w-full sm:w-auto bg-cta-gradient text-accent-foreground font-heading text-base sm:text-lg tracking-wider shadow-cta hover:opacity-95 px-8 sm:px-10 py-5 sm:py-6"
+              >
                 Записаться
+              </Button>
+              <Button
+                type="button"
+                variant="outline"
+                size="lg"
+                onClick={() => openQuiz()}
+                className="w-full sm:w-auto border-border text-foreground hover:bg-secondary font-heading tracking-wider px-8 py-5 sm:py-6"
+              >
+                Подобрать курс
               </Button>
             </div>
             <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center">
               <a href="https://t.me/ErmakCenter" target="_blank" rel="noopener noreferrer" className="w-full sm:w-auto">
-                <Button variant="outline" size="lg" className="w-full sm:w-auto border-primary/30 text-foreground hover:bg-primary/10 font-heading tracking-wider gap-2 px-6 sm:px-8 py-4 sm:py-5">
+                <Button
+                  variant="outline"
+                  size="lg"
+                  className="w-full sm:w-auto border-border text-foreground hover:border-accent/40 hover:bg-secondary/80 font-heading tracking-wider gap-2 px-6 sm:px-8 py-4 sm:py-5 transition-all"
+                >
                   <Send className="w-4 h-4" /> Написать в Telegram
                 </Button>
               </a>
               <a href="tel:+79994675684" className="w-full sm:w-auto">
-                <Button variant="outline" size="lg" className="w-full sm:w-auto border-primary/30 text-foreground hover:bg-primary/10 font-heading tracking-wider gap-2 px-6 sm:px-8 py-4 sm:py-5">
+                <Button
+                  variant="outline"
+                  size="lg"
+                  className="w-full sm:w-auto border-border text-foreground hover:border-accent/40 hover:bg-secondary/80 font-heading tracking-wider gap-2 px-6 sm:px-8 py-4 sm:py-5 transition-all"
+                >
                   <Phone className="w-4 h-4" /> Позвонить
                 </Button>
               </a>
@@ -549,9 +814,6 @@ const Index = () => {
           </AnimatedSection>
         </div>
       </section>
-
-      <BookingForm open={bookingOpen} onOpenChange={setBookingOpen} />
-      <QuizModal open={quizOpen} onOpenChange={setQuizOpen} onComplete={() => setBookingOpen(true)} />
     </div>
   );
 };

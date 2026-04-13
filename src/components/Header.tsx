@@ -3,7 +3,7 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Menu, X, Phone } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { motion, AnimatePresence } from "framer-motion";
-import BookingForm from "@/components/BookingForm";
+import { useLeadUi } from "@/contexts/LeadUiContext";
 
 const navItems = [
   { label: "Главная", href: "/" },
@@ -15,7 +15,7 @@ const navItems = [
 const Header = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
-  const [bookingOpen, setBookingOpen] = useState(false);
+  const { openBooking } = useLeadUi();
   const location = useLocation();
   const navigate = useNavigate();
 
@@ -61,7 +61,7 @@ const Header = () => {
               <Phone className="w-4 h-4" />
               +7 999 467 56 84
             </a>
-            <Button onClick={() => setBookingOpen(true)} className="bg-cta-gradient text-accent-foreground font-heading tracking-wider shadow-cta hover:opacity-90 transition-opacity">
+            <Button onClick={() => openBooking()} className="bg-cta-gradient text-accent-foreground font-heading tracking-wider shadow-cta hover:opacity-90 transition-opacity">
               Записаться
             </Button>
           </div>
@@ -88,7 +88,7 @@ const Header = () => {
                 <a href="tel:+79994675684" className="flex items-center gap-2 text-muted-foreground">
                   <Phone className="w-4 h-4" /> +7 999 467 56 84
                 </a>
-                <Button onClick={() => { setIsOpen(false); setBookingOpen(true); }} className="w-full bg-cta-gradient text-accent-foreground font-heading tracking-wider shadow-cta">
+                <Button onClick={() => { setIsOpen(false); openBooking(); }} className="w-full bg-cta-gradient text-accent-foreground font-heading tracking-wider shadow-cta">
                   Записаться
                 </Button>
               </div>
@@ -97,7 +97,6 @@ const Header = () => {
         </AnimatePresence>
       </header>
 
-      <BookingForm open={bookingOpen} onOpenChange={setBookingOpen} />
     </>
   );
 };

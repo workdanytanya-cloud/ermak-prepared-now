@@ -1,143 +1,52 @@
-import { useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
 import { motion, AnimatePresence } from "framer-motion";
-import { CheckCircle, AlertTriangle, Shield, Heart } from "lucide-react";
 import { Link } from "react-router-dom";
-
-type Direction = "civil" | "military" | null;
-
-interface QuizQuestion {
-  q: string;
-  options: { label: string; civil: number; military: number; skill: number }[];
-}
-
-const directionQuestion = {
-  q: "Какое направление подготовки вас интересует?",
-  options: [
-    { label: "Гражданское — защита себя и близких в повседневной жизни", value: "civil" as Direction },
-    { label: "Силовое — профессиональная тактическая подготовка", value: "military" as Direction },
-  ],
-};
-
-const civilQuestions: QuizQuestion[] = [
-  {
-    q: "Вы умеете остановить артериальное кровотечение с помощью жгута или турникета?",
-    options: [
-      { label: "Да, отрабатывал(а) на практике", civil: 3, military: 0, skill: 3 },
-      { label: "Знаю теорию, но не практиковал(а)", civil: 1, military: 0, skill: 1 },
-      { label: "Нет, не владею этим навыком", civil: 0, military: 0, skill: 0 },
-    ],
-  },
-  {
-    q: "Как вы поступите, если при вас человек потерял сознание и не дышит?",
-    options: [
-      { label: "Начну СЛР и попрошу вызвать скорую", civil: 3, military: 0, skill: 3 },
-      { label: "Вызову скорую и буду ждать", civil: 1, military: 0, skill: 1 },
-      { label: "Не знаю алгоритм действий", civil: 0, military: 0, skill: 0 },
-    ],
-  },
-  {
-    q: "Есть ли у вас навыки безопасного поведения при нападении или угрозе?",
-    options: [
-      { label: "Проходил(а) курсы самообороны / безопасности", civil: 3, military: 0, skill: 3 },
-      { label: "Интуитивно, без подготовки", civil: 1, military: 0, skill: 1 },
-      { label: "Нет, растеряюсь", civil: 0, military: 0, skill: 0 },
-    ],
-  },
-  {
-    q: "Какой формат обучения вам ближе?",
-    options: [
-      { label: "Короткий интенсив на 1–2 дня", civil: 1, military: 0, skill: 0 },
-      { label: "Развёрнутый курс с отработкой навыков", civil: 2, military: 0, skill: 0 },
-      { label: "Индивидуальная тренировка под мои задачи", civil: 3, military: 0, skill: 0 },
-    ],
-  },
-];
-
-const militaryQuestions: QuizQuestion[] = [
-  {
-    q: "Какой у вас опыт обращения с оружием?",
-    options: [
-      { label: "Регулярная практика, уверенно владею", civil: 0, military: 3, skill: 3 },
-      { label: "Базовый опыт (срочная служба / стрельбище)", civil: 0, military: 1, skill: 1 },
-      { label: "Без опыта обращения", civil: 0, military: 0, skill: 0 },
-    ],
-  },
-  {
-    q: "Знакомы ли вам протоколы тактической медицины (TCCC/ТССС)?",
-    options: [
-      { label: "Да, проходил подготовку и отрабатывал", civil: 0, military: 3, skill: 3 },
-      { label: "Слышал, но не практиковал", civil: 0, military: 1, skill: 1 },
-      { label: "Нет, не знаком", civil: 0, military: 0, skill: 0 },
-    ],
-  },
-  {
-    q: "Есть ли у вас опыт действий в составе группы (тактика, слаживание)?",
-    options: [
-      { label: "Да, проходил тактическую подготовку", civil: 0, military: 3, skill: 3 },
-      { label: "Только базовые навыки из армии", civil: 0, military: 1, skill: 1 },
-      { label: "Нет опыта", civil: 0, military: 0, skill: 0 },
-    ],
-  },
-  {
-    q: "Какая задача для вас приоритетна?",
-    options: [
-      { label: "Подготовка к контракту / командировке", civil: 0, military: 3, skill: 0 },
-      { label: "Повышение квалификации (действующий сотрудник)", civil: 0, military: 2, skill: 2 },
-      { label: "Базовая подготовка с нуля", civil: 0, military: 1, skill: 0 },
-    ],
-  },
-];
-
-const getCivilRecommendation = (skill: number) => {
-  if (skill >= 9) return { title: "Высокий уровень", text: "Вы уже владеете базовыми навыками. Рекомендуем продвинутые форматы для закрепления.", courses: ["tactical-medicine", "pistol", "individual"], color: "text-primary" };
-  if (skill >= 4) return { title: "Средний уровень", text: "Есть основа, но пробелы могут стоить дорого. Начните с практического курса.", courses: ["first-aid", "women-safety", "weekend-practice"], color: "text-accent" };
-  return { title: "Начальный уровень", text: "Вы не готовы к экстренной ситуации. Это нормально — и это можно исправить.", courses: ["first-aid", "women-safety"], color: "text-destructive" };
-};
-
-const getMilitaryRecommendation = (skill: number) => {
-  if (skill >= 9) return { title: "Продвинутый уровень", text: "Вы имеете серьёзную подготовку. Рекомендуем интенсивные форматы.", courses: ["field-intensive", "tactical-training", "engineering"], color: "text-primary" };
-  if (skill >= 4) return { title: "Базовый уровень", text: "Есть фундамент, но навыки нужно довести до автоматизма.", courses: ["ak-operator", "tactical-medicine", "pistol"], color: "text-accent" };
-  return { title: "Начальный уровень", text: "Начните с базовых курсов — они дадут необходимый минимум.", courses: ["ak-operator", "tactical-medicine", "weekend-practice"], color: "text-destructive" };
-};
-
-import { courses } from "@/data/courses";
+import { useMergedCourses } from "@/hooks/useMergedCourses";
+import {
+  buildQuizReason,
+  scoreCoursesByQuiz,
+  pickRecommendedCourses,
+  type CourseQuizAnswers,
+} from "@/lib/courseQuizEngine";
 
 interface Props {
   open: boolean;
   onOpenChange: (open: boolean) => void;
-  onComplete?: () => void;
+  onRequestBooking: (courseId?: string) => void;
 }
 
-const QuizModal = ({ open, onOpenChange, onComplete }: Props) => {
-  const [direction, setDirection] = useState<Direction>(null);
-  const [step, setStep] = useState(0);
-  const [skill, setSkill] = useState(0);
+const steps = ["audience", "experience", "priority", "urgency"] as const;
+
+const QuizModal = ({ open, onOpenChange, onRequestBooking }: Props) => {
+  const courses = useMergedCourses();
+  const [stepIndex, setStepIndex] = useState(0);
+  const [answers, setAnswers] = useState<CourseQuizAnswers>({
+    audience: null,
+    experience: null,
+    priority: null,
+    urgency: null,
+  });
   const [finished, setFinished] = useState(false);
 
-  const currentQuestions = direction === "civil" ? civilQuestions : militaryQuestions;
-
-  const handleDirectionSelect = (dir: Direction) => {
-    setDirection(dir);
-    setStep(0);
-    setSkill(0);
-  };
-
-  const handleAnswer = (option: { skill: number }) => {
-    const newSkill = skill + option.skill;
-    setSkill(newSkill);
-    if (step < currentQuestions.length - 1) {
-      setStep(step + 1);
-    } else {
-      setFinished(true);
+  useEffect(() => {
+    if (open) {
+      setStepIndex(0);
+      setAnswers({ audience: null, experience: null, priority: null, urgency: null });
+      setFinished(false);
     }
-  };
+  }, [open]);
+
+  const scores = useMemo(() => scoreCoursesByQuiz(answers, courses), [answers, courses]);
+  const ranked = useMemo(() => pickRecommendedCourses(scores, courses), [scores, courses]);
+  const primary = ranked[0];
+  const alternates = ranked.slice(1, 4);
+  const reason = primary ? buildQuizReason(primary, answers) : "";
 
   const reset = () => {
-    setDirection(null);
-    setStep(0);
-    setSkill(0);
+    setStepIndex(0);
+    setAnswers({ audience: null, experience: null, priority: null, urgency: null });
     setFinished(false);
   };
 
@@ -146,79 +55,181 @@ const QuizModal = ({ open, onOpenChange, onComplete }: Props) => {
     onOpenChange(false);
   };
 
-  const getResult = () => {
-    return direction === "civil" ? getCivilRecommendation(skill) : getMilitaryRecommendation(skill);
+  const setStep = (key: keyof CourseQuizAnswers, value: NonNullable<CourseQuizAnswers[typeof key]>) => {
+    setAnswers((a) => ({ ...a, [key]: value }));
+    if (stepIndex < steps.length - 1) {
+      setStepIndex((i) => i + 1);
+    } else {
+      setFinished(true);
+    }
   };
 
+  const currentKey = steps[stepIndex];
+
   return (
-    <Dialog open={open} onOpenChange={handleClose}>
-      <DialogContent className="bg-card border-border max-w-lg">
+    <Dialog open={open} onOpenChange={(v) => (v ? onOpenChange(true) : handleClose())}>
+      <DialogContent className="bg-card border-border max-w-lg data-[state=open]:animate-in data-[state=open]:fade-in-0 data-[state=open]:zoom-in-95 duration-200">
         <AnimatePresence mode="wait">
-          {!direction ? (
-            <motion.div key="direction" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -10 }}>
-              <DialogTitle className="font-heading text-xl text-foreground mb-2">Оценка готовности</DialogTitle>
-              <p className="text-muted-foreground text-sm mb-6">Выберите направление, чтобы определить ваш уровень подготовки</p>
-              <div className="space-y-3">
-                {directionQuestion.options.map((opt) => (
-                  <Button
-                    key={opt.value}
-                    variant="outline"
-                    onClick={() => handleDirectionSelect(opt.value)}
-                    className="w-full justify-start text-left h-auto py-4 px-4 bg-secondary border-border text-foreground hover:bg-muted hover:border-primary/50 font-body transition-all"
-                  >
-                    <div className="flex items-center gap-3">
-                      {opt.value === "civil" ? <Heart className="w-5 h-5 text-accent shrink-0" /> : <Shield className="w-5 h-5 text-primary shrink-0" />}
-                      <span>{opt.label}</span>
-                    </div>
-                  </Button>
-                ))}
-              </div>
-            </motion.div>
-          ) : !finished ? (
-            <motion.div key={`q-${step}`} initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }} transition={{ duration: 0.3 }}>
-              <div className="mb-2 flex justify-between items-center">
-                <DialogTitle className="text-xs text-muted-foreground font-body font-normal">
-                  {direction === "civil" ? "Гражданское" : "Силовое"} • Вопрос {step + 1} из {currentQuestions.length}
-                </DialogTitle>
-                <div className="h-1 flex-1 ml-4 bg-muted rounded-full overflow-hidden">
-                  <div className="h-full bg-primary transition-all duration-300 rounded-full" style={{ width: `${((step + 1) / currentQuestions.length) * 100}%` }} />
+          {!finished ? (
+            <motion.div
+              key={currentKey}
+              initial={{ opacity: 0, x: 12 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: -12 }}
+              transition={{ duration: 0.2 }}
+            >
+              <div className="mb-3 flex items-center gap-3">
+                <span className="text-[10px] uppercase tracking-widest text-muted-foreground font-heading">
+                  Подбор курса · {stepIndex + 1}/{steps.length}
+                </span>
+                <div className="h-1 flex-1 bg-muted rounded-full overflow-hidden">
+                  <div
+                    className="h-full bg-accent transition-all duration-300 rounded-full"
+                    style={{ width: `${((stepIndex + 1) / steps.length) * 100}%` }}
+                  />
                 </div>
               </div>
-              <h3 className="font-heading text-xl text-foreground mt-4 mb-6">{currentQuestions[step].q}</h3>
-              <div className="space-y-3">
-                {currentQuestions[step].options.map((opt, i) => (
-                  <Button key={i} variant="outline" onClick={() => handleAnswer(opt)} className="w-full justify-start text-left h-auto py-3 px-4 bg-secondary border-border text-foreground hover:bg-muted hover:border-primary/50 font-body transition-all">
-                    {opt.label}
-                  </Button>
-                ))}
-              </div>
+
+              {currentKey === "audience" && (
+                <>
+                  <DialogTitle className="font-heading text-xl text-foreground mb-4 pr-8">Для кого нужен курс?</DialogTitle>
+                  <div className="space-y-2">
+                    {(
+                      [
+                        { id: "self" as const, label: "Для себя" },
+                        { id: "family" as const, label: "Для семьи" },
+                        { id: "work" as const, label: "Для работы" },
+                        { id: "service" as const, label: "Для службы" },
+                      ] as const
+                    ).map((o) => (
+                      <Button
+                        key={o.id}
+                        type="button"
+                        variant="outline"
+                        className="w-full justify-start h-auto py-3 px-4 text-left bg-secondary/50 border-border hover:border-accent/50 hover:bg-secondary transition-all"
+                        onClick={() => setStep("audience", o.id)}
+                      >
+                        {o.label}
+                      </Button>
+                    ))}
+                  </div>
+                </>
+              )}
+
+              {currentKey === "experience" && (
+                <>
+                  <DialogTitle className="font-heading text-xl text-foreground mb-4 pr-8">Есть ли опыт?</DialogTitle>
+                  <div className="space-y-2">
+                    {(
+                      [
+                        { id: "none" as const, label: "Нет, начинаю с нуля" },
+                        { id: "basic" as const, label: "Базовый (служба, разовые тренировки)" },
+                        { id: "advanced" as const, label: "Уже занимался(лась) системно" },
+                      ] as const
+                    ).map((o) => (
+                      <Button
+                        key={o.id}
+                        type="button"
+                        variant="outline"
+                        className="w-full justify-start h-auto py-3 px-4 text-left bg-secondary/50 border-border hover:border-accent/50 hover:bg-secondary transition-all"
+                        onClick={() => setStep("experience", o.id)}
+                      >
+                        {o.label}
+                      </Button>
+                    ))}
+                  </div>
+                </>
+              )}
+
+              {currentKey === "priority" && (
+                <>
+                  <DialogTitle className="font-heading text-xl text-foreground mb-4 pr-8">Что сейчас важнее?</DialogTitle>
+                  <div className="space-y-2">
+                    {(
+                      [
+                        { id: "first-aid" as const, label: "Первая помощь в критике" },
+                        { id: "safety" as const, label: "Личная безопасность" },
+                        { id: "fire" as const, label: "Огневая подготовка" },
+                        { id: "tactics" as const, label: "Тактика / выездные интенсивы" },
+                      ] as const
+                    ).map((o) => (
+                      <Button
+                        key={o.id}
+                        type="button"
+                        variant="outline"
+                        className="w-full justify-start h-auto py-3 px-4 text-left bg-secondary/50 border-border hover:border-accent/50 hover:bg-secondary transition-all"
+                        onClick={() => setStep("priority", o.id)}
+                      >
+                        {o.label}
+                      </Button>
+                    ))}
+                  </div>
+                </>
+              )}
+
+              {currentKey === "urgency" && (
+                <>
+                  <DialogTitle className="font-heading text-xl text-foreground mb-4 pr-8">Насколько срочно хотите попасть?</DialogTitle>
+                  <div className="space-y-2">
+                    {(
+                      [
+                        { id: "soon" as const, label: "В ближайшую доступную дату" },
+                        { id: "researching" as const, label: "Пока изучаю варианты" },
+                      ] as const
+                    ).map((o) => (
+                      <Button
+                        key={o.id}
+                        type="button"
+                        variant="outline"
+                        className="w-full justify-start h-auto py-3 px-4 text-left bg-secondary/50 border-border hover:border-accent/50 hover:bg-secondary transition-all"
+                        onClick={() => setStep("urgency", o.id)}
+                      >
+                        {o.label}
+                      </Button>
+                    ))}
+                  </div>
+                </>
+              )}
             </motion.div>
           ) : (
-            <motion.div key="result" initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} className="py-4">
-              {(() => {
-                const r = getResult();
-                const Icon = r.color === "text-destructive" ? AlertTriangle : CheckCircle;
-                const recommendedCourses = courses.filter(c => r.courses.includes(c.id));
-                return (
-                  <>
-                    <Icon className={`w-14 h-14 mx-auto mb-4 ${r.color}`} />
-                    <DialogTitle className="font-heading text-2xl text-foreground mb-2 text-center">{r.title}</DialogTitle>
-                    <p className="text-muted-foreground mb-6 text-center">{r.text}</p>
-                    <p className="font-heading text-sm text-foreground mb-3">Рекомендуемые курсы:</p>
-                    <div className="space-y-2 mb-6">
-                      {recommendedCourses.map(c => (
-                        <Link key={c.id} to={`/course/${c.id}`} onClick={handleClose} className="block bg-secondary border border-border rounded-md p-3 hover:border-primary/50 transition-all">
-                          <p className="font-heading text-sm text-foreground">{c.title}</p>
-                          <p className="text-xs text-muted-foreground mt-1">{c.price}</p>
+            <motion.div key="result" initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.25 }} className="py-1">
+              <DialogTitle className="font-heading text-xl text-foreground mb-2 text-center">Рекомендуем начать с этого курса</DialogTitle>
+              {primary && (
+                <>
+                  <div className="rounded-lg border border-accent/30 bg-accent/5 p-4 mt-4 mb-3">
+                    <p className="font-heading text-lg text-foreground leading-tight">{primary.title}</p>
+                    <p className="text-sm text-muted-foreground mt-2 leading-relaxed">{reason}</p>
+                    <p className="text-accent font-heading text-xl mt-3">{primary.price.toLocaleString("ru-RU")} ₽</p>
+                  </div>
+                  <Button
+                    type="button"
+                    className="w-full bg-cta-gradient text-accent-foreground font-heading shadow-cta hover:opacity-95 mb-2"
+                    onClick={() => onRequestBooking(primary.id)}
+                  >
+                    Оставить заявку
+                  </Button>
+                  <Link to={`/courses?highlight=${primary.id}`} onClick={handleClose}>
+                    <Button type="button" variant="outline" className="w-full border-border text-foreground hover:bg-secondary mb-4">
+                      Смотреть все подходящие курсы
+                    </Button>
+                  </Link>
+                  {alternates.length > 0 && (
+                    <div className="space-y-2">
+                      <p className="text-xs uppercase tracking-widest text-muted-foreground font-heading">Ещё из подходящих</p>
+                      {alternates.map((c) => (
+                        <Link
+                          key={c.id}
+                          to={`/course/${c.id}`}
+                          onClick={handleClose}
+                          className="block rounded-md border border-border bg-secondary/30 px-3 py-2 text-sm text-foreground hover:border-accent/40 transition-colors"
+                        >
+                          {c.shortTitle}
                         </Link>
                       ))}
                     </div>
-                    <Button onClick={() => { handleClose(); onComplete?.(); }} className="w-full bg-cta-gradient text-accent-foreground font-heading shadow-cta">
-                      Записаться на курс
-                    </Button>
-                  </>
-                );
-              })()}
+                  )}
+                </>
+              )}
             </motion.div>
           )}
         </AnimatePresence>

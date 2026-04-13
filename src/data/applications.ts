@@ -5,10 +5,14 @@ export interface Application {
   name: string;
   phone: string;
   course: string;
+  /** Дата подачи заявки (короткий формат для списка) */
   date: string;
   status: AppStatus;
   comments: string[];
   createdAt: string;
+  /** Желаемая дата старта / комментарий клиента из формы */
+  desiredDate?: string;
+  comment?: string;
 }
 
 export const statusLabels: Record<AppStatus, string> = {

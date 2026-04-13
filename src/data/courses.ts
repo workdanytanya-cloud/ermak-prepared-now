@@ -1,3 +1,19 @@
+export type CourseAudience = "civil" | "military" | "both";
+
+/** Теги для фильтра каталога и квиза */
+export type CourseFilterTag =
+  | "civil"
+  | "military"
+  | "first-aid"
+  | "women-safety"
+  | "tactical-medicine"
+  | "firearms"
+  | "pistol"
+  | "individual"
+  | "events"
+  | "field"
+  | "tactics";
+
 export interface Course {
   id: string;
   title: string;
@@ -12,9 +28,13 @@ export interface Course {
   category: "medical" | "tactical" | "safety" | "complex" | "individual" | "events";
   format: string;
   spotsLeft: number;
+  /** Всего мест в типовой группе (для отображения «осталось X из Y») */
+  totalSpots?: number;
   nextDate: string;
   hasDate: boolean;
   image: string;
+  audience: CourseAudience;
+  filterTags: CourseFilterTag[];
   program: string[];
   forWhom: string[];
   pains: string[];
@@ -40,9 +60,12 @@ export const courses: Course[] = [
     category: "medical",
     format: "Практический интенсив",
     spotsLeft: 4,
+    totalSpots: 16,
     nextDate: "Апрель 2026",
     hasDate: false,
     image: "/first-aid-course.png",
+    audience: "civil",
+    filterTags: ["civil", "first-aid"],
     program: [
       "Правовые нормы оказания гражданской первой помощи",
       "Основные жизнеугрожающие и острые состояния",
@@ -86,9 +109,12 @@ export const courses: Course[] = [
     category: "safety",
     format: "Интенсив",
     spotsLeft: 8,
+    totalSpots: 14,
     nextDate: "18–19 апреля 2026",
     hasDate: true,
     image: "/women-safety.png",
+    audience: "civil",
+    filterTags: ["civil", "women-safety"],
     program: [
       "Кто может быть угрозой и как распознавать тревожные сигналы",
       "Чёткие модели поведения: как входить, выходить, ехать, сидеть, отказывать",
@@ -125,9 +151,12 @@ export const courses: Course[] = [
     category: "tactical",
     format: "Практический курс",
     spotsLeft: 5,
+    totalSpots: 14,
     nextDate: "Апрель 2026",
     hasDate: false,
     image: "/operator-ak.png",
+    audience: "both",
+    filterTags: ["military", "civil", "firearms"],
     program: [
       "Безопасность обращения с оружием",
       "Разборка/сборка, обслуживание, снаряжение магазина",
@@ -173,9 +202,12 @@ export const courses: Course[] = [
     category: "medical",
     format: "Курс с практикой",
     spotsLeft: 6,
+    totalSpots: 16,
     nextDate: "25–26 апреля 2026",
     hasDate: true,
     image: "/tactical-medicine-course.png",
+    audience: "both",
+    filterTags: ["civil", "military", "tactical-medicine", "first-aid"],
     program: [
       "Понятие «Красной», «Жёлтой», «Зелёной зоны» и действия в них",
       "Алгоритм К.У.Л.А.К. Б.А.Р.И.Н. / S-M.A.R.C.H.-P.A.W.S.",
@@ -223,9 +255,12 @@ export const courses: Course[] = [
     category: "tactical",
     format: "Практический курс",
     spotsLeft: 12,
+    totalSpots: 18,
     nextDate: "16–17 мая 2026",
     hasDate: true,
     image: "/tactical-trenches.png",
+    audience: "military",
+    filterTags: ["military", "tactics"],
     program: [
       "Особенности боевых действий в городской застройке",
       "Принципы и этапы штурма, отличие от зачистки",
@@ -266,9 +301,12 @@ export const courses: Course[] = [
     category: "tactical",
     format: "Практический курс",
     spotsLeft: 14,
+    totalSpots: 16,
     nextDate: "23–24 мая 2026",
     hasDate: true,
     image: "/applied-pistol.png",
+    audience: "both",
+    filterTags: ["military", "civil", "pistol", "firearms"],
     program: [
       "ТТХ оружия, меры безопасности",
       "Стойка, прицеливание, обработка спуска",
@@ -301,9 +339,12 @@ export const courses: Course[] = [
     category: "tactical",
     format: "Практический курс",
     spotsLeft: 16,
+    totalSpots: 20,
     nextDate: "30–31 мая 2026",
     hasDate: true,
     image: "/engineering-1.png",
+    audience: "military",
+    filterTags: ["military", "tactics", "field"],
     program: [
       "Устройство ручных гранат РГД-5, Ф1, РГ-42, РГО, РГН",
       "Устройство и разборка запала УЗРГМ-2, нюансы запала УДЗ",
@@ -347,9 +388,12 @@ export const courses: Course[] = [
     category: "complex",
     format: "Полевой выход",
     spotsLeft: 18,
+    totalSpots: 24,
     nextDate: "22–27 июня 2026",
     hasDate: true,
     image: "/field-intensive.png",
+    audience: "both",
+    filterTags: ["military", "civil", "field", "tactics", "firearms", "tactical-medicine"],
     program: [
       "Огневая подготовка: безопасность, манипуляции с АК, работа в движении",
       "Гранатометание: устройство гранат, тактическое применение",
@@ -389,9 +433,12 @@ export const courses: Course[] = [
     category: "individual",
     format: "Группа выходного дня",
     spotsLeft: 10,
+    totalSpots: 14,
     nextDate: "Еженедельно",
     hasDate: false,
     image: "/training-tactical.jpg",
+    audience: "military",
+    filterTags: ["military", "firearms", "tactics", "individual"],
     program: [
       "Огневая подготовка — холостая тренировка",
       "Сборка/разборка автомата, снаряжение магазина",
@@ -426,9 +473,12 @@ export const courses: Course[] = [
     category: "events",
     format: "Выездной формат",
     spotsLeft: 20,
+    totalSpots: 30,
     nextDate: "Любая дата",
     hasDate: false,
     image: "/training-tactical.jpg",
+    audience: "both",
+    filterTags: ["civil", "military", "events"],
     program: [
       "Корпоративные тренинги с командными эстафетами",
       "Тимбилдинг: тактические сценарии, работа в группе",
@@ -464,6 +514,8 @@ export const courses: Course[] = [
     nextDate: "Любая дата",
     hasDate: false,
     image: "/training-tactical.jpg",
+    audience: "both",
+    filterTags: ["civil", "military", "individual", "tactical-medicine", "firearms"],
     program: [
       "Огневая подготовка: ТТХ, сборка/разборка, манипуляции, работа с укрытиями",
       "Тактическая медицина: алгоритмы, жгуты, турникеты, эвакуация",
@@ -487,6 +539,20 @@ export const courses: Course[] = [
     location: "Красный проспект, 11, Новосибирск",
   },
 ];
+
+export const filterTagLabels: Record<CourseFilterTag, string> = {
+  civil: "Для гражданских",
+  military: "Для силовых",
+  "first-aid": "Первая помощь",
+  "women-safety": "Женская безопасность",
+  "tactical-medicine": "Тактическая медицина",
+  firearms: "Огневая подготовка",
+  pistol: "Прикладной пистолет",
+  individual: "Индивидуальные тренировки",
+  events: "Выездные мероприятия",
+  field: "Полевые / выездные интенсивы",
+  tactics: "Тактика / штурм",
+};
 
 export const categoryLabels: Record<string, string> = {
   medical: "Медицина",

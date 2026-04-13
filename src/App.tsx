@@ -6,6 +6,8 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import ScrollToTop from "@/components/ScrollToTop";
+import MobileStickyCta from "@/components/MobileStickyCta";
+import { LeadUiProvider } from "@/contexts/LeadUiContext";
 import Index from "./pages/Index.tsx";
 import CoursesPage from "./pages/CoursesPage.tsx";
 import CourseDetailPage from "./pages/CourseDetailPage.tsx";
@@ -20,16 +22,19 @@ const App = () => (
       <Toaster />
       <Sonner />
       <BrowserRouter>
-        <ScrollToTop />
-        <Header />
-        <Routes>
-          <Route path="/" element={<Index />} />
-          <Route path="/courses" element={<CoursesPage />} />
-          <Route path="/course/:id" element={<CourseDetailPage />} />
-          <Route path="/admin" element={<AdminPage />} />
-          <Route path="*" element={<NotFound />} />
-        </Routes>
-        <Footer />
+        <LeadUiProvider>
+          <ScrollToTop />
+          <Header />
+          <Routes>
+            <Route path="/" element={<Index />} />
+            <Route path="/courses" element={<CoursesPage />} />
+            <Route path="/course/:id" element={<CourseDetailPage />} />
+            <Route path="/admin" element={<AdminPage />} />
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+          <Footer />
+          <MobileStickyCta />
+        </LeadUiProvider>
       </BrowserRouter>
     </TooltipProvider>
   </QueryClientProvider>
