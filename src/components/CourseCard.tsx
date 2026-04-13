@@ -26,7 +26,7 @@ const CourseCard = ({ course, lightMode }: Props) => {
     course.spotsLeft <= 3
       ? "Набор почти закрыт"
       : course.spotsLeft <= 5
-        ? `Осталось ${course.spotsLeft} места`
+        ? `Осталось ${course.spotsLeft} ${course.spotsLeft === 5 ? 'мест' : 'места'}`
         : null;
 
   const handleDateInquiry = (e: React.FormEvent) => {
@@ -88,7 +88,7 @@ const CourseCard = ({ course, lightMode }: Props) => {
           <p className={`text-[11px] sm:text-xs mb-2 font-medium uppercase tracking-wide ${lightMode ? "text-accent" : "text-accent"}`}>
             Для кого: <span className={`font-body normal-case ${lightMode ? "text-civil-muted" : "text-muted-foreground"}`}>{forWhomShort}</span>
           </p>
-          <p className={`text-xs sm:text-sm mb-3 line-clamp-2 flex-1 leading-relaxed ${lightMode ? "text-civil-muted" : "text-muted-foreground"}`}>
+          <p className={`text-xs mb-3 line-clamp-2 flex-1 leading-relaxed ${lightMode ? "text-civil-muted" : "text-muted-foreground"} sm:text-xs`}>
             <span className={`font-heading text-[10px] uppercase tracking-wider ${lightMode ? "text-civil" : "text-foreground"}`}>Результат: </span>
             {course.result}
           </p>
