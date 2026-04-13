@@ -41,8 +41,8 @@ const faqData = [
 ];
 
 const trustItems = [
-  { icon: Crosshair, title: "Практика, а не лекции", text: "Отработка навыков на сценариях, близких к реальности." },
-  { icon: GraduationCap, title: "Инструкторы с опытом", text: "Многолетняя служебная и преподавательская практика." },
+  { icon: Crosshair, title: "Практика, а не нудные лекции", text: "Отработка навыков на сценариях,  максимально близких к реальности." },
+  { icon: GraduationCap, title: "Инструкторы с реальным опытом", text: "Многолетняя служебная и преподавательская практика." },
   { icon: Sparkles, title: "Прикладные сценарии", text: "Город, дорога, быт, работа — не абстрактные «кейсы из интернета»." },
   { icon: ShieldCheck, title: "Гражданские и силовые треки", text: "Понятное разделение задач: жизнь/семья и служба/профессия." },
   { icon: Heart, title: "Навыки «на сейчас»", text: "То, что применимо, когда помощь нужна немедленно." },
@@ -57,7 +57,7 @@ const instructorsData = [
     role: "Руководитель ЦСП «ЕРМАК»",
     photo: "/instructor-danyukin.png",
     specialization: "Тактическая и огневая подготовка, работа с группами",
-    experienceLabel: "Служебный и инструкторский опыт — многие годы",
+    experienceLabel: "Служебный и инструкторский опыт — с 2012 года, участник БД",
     directions: ["Огневая подготовка", "ТСП", "Детские лагеря"],
     fullExp: `Данюкин Андрей Игоревич – руководитель центра специальной подготовки "Ермак", а также тренер СК "РОСТ".
 
@@ -83,8 +83,8 @@ const instructorsData = [
     name: "Дедов Михаил Владимирович",
     role: "Старший инструктор",
     photo: "/instructor-dedov.jpg",
-    specialization: "Рукопашный бой, стрельба, спецподготовка",
-    experienceLabel: "Инструктор с 2014 года, участник БД",
+    specialization: "Такмед и первая помощь, стрельба, спецподготовка",
+    experienceLabel: "Инструктор с 2014 года, ВМА им. Кирова, участник БД",
     directions: ["Ножевой бой", "Тактика", "Такмед"],
     fullExp: `Дедов Михаил Владимирович — старший инструктор центра специальной подготовки "Ермак".
 
@@ -137,7 +137,7 @@ const instructorsData = [
     role: "Инструктор",
     photo: "/instructor-voronkov.jpg",
     specialization: "Тактическая медицина и первая помощь",
-    experienceLabel: "Педагогическое образование, фельдшер",
+    experienceLabel: "Педагогическое образование, фельдшер, ВМА им. Кирова",
     directions: ["Такмед", "Первая помощь"],
     fullExp: `Воронков Алексей Евгеньевич — инструктор центра специальной подготовки "Ермак".
 
@@ -322,7 +322,7 @@ const Index = () => {
               Почему нам <span className="text-gradient">доверяют</span>
             </h2>
             <p className="text-center text-muted-foreground text-sm max-w-2xl mx-auto mb-8 md:mb-12 leading-relaxed">
-              Коротко — без лозунгов. То, что видят люди после первой же отработки.
+              То, что видят люди после первой же отработки.
             </p>
           </AnimatedSection>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3 md:gap-4">
@@ -564,7 +564,7 @@ const Index = () => {
                   <h3 className="font-heading text-sm sm:text-base font-semibold text-foreground leading-tight text-center sm:text-left">{inst.name}</h3>
                   <p className="text-[11px] sm:text-xs text-accent mb-2 text-center sm:text-left font-heading tracking-wide">{inst.role}</p>
                   <p className="text-xs text-foreground/90 leading-snug mb-1">
-                    <span className="text-muted-foreground font-heading text-[10px] uppercase tracking-wider">Специализация</span>
+                    <span className="text-muted-foreground font-heading text-[10px] uppercase tracking-wider">СПЕЦИАЛИЗАЦИЯ</span>
                     <br />
                     {inst.specialization}
                   </p>
@@ -621,7 +621,7 @@ const Index = () => {
               Реальные <span className="text-gradient">отзывы</span>
             </h2>
             <p className="text-center text-muted-foreground text-sm mb-10 md:mb-14 max-w-2xl mx-auto">
-              Разделяем гражданский и силовой опыт — чтобы было проще соотнести с вашей задачей.
+              ​
             </p>
           </AnimatedSection>
 
@@ -640,7 +640,7 @@ const Index = () => {
                     type: "civil" as const,
                   },
                   {
-                    text: "Дочь подавилась на площадке. Я не паниковала — сделала всё, как учили. Через 10 секунд она дышала.",
+                    text: "Дочь подавилась на площадке. Я не практически без паники — сделала всё, как учили. Через 10 секунд она дышала.",
                     author: "Мария, 28 лет",
                     course: "Первая помощь",
                     outcome: "Спокойные действия вместо паники",
@@ -716,7 +716,7 @@ const Index = () => {
             {[
               { step: "01", title: "Практика с первого часа", text: "Минимум лекций. Берёте в руки, делаете, разбираете ошибки.", icon: Target },
               { step: "02", title: "Реальные сценарии", text: "Не абстрактная теория — а ситуации, взятые из жизни и боевого опыта.", icon: Shield },
-              { step: "03", title: "Стресс-факторы", text: "Давление, ограниченное время, шум. Как в реальной ситуации.", icon: AlertTriangle },
+              { step: "03", title: "Стресс-факторы", text: "Давление, ограниченное время, шум, истерики окружающих. Как в реальной ситуации.", icon: AlertTriangle },
               { step: "04", title: "Минимальная теория", text: "Только то, что нужно для практики. Без воды и слайдов.", icon: Clock },
             ].map((s, i) => (
               <AnimatedSection key={i} delay={i * 0.1}>
