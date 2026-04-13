@@ -287,7 +287,7 @@ const Index = () => {
                 type="button"
                 size="lg"
                 variant="outline"
-                className="w-full sm:flex-1 border-white/25 bg-background/70 backdrop-blur-md text-foreground hover:bg-background/90 hover:border-accent/50 font-heading tracking-wide py-5"
+                className="w-full sm:flex-1 border-white/25 bg-background/70 backdrop-blur-md text-foreground hover:bg-background/90 hover:text-foreground hover:border-accent/50 font-heading tracking-wide py-5"
                 onClick={() => scrollToId("civil")}
               >
                 Я для себя
@@ -296,7 +296,7 @@ const Index = () => {
                 type="button"
                 size="lg"
                 variant="outline"
-                className="w-full sm:flex-1 border-white/25 bg-background/70 backdrop-blur-md text-foreground hover:bg-background/90 hover:border-accent/50 font-heading tracking-wide py-5"
+                className="w-full sm:flex-1 border-white/25 bg-background/70 backdrop-blur-md text-foreground hover:bg-background/90 hover:text-foreground hover:border-accent/50 font-heading tracking-wide py-5"
                 onClick={() => scrollToId("military")}
               >
                 Я для службы / работы
