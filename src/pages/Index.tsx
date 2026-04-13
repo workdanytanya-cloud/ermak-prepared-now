@@ -564,7 +564,7 @@ const Index = () => {
                   <h3 className="font-heading text-sm sm:text-base font-semibold text-foreground leading-tight text-center sm:text-left">{inst.name}</h3>
                   <p className="text-[11px] sm:text-xs text-accent mb-2 text-center sm:text-left font-heading tracking-wide">{inst.role}</p>
                   <p className="text-xs text-foreground/90 leading-snug mb-1">
-                    <span className="text-muted-foreground font-heading text-[10px] uppercase tracking-wider">Специализация</span>
+                    <span className="text-muted-foreground font-heading text-[10px] uppercase tracking-wider">СПЕЦИАЛИЗАЦИЯ</span>
                     <br />
                     {inst.specialization}
                   </p>
