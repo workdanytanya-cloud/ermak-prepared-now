@@ -220,10 +220,10 @@ const Index = () => {
   return (
     <div className="min-h-screen pb-28 md:pb-0">
       {/* SPLIT HERO */}
-      <section className="relative min-h-[100svh] flex flex-col md:flex-row overflow-hidden">
+      <section className="relative flex flex-col md:min-h-[100svh] md:flex-row overflow-hidden">
         {/* Civil side */}
         <motion.div
-          className="relative flex-1 min-h-[50svh] md:min-h-0 flex items-center justify-center cursor-pointer overflow-hidden"
+          className="relative flex-1 min-h-[46svh] md:min-h-0 flex items-center justify-center cursor-pointer overflow-hidden"
           animate={{ flex: hoveredSide === "civil" ? 1.06 : hoveredSide === "military" ? 0.94 : 1 }}
           transition={{ duration: 0.4, ease: "easeOut" }}
           onMouseEnter={() => setHoveredSide("civil")}
@@ -233,7 +233,7 @@ const Index = () => {
             <img src="/hero-civil.jpg" alt="Гражданская подготовка" className="w-full h-full object-cover" width={960} height={1080} />
             <div className="absolute inset-0 bg-gradient-to-b from-[hsl(40,10%,20%)]/70 via-[hsl(40,10%,15%)]/50 to-[hsl(40,10%,10%)]/80" />
           </div>
-          <div className="relative z-10 text-center px-4 sm:px-6 py-12 md:py-0 max-w-lg flex flex-col items-center justify-end md:justify-center md:h-auto h-full pb-36 md:pb-0">
+          <div className="relative z-10 text-center px-4 sm:px-6 py-12 md:py-0 max-w-lg flex flex-col items-center justify-center">
             <p className="font-heading text-[10px] sm:text-xs tracking-[0.3em] text-[hsl(40,10%,80%)] mb-2 sm:mb-3">​</p>
             <h2 className="font-heading text-3xl sm:text-4xl md:text-4xl lg:text-5xl font-bold text-white leading-[0.95] mb-3 sm:mb-4 min-h-[2.4em] md:min-h-[3em] flex items-end justify-center">
               <span className="text-5xl">ГРАЖДАНСКАЯ<br />ПОДГОТОВКА</span>
@@ -241,7 +241,7 @@ const Index = () => {
             <p className="text-[hsl(40,10%,80%)] text-sm sm:text-base md:text-base lg:text-lg mb-5 sm:mb-6 font-body h-12 flex items-center">
               Навыки, которые помогут защитить себя и близких
             </p>
-            <a href="#civil">
+            <a href="#civil" className="hidden md:block">
               <Button size="lg" className="bg-cta-gradient text-accent-foreground font-heading text-base sm:text-lg tracking-wider shadow-cta hover:opacity-90 px-6 sm:px-8 py-5 sm:py-6">
                 Смотреть курсы
               </Button>
@@ -249,9 +249,44 @@ const Index = () => {
           </div>
         </motion.div>
 
+        {/* Mobile CTA buttons between sections */}
+        <div className="relative z-30 md:hidden bg-background py-5 px-4">
+          <p className="text-center font-heading text-[9px] tracking-[0.2em] text-muted-foreground mb-4">
+            НАВЫКИ, КОТОРЫЕ НЕ РАБОТАЮТ «НА ГЛАЗ» — ИХ НУЖНО ПРОЖИТЬ РУКАМИ
+          </p>
+          <div className="flex flex-col gap-3 max-w-sm mx-auto">
+            <Button
+              type="button"
+              size="lg"
+              variant="outline"
+              className="w-full border-border bg-card/60 text-foreground hover:bg-secondary hover:text-foreground font-heading tracking-wide py-5"
+              onClick={() => scrollToId("civil")}
+            >
+              Я для себя
+            </Button>
+            <Button
+              type="button"
+              size="lg"
+              variant="outline"
+              className="w-full border-border bg-card/60 text-foreground hover:bg-secondary hover:text-foreground font-heading tracking-wide py-5"
+              onClick={() => scrollToId("military")}
+            >
+              Я для службы / работы
+            </Button>
+            <Button
+              type="button"
+              size="lg"
+              className="w-full bg-cta-gradient text-accent-foreground font-heading tracking-wider shadow-cta hover:opacity-95 py-5"
+              onClick={() => openQuiz()}
+            >
+              Подобрать курс
+            </Button>
+          </div>
+        </div>
+
         {/* Military side */}
         <motion.div
-          className="relative flex-1 min-h-[50svh] md:min-h-0 flex items-center justify-center cursor-pointer overflow-hidden"
+          className="relative flex-1 min-h-[46svh] md:min-h-0 flex items-center justify-center cursor-pointer overflow-hidden"
           animate={{ flex: hoveredSide === "military" ? 1.06 : hoveredSide === "civil" ? 0.94 : 1 }}
           transition={{ duration: 0.4, ease: "easeOut" }}
           onMouseEnter={() => setHoveredSide("military")}
@@ -261,15 +296,15 @@ const Index = () => {
             <img src="/hero-military.jpg" alt="Подготовка для силовых" className="w-full h-full object-cover" width={960} height={1080} />
             <div className="absolute inset-0 bg-gradient-to-b from-[hsl(220,20%,8%)]/80 via-[hsl(220,20%,8%)]/60 to-[hsl(220,20%,8%)]/90" />
           </div>
-          <div className="relative z-10 text-center px-4 sm:px-6 py-12 md:py-0 max-w-lg flex flex-col items-center justify-end md:justify-center md:h-auto h-full pb-36 md:pb-0">
+          <div className="relative z-10 text-center px-4 sm:px-6 py-12 md:py-0 max-w-lg flex flex-col items-center justify-center">
             <p className="font-heading text-[10px] sm:text-xs tracking-[0.3em] text-military-muted mb-2 sm:mb-3">​</p>
             <h2 className="font-heading text-3xl sm:text-4xl md:text-4xl lg:text-5xl font-bold text-military leading-[0.95] mb-3 sm:mb-4 min-h-[2.4em] md:min-h-[3em] flex items-end justify-center">
-              <span className="text-5xl">ПОДГОТОВКА<br /> СИЛОВЫХ<br />НАПРАВЛЕНИЙ</span>
+              <span className="text-5xl">ПОДГОТОВКА<br /> СИЛОВЫХ<br />НАПРАВЛЕНИЙ</span>
             </h2>
             <p className="text-military-muted text-sm sm:text-base md:text-base lg:text-lg mb-5 sm:mb-6 font-body h-12 flex items-center">
               Навыки, от которых зависит жизнь<br /><br />
             </p>
-            <a href="#military">
+            <a href="#military" className="hidden md:block">
               <Button size="lg" className="bg-cta-gradient text-accent-foreground font-heading text-base sm:text-lg tracking-wider shadow-cta hover:opacity-90 px-6 sm:px-8 py-5 sm:py-6">
                 Смотреть курсы
               </Button>
@@ -277,17 +312,18 @@ const Index = () => {
           </div>
         </motion.div>
 
-        <div className="absolute bottom-0 left-0 right-0 z-30 pointer-events-none bg-gradient-to-t from-background via-background/90 to-transparent pt-16 pb-4 md:pb-6">
+        {/* Desktop overlay buttons */}
+        <div className="absolute bottom-0 left-0 right-0 z-30 pointer-events-none bg-gradient-to-t from-background via-background/90 to-transparent pt-16 pb-4 md:pb-6 hidden md:block">
           <div className="pointer-events-auto container mx-auto px-3 sm:px-4">
-            <p className="text-center font-heading text-[9px] sm:text-[10px] tracking-[0.2em] text-muted-foreground mb-3">
+            <p className="text-center font-heading text-[10px] tracking-[0.2em] text-muted-foreground mb-3">
               НАВЫКИ, КОТОРЫЕ НЕ РАБОТАЮТ «НА ГЛАЗ» — ИХ НУЖНО ПРОЖИТЬ РУКАМИ
             </p>
-            <div className="flex flex-col sm:flex-row gap-2 sm:gap-3 justify-center items-stretch sm:items-center max-w-4xl mx-auto">
+            <div className="flex flex-row gap-3 justify-center items-center max-w-4xl mx-auto">
               <Button
                 type="button"
                 size="lg"
                 variant="outline"
-                className="w-full sm:flex-1 border-white/25 bg-background/70 backdrop-blur-md text-foreground hover:bg-background/90 hover:text-foreground hover:border-accent/50 font-heading tracking-wide py-5"
+                className="flex-1 border-white/25 bg-background/70 backdrop-blur-md text-foreground hover:bg-background/90 hover:text-foreground hover:border-accent/50 font-heading tracking-wide py-5"
                 onClick={() => scrollToId("civil")}
               >
                 Я для себя
@@ -296,7 +332,7 @@ const Index = () => {
                 type="button"
                 size="lg"
                 variant="outline"
-                className="w-full sm:flex-1 border-white/25 bg-background/70 backdrop-blur-md text-foreground hover:bg-background/90 hover:text-foreground hover:border-accent/50 font-heading tracking-wide py-5"
+                className="flex-1 border-white/25 bg-background/70 backdrop-blur-md text-foreground hover:bg-background/90 hover:text-foreground hover:border-accent/50 font-heading tracking-wide py-5"
                 onClick={() => scrollToId("military")}
               >
                 Я для службы / работы
@@ -304,7 +340,7 @@ const Index = () => {
               <Button
                 type="button"
                 size="lg"
-                className="w-full sm:flex-1 bg-cta-gradient text-accent-foreground font-heading tracking-wider shadow-cta hover:opacity-95 py-5"
+                className="flex-1 bg-cta-gradient text-accent-foreground font-heading tracking-wider shadow-cta hover:opacity-95 py-5"
                 onClick={() => openQuiz()}
               >
                 Подобрать курс
