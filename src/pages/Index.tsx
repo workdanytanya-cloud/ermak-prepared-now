@@ -258,7 +258,7 @@ const Index = () => {
       {/* SPLIT HERO */}
       <section className="relative min-h-[100svh] flex flex-col overflow-hidden">
         {/* Hero title — static on mobile, absolute on md+ */}
-        <div className="relative z-30 pt-20 pb-6 px-4 bg-gradient-to-b from-[hsl(220,20%,7%)] to-[hsl(220,20%,7%)]/80 md:absolute md:top-0 md:left-0 md:right-0 md:bg-transparent md:pt-20 md:pb-0">
+        <div className="relative z-30 pt-20 pb-6 px-4 bg-gradient-to-b from-[hsl(220,20%,7%)] to-[hsl(220,20%,7%)]/80 md:absolute md:top-0 md:left-0 md:right-0 md:bg-none md:pt-20 md:pb-0">
           <div className="container mx-auto text-center max-w-4xl">
             <h1 className="font-heading text-xl sm:text-2xl md:text-4xl lg:text-5xl font-bold text-white leading-tight mb-2">
               Навыки, которые работают в реальных ситуациях - не в теории
