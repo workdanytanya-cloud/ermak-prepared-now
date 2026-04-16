@@ -336,7 +336,8 @@ const Index = () => {
           </div>
         </motion.div>
         </div>
-        <div className="absolute bottom-0 left-0 right-0 z-30 pointer-events-none bg-gradient-to-t from-background via-background/80 to-transparent pt-12 pb-4 md:pb-6">
+        {/* Bottom CTA bar — static on mobile to avoid overlap */}
+        <div className="relative md:absolute md:bottom-0 md:left-0 md:right-0 z-30 pointer-events-none bg-gradient-to-t from-background via-background/80 to-transparent pt-6 md:pt-12 pb-4 md:pb-6">
           <div className="pointer-events-auto container mx-auto px-3 sm:px-4">
             <p className="text-center font-heading text-[9px] sm:text-[10px] tracking-[0.2em] text-muted-foreground mb-3">
               ОГРАНИЧЕННЫЕ ГРУППЫ. ПРАКТИКА С ИНСТРУКТОРАМИ.
