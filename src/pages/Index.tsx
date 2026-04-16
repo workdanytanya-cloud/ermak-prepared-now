@@ -519,7 +519,7 @@ const Index = () => {
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-4 md:gap-6 max-w-7xl mx-auto">
             {instructors.map((inst, i) => (
               <AnimatedSection key={i} delay={i * 0.08}>
-                <div className="text-left p-4 sm:p-5 bg-card-gradient border border-border rounded-lg hover:border-accent/35 hover:shadow-glow transition-all duration-300 h-full min-h-[420px] flex flex-col">
+                <div className="text-left p-4 sm:p-5 bg-card-gradient border border-border rounded-lg hover:border-accent/35 hover:shadow-glow transition-all duration-300 h-full min-h-[320px] sm:min-h-[420px] flex flex-col">
                   <div className="w-20 h-20 rounded-full mb-4 overflow-hidden border-2 border-accent/30 shrink-0 mx-auto sm:mx-0">
                     <img src={inst.photo} alt={inst.name} className="w-full h-full object-cover" loading="lazy" />
                   </div>
