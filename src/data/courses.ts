@@ -20,6 +20,14 @@ export interface Course {
   shortTitle: string;
   description: string;
   result: string;
+  /** Боль / ситуация для карточки */
+  situation: string;
+  /** Конкретика — что будет на курсе (3 пункта) */
+  specifics: string[];
+  /** Триггер срочности */
+  trigger: string;
+  /** Микро-дожим под CTA */
+  microPush: string;
   price: number;
   priceNote?: string;
   duration: string;
