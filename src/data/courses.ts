@@ -516,7 +516,7 @@ export const courses: Course[] = [
     totalSpots: 14,
     nextDate: "Еженедельно",
     hasDate: false,
-    image: "/training-tactical.jpg",
+    image: "/weekend-practice.png",
     audience: "military",
     filterTags: ["military", "firearms", "tactics", "individual"],
     program: [
@@ -564,7 +564,7 @@ export const courses: Course[] = [
     totalSpots: 30,
     nextDate: "Любая дата",
     hasDate: false,
-    image: "/training-tactical.jpg",
+    image: "/individual-training.png",
     audience: "both",
     filterTags: ["civil", "military", "events"],
     program: [
