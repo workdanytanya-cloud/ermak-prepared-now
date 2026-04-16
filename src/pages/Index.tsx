@@ -256,10 +256,11 @@ const Index = () => {
   return (
     <div className="min-h-screen pb-28 md:pb-0">
       {/* SPLIT HERO */}
-      <section className="relative min-h-[100svh] flex flex-col md:flex-row overflow-hidden">
-        <div className="absolute top-0 left-0 right-0 z-30 pt-16 md:pt-20 px-4">
+      <section className="relative min-h-[100svh] flex flex-col overflow-hidden">
+        {/* Hero title — static on mobile, absolute on md+ */}
+        <div className="relative z-30 pt-20 pb-6 px-4 bg-gradient-to-b from-[hsl(220,20%,7%)] to-[hsl(220,20%,7%)]/80 md:absolute md:top-0 md:left-0 md:right-0 md:bg-transparent md:pt-20 md:pb-0">
           <div className="container mx-auto text-center max-w-4xl">
-            <h1 className="font-heading text-xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-white leading-tight mb-2">
+            <h1 className="font-heading text-xl sm:text-2xl md:text-4xl lg:text-5xl font-bold text-white leading-tight mb-2">
               Навыки, которые работают в реальных ситуациях - не в теории
             </h1>
             <p className="text-[hsl(40,10%,78%)] text-xs sm:text-sm font-body font-normal leading-relaxed md:text-sm">
@@ -268,9 +269,12 @@ const Index = () => {
             </p>
           </div>
         </div>
+
+        {/* Two halves */}
+        <div className="flex flex-col md:flex-row flex-1">
         {/* Civil side */}
         <motion.div
-          className="relative flex-1 min-h-[50svh] md:min-h-0 flex items-center justify-center cursor-pointer overflow-hidden"
+          className="relative flex-1 min-h-[44svh] md:min-h-0 flex items-center justify-center cursor-pointer overflow-hidden"
           animate={{ flex: hoveredSide === "civil" ? 1.06 : hoveredSide === "military" ? 0.94 : 1 }}
           transition={{ duration: 0.4, ease: "easeOut" }}
           onMouseEnter={() => setHoveredSide("civil")}
@@ -280,14 +284,14 @@ const Index = () => {
             <img src="/hero-civil.jpg" alt="Гражданская подготовка" className="w-full h-full object-cover" width={960} height={1080} />
             <div className="absolute inset-0 bg-gradient-to-b from-[hsl(40,10%,20%)]/70 via-[hsl(40,10%,15%)]/50 to-[hsl(40,10%,10%)]/80" />
           </div>
-          <div className="relative z-10 text-center px-4 sm:px-6 py-12 md:py-0 max-w-lg flex flex-col items-center justify-end md:justify-center md:h-auto h-full pb-28 md:pb-0">
-            <h2 className="font-heading text-2xl sm:text-3xl lg:text-4xl font-bold text-white leading-[0.95] mb-3 sm:mb-4 md:text-2xl">
+          <div className="relative z-10 text-center px-4 sm:px-6 py-8 md:py-0 max-w-lg flex flex-col items-center justify-center">
+            <h2 className="font-heading text-2xl sm:text-3xl lg:text-4xl font-bold text-white leading-[0.95] mb-2 sm:mb-4 md:text-2xl">
               ГРАЖДАНСКИЕ
             </h2>
-            <p className="text-[hsl(40,10%,72%)] text-xs sm:text-sm md:text-base mb-3 font-body font-normal">
+            <p className="text-[hsl(40,10%,72%)] text-xs sm:text-sm md:text-base mb-2 sm:mb-3 font-body font-normal">
               Если рядом станет плохо - Вы знаете, что делать?
             </p>
-            <ul className="text-[hsl(40,10%,72%)] text-[11px] sm:text-xs mb-5 sm:mb-6 text-left space-y-1">
+            <ul className="text-[hsl(40,10%,72%)] text-[11px] sm:text-xs mb-4 sm:mb-6 text-left space-y-1">
               <li className="flex items-center gap-1"><ChevronRight className="w-3 h-3" /> Первая помощь</li>
               <li className="flex items-center gap-1"><ChevronRight className="w-3 h-3" /> Самооборона</li>
               <li className="flex items-center gap-1"><ChevronRight className="w-3 h-3" /> Поведение в опасных ситуациях</li>
@@ -302,7 +306,7 @@ const Index = () => {
 
         {/* Military side */}
         <motion.div
-          className="relative flex-1 min-h-[50svh] md:min-h-0 flex items-center justify-center cursor-pointer overflow-hidden"
+          className="relative flex-1 min-h-[44svh] md:min-h-0 flex items-center justify-center cursor-pointer overflow-hidden"
           animate={{ flex: hoveredSide === "military" ? 1.06 : hoveredSide === "civil" ? 0.94 : 1 }}
           transition={{ duration: 0.4, ease: "easeOut" }}
           onMouseEnter={() => setHoveredSide("military")}
@@ -312,14 +316,14 @@ const Index = () => {
             <img src="/hero-military.jpg" alt="Подготовка для силовых" className="w-full h-full object-cover" width={960} height={1080} />
             <div className="absolute inset-0 bg-gradient-to-b from-[hsl(220,20%,8%)]/80 via-[hsl(220,20%,8%)]/60 to-[hsl(220,20%,8%)]/90" />
           </div>
-          <div className="relative z-10 text-center px-4 sm:px-6 py-12 md:py-0 max-w-lg flex flex-col items-center justify-end md:justify-center md:h-auto h-full pb-28 md:pb-0">
-            <h2 className="font-heading text-2xl sm:text-3xl lg:text-4xl font-bold text-white leading-[0.95] mb-3 sm:mb-4 md:text-2xl">
+          <div className="relative z-10 text-center px-4 sm:px-6 py-8 md:py-0 max-w-lg flex flex-col items-center justify-center">
+            <h2 className="font-heading text-2xl sm:text-3xl lg:text-4xl font-bold text-white leading-[0.95] mb-2 sm:mb-4 md:text-2xl">
               СИЛОВЫЕ СТРУКТУРЫ
             </h2>
-            <p className="text-[hsl(210,10%,72%)] text-xs sm:text-sm md:text-base mb-3 font-body font-normal">
+            <p className="text-[hsl(210,10%,72%)] text-xs sm:text-sm md:text-base mb-2 sm:mb-3 font-body font-normal">
               Ошибки в реальной ситуации стоят слишком дорого.
             </p>
-            <ul className="text-[hsl(210,10%,72%)] text-[11px] sm:text-xs mb-5 sm:mb-6 text-left space-y-1">
+            <ul className="text-[hsl(210,10%,72%)] text-[11px] sm:text-xs mb-4 sm:mb-6 text-left space-y-1">
               <li className="flex items-center gap-1"><ChevronRight className="w-3 h-3" /> Тактическая медицина</li>
               <li className="flex items-center gap-1"><ChevronRight className="w-3 h-3" /> Огневая и тактическая подготовка</li>
               <li className="flex items-center gap-1"><ChevronRight className="w-3 h-3" /> Работа в условиях риска</li>
@@ -331,7 +335,7 @@ const Index = () => {
             </a>
           </div>
         </motion.div>
-
+        </div>
         <div className="absolute bottom-0 left-0 right-0 z-30 pointer-events-none bg-gradient-to-t from-background via-background/80 to-transparent pt-12 pb-4 md:pb-6">
           <div className="pointer-events-auto container mx-auto px-3 sm:px-4">
             <p className="text-center font-heading text-[9px] sm:text-[10px] tracking-[0.2em] text-muted-foreground mb-3">
