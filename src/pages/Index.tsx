@@ -467,7 +467,7 @@ const Index = () => {
               <p className="text-center text-sm sm:text-base text-civil-muted">Коротко, по делу и применимо в обычной жизни.</p>
             </div>
           </AnimatedSection>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
             {catalogCivilCourses.map((course, i) => (
               <AnimatedSection key={course.id} delay={i * 0.05}>
                 <div className="space-y-2">
@@ -491,7 +491,7 @@ const Index = () => {
               <p className="text-center text-sm sm:text-base text-military-muted">Чёткая отработка решений и действий под нагрузкой.</p>
             </div>
           </AnimatedSection>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
             {catalogMilitaryCourses.map((course, i) => (
               <AnimatedSection key={course.id} delay={i * 0.05}>
                 <div className="space-y-2">
