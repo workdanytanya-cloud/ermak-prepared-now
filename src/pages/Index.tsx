@@ -217,7 +217,7 @@ const Index = () => {
           type: "civil" as const,
         },
         {
-          text: "Дочь подавилась на площадке. Я не паниковала — сделала всё, как учили. Через 10 секунд она дышала.",
+          text: "Дочь подавилась на площадке. В голове сразу вылез сценарий отработки на курсе — сделала всё, как учили. Через 10 секунд она дышала. Панику окружающих было не передать",
           author: "Мария, 28 лет",
           course: "Первая помощь",
           outcome: "Спокойные действия вместо паники",
@@ -262,7 +262,7 @@ const Index = () => {
             <h1 className="font-heading text-xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-white leading-tight mb-2">
               Навыки, которые работают в реальных ситуациях - не в теории
             </h1>
-            <p className="text-[hsl(40,10%,78%)] text-xs sm:text-sm md:text-base font-body font-normal leading-relaxed">
+            <p className="text-[hsl(40,10%,78%)] text-xs sm:text-sm font-body font-normal leading-relaxed md:text-sm">
               Подготовка для гражданских и силовых структур.
               <br className="hidden sm:block" />С практикой, сценариями и отработкой до автоматизма.
             </p>
@@ -281,7 +281,7 @@ const Index = () => {
             <div className="absolute inset-0 bg-gradient-to-b from-[hsl(40,10%,20%)]/70 via-[hsl(40,10%,15%)]/50 to-[hsl(40,10%,10%)]/80" />
           </div>
           <div className="relative z-10 text-center px-4 sm:px-6 py-12 md:py-0 max-w-lg flex flex-col items-center justify-end md:justify-center md:h-auto h-full pb-28 md:pb-0">
-            <h2 className="font-heading text-2xl sm:text-3xl md:text-3xl lg:text-4xl font-bold text-white leading-[0.95] mb-3 sm:mb-4">
+            <h2 className="font-heading text-2xl sm:text-3xl lg:text-4xl font-bold text-white leading-[0.95] mb-3 sm:mb-4 md:text-2xl">
               ГРАЖДАНСКИЕ
             </h2>
             <p className="text-[hsl(40,10%,72%)] text-xs sm:text-sm md:text-base mb-3 font-body font-normal">
@@ -313,8 +313,8 @@ const Index = () => {
             <div className="absolute inset-0 bg-gradient-to-b from-[hsl(220,20%,8%)]/80 via-[hsl(220,20%,8%)]/60 to-[hsl(220,20%,8%)]/90" />
           </div>
           <div className="relative z-10 text-center px-4 sm:px-6 py-12 md:py-0 max-w-lg flex flex-col items-center justify-end md:justify-center md:h-auto h-full pb-28 md:pb-0">
-            <h2 className="font-heading text-2xl sm:text-3xl md:text-3xl lg:text-4xl font-bold text-white leading-[0.95] mb-3 sm:mb-4">
-              СИЛОВЫЕ
+            <h2 className="font-heading text-2xl sm:text-3xl lg:text-4xl font-bold text-white leading-[0.95] mb-3 sm:mb-4 md:text-2xl">
+              СИЛОВЫЕ СТРУКТУРЫ
             </h2>
             <p className="text-[hsl(210,10%,72%)] text-xs sm:text-sm md:text-base mb-3 font-body font-normal">
               Ошибки в реальной ситуации стоят слишком дорого.
@@ -383,8 +383,8 @@ const Index = () => {
             <h2 className="font-heading text-2xl sm:text-3xl md:text-5xl font-bold text-foreground text-center mb-3 sm:mb-4">
               В критической ситуации <span className="text-gradient">не будет времени думать</span>
             </h2>
-            <p className="text-muted-foreground text-center max-w-2xl mx-auto mb-10 md:mb-16 text-sm sm:text-base leading-relaxed">
-              Потеря контроля = потеря времени. Ошибка = последствия. Отсутствие навыка = ступор.
+            <p className="text-muted-foreground max-w-2xl mx-auto mb-10 md:mb-16 text-sm sm:text-base leading-relaxed text-justify">
+              Потеря контроля = потеря времени. {"\n"}Ошибка = последствия. {"\n"}Отсутствие навыка = ступор.
             </p>
           </AnimatedSection>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6 mb-4 sm:mb-6">
@@ -418,7 +418,7 @@ const Index = () => {
             ))}
           </div>
           <p className="text-center text-sm text-muted-foreground max-w-3xl mx-auto">
-            Решение принимается заранее. Когда начнётся критическая ситуация, учиться будет уже поздно.
+            Решение принимается заранее. Когда начнётся критическая ситуация, гуглить будет уже поздно.
           </p>
         </div>
       </section>
@@ -464,7 +464,7 @@ const Index = () => {
               Гражданские <span className="text-gradient-dark">курсы</span>
             </h2>
             <div className="max-w-2xl mx-auto mb-8 md:mb-12">
-              <p className="text-center text-sm sm:text-base text-civil-muted">Коротко, по делу и применимо в обычной жизни.</p>
+              <p className="text-center text-sm sm:text-base text-civil-muted">Коротко, по делу. То, что применимо в обычной жизни.</p>
             </div>
           </AnimatedSection>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
@@ -485,7 +485,7 @@ const Index = () => {
         <div className="container mx-auto">
           <AnimatedSection>
             <h2 className="font-heading text-2xl sm:text-3xl md:text-5xl font-bold text-military text-center mb-3 sm:mb-4">
-              Силовые <span className="text-gradient">курсы</span>
+              Силовые <span className="text-gradient">структуры</span>
             </h2>
             <div className="max-w-2xl mx-auto mb-8 md:mb-12">
               <p className="text-center text-sm sm:text-base text-military-muted">Чёткая отработка решений и действий под нагрузкой.</p>
@@ -579,14 +579,14 @@ const Index = () => {
               После курса всё становится <span className="text-gradient">на свои места</span>
             </h2>
             <p className="text-center text-muted-foreground text-sm mb-10 md:mb-14 max-w-2xl mx-auto">
-              Короткие, живые отзывы с фокусом на реальный результат.
+              ​
             </p>
           </AnimatedSection>
 
           {(["civil", "military"] as const).map((segment) => (
             <div key={segment} className="mb-12 last:mb-0">
               <h3 className="font-heading text-xs tracking-[0.25em] text-accent text-center mb-6">
-                {segment === "civil" ? "ГРАЖДАНСКИЕ ФОРМАТЫ" : "СИЛОВОЙ ТРЕК"}
+                {segment === "civil" ? "ГРАЖДАНСКИЕ НАПРАВЛЕНИЯ" : "СИЛОВЫЕ НАПРАВЛЕНИЯ"}
               </h3>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
                 {reviewStories
