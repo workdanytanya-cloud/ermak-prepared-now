@@ -180,8 +180,8 @@ const Index = () => {
   const civilCourses = courses.filter(c => civilCourseIds.includes(c.id));
   const militaryCourses = courses.filter(c => militaryCourseIds.includes(c.id));
   const uniqueMilitaryCourses = militaryCourses.filter((c, i, arr) => arr.findIndex(x => x.id === c.id) === i);
-  const catalogCivilCourses = civilCourses.filter((c) => ["first-aid", "women-safety"].includes(c.id)).slice(0, 2);
-  const catalogMilitaryCourses = uniqueMilitaryCourses.filter((c) => ["tactical-medicine", "tactical-training", "pistol", "ak-operator"].includes(c.id)).slice(0, 2);
+  const catalogCivilCourses = civilCourses;
+  const catalogMilitaryCourses = uniqueMilitaryCourses;
   const faqItems = faq.length > 0 ? faq.map((x) => ({ q: x.question, a: x.answer })) : faqData;
   const instructors = apiInstructors.length
     ? apiInstructors.map((x) => ({
@@ -259,10 +259,10 @@ const Index = () => {
       <section className="relative min-h-[100svh] flex flex-col md:flex-row overflow-hidden">
         <div className="absolute top-0 left-0 right-0 z-30 pt-16 md:pt-20 px-4">
           <div className="container mx-auto text-center max-w-4xl">
-            <h1 className="font-heading text-2xl sm:text-4xl md:text-5xl font-bold text-white leading-tight mb-3">
+            <h1 className="font-heading text-xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-white leading-tight mb-2">
               Навыки, которые работают в реальных ситуациях - не в теории
             </h1>
-            <p className="text-[hsl(40,10%,86%)] text-sm sm:text-base md:text-lg">
+            <p className="text-[hsl(40,10%,78%)] text-xs sm:text-sm md:text-base font-body font-normal leading-relaxed">
               Подготовка для гражданских и силовых структур.
               <br className="hidden sm:block" />С практикой, сценариями и отработкой до автоматизма.
             </p>
@@ -280,21 +280,20 @@ const Index = () => {
             <img src="/hero-civil.jpg" alt="Гражданская подготовка" className="w-full h-full object-cover" width={960} height={1080} />
             <div className="absolute inset-0 bg-gradient-to-b from-[hsl(40,10%,20%)]/70 via-[hsl(40,10%,15%)]/50 to-[hsl(40,10%,10%)]/80" />
           </div>
-          <div className="relative z-10 text-center px-4 sm:px-6 py-12 md:py-0 max-w-lg flex flex-col items-center justify-end md:justify-center md:h-auto h-full pb-36 md:pb-0">
-            <p className="font-heading text-[10px] sm:text-xs tracking-[0.3em] text-[hsl(40,10%,80%)] mb-2 sm:mb-3">​</p>
-            <h2 className="font-heading text-3xl sm:text-4xl md:text-4xl lg:text-5xl font-bold text-white leading-[0.95] mb-3 sm:mb-4 min-h-[2.4em] md:min-h-[3em] flex items-end justify-center">
-              <span className="text-5xl whitespace-pre-line">ГРАЖДАНСКИЕ</span>
+          <div className="relative z-10 text-center px-4 sm:px-6 py-12 md:py-0 max-w-lg flex flex-col items-center justify-end md:justify-center md:h-auto h-full pb-28 md:pb-0">
+            <h2 className="font-heading text-2xl sm:text-3xl md:text-3xl lg:text-4xl font-bold text-white leading-[0.95] mb-3 sm:mb-4">
+              ГРАЖДАНСКИЕ
             </h2>
-            <p className="text-[hsl(40,10%,80%)] text-sm sm:text-base md:text-base lg:text-lg mb-3 font-body">
+            <p className="text-[hsl(40,10%,72%)] text-xs sm:text-sm md:text-base mb-3 font-body font-normal">
               Если рядом станет плохо - Вы знаете, что делать?
             </p>
-            <ul className="text-[hsl(40,10%,80%)] text-xs sm:text-sm mb-5 sm:mb-6 text-left space-y-1">
+            <ul className="text-[hsl(40,10%,72%)] text-[11px] sm:text-xs mb-5 sm:mb-6 text-left space-y-1">
               <li className="flex items-center gap-1"><ChevronRight className="w-3 h-3" /> Первая помощь</li>
               <li className="flex items-center gap-1"><ChevronRight className="w-3 h-3" /> Самооборона</li>
               <li className="flex items-center gap-1"><ChevronRight className="w-3 h-3" /> Поведение в опасных ситуациях</li>
             </ul>
             <a href="#civil">
-              <Button size="lg" className="bg-cta-gradient text-accent-foreground font-heading text-base sm:text-lg tracking-wider shadow-cta hover:opacity-90 px-6 sm:px-8 py-5 sm:py-6">
+              <Button size="lg" className="bg-cta-gradient text-accent-foreground font-heading text-sm sm:text-base tracking-wider shadow-cta hover:opacity-90 px-5 sm:px-7 py-4 sm:py-5">
                 Я для себя
               </Button>
             </a>
@@ -313,55 +312,36 @@ const Index = () => {
             <img src="/hero-military.jpg" alt="Подготовка для силовых" className="w-full h-full object-cover" width={960} height={1080} />
             <div className="absolute inset-0 bg-gradient-to-b from-[hsl(220,20%,8%)]/80 via-[hsl(220,20%,8%)]/60 to-[hsl(220,20%,8%)]/90" />
           </div>
-          <div className="relative z-10 text-center px-4 sm:px-6 py-12 md:py-0 max-w-lg flex flex-col items-center justify-end md:justify-center md:h-auto h-full pb-36 md:pb-0">
-            <p className="font-heading text-[10px] sm:text-xs tracking-[0.3em] text-military-muted mb-2 sm:mb-3">​</p>
-            <h2 className="font-heading text-3xl sm:text-4xl md:text-4xl lg:text-5xl font-bold text-military leading-[0.95] mb-3 sm:mb-4 min-h-[2.4em] md:min-h-[3em] flex items-end justify-center">
-              <span className="text-5xl whitespace-pre-line">СИЛОВЫЕ</span>
+          <div className="relative z-10 text-center px-4 sm:px-6 py-12 md:py-0 max-w-lg flex flex-col items-center justify-end md:justify-center md:h-auto h-full pb-28 md:pb-0">
+            <h2 className="font-heading text-2xl sm:text-3xl md:text-3xl lg:text-4xl font-bold text-white leading-[0.95] mb-3 sm:mb-4">
+              СИЛОВЫЕ
             </h2>
-            <p className="text-military-muted text-sm sm:text-base md:text-base lg:text-lg mb-3 font-body">
+            <p className="text-[hsl(210,10%,72%)] text-xs sm:text-sm md:text-base mb-3 font-body font-normal">
               Ошибки в реальной ситуации стоят слишком дорого.
             </p>
-            <ul className="text-military-muted text-xs sm:text-sm mb-5 sm:mb-6 text-left space-y-1">
+            <ul className="text-[hsl(210,10%,72%)] text-[11px] sm:text-xs mb-5 sm:mb-6 text-left space-y-1">
               <li className="flex items-center gap-1"><ChevronRight className="w-3 h-3" /> Тактическая медицина</li>
               <li className="flex items-center gap-1"><ChevronRight className="w-3 h-3" /> Огневая и тактическая подготовка</li>
               <li className="flex items-center gap-1"><ChevronRight className="w-3 h-3" /> Работа в условиях риска</li>
             </ul>
             <a href="#military">
-              <Button size="lg" className="bg-cta-gradient text-accent-foreground font-heading text-base sm:text-lg tracking-wider shadow-cta hover:opacity-90 px-6 sm:px-8 py-5 sm:py-6">
+              <Button size="lg" className="bg-cta-gradient text-accent-foreground font-heading text-sm sm:text-base tracking-wider shadow-cta hover:opacity-90 px-5 sm:px-7 py-4 sm:py-5">
                 Я для службы / работы
               </Button>
             </a>
           </div>
         </motion.div>
 
-        <div className="absolute bottom-0 left-0 right-0 z-30 pointer-events-none bg-gradient-to-t from-background via-background/90 to-transparent pt-16 pb-4 md:pb-6">
+        <div className="absolute bottom-0 left-0 right-0 z-30 pointer-events-none bg-gradient-to-t from-background via-background/80 to-transparent pt-12 pb-4 md:pb-6">
           <div className="pointer-events-auto container mx-auto px-3 sm:px-4">
             <p className="text-center font-heading text-[9px] sm:text-[10px] tracking-[0.2em] text-muted-foreground mb-3">
               ОГРАНИЧЕННЫЕ ГРУППЫ. ПРАКТИКА С ИНСТРУКТОРАМИ.
             </p>
-            <div className="flex flex-col sm:flex-row gap-2 sm:gap-3 justify-center items-stretch sm:items-center max-w-4xl mx-auto">
+            <div className="flex justify-center max-w-md mx-auto">
               <Button
                 type="button"
                 size="lg"
-                variant="outline"
-                className="w-full sm:flex-1 border-white/25 bg-background/70 backdrop-blur-md text-foreground hover:bg-background/90 hover:border-accent/50 font-heading tracking-wide py-5"
-                onClick={() => scrollToId("civil")}
-              >
-                Я для себя
-              </Button>
-              <Button
-                type="button"
-                size="lg"
-                variant="outline"
-                className="w-full sm:flex-1 border-white/25 bg-background/70 backdrop-blur-md text-foreground hover:bg-background/90 hover:border-accent/50 font-heading tracking-wide py-5"
-                onClick={() => scrollToId("military")}
-              >
-                Я для службы / работы
-              </Button>
-              <Button
-                type="button"
-                size="lg"
-                className="w-full sm:flex-1 bg-cta-gradient text-accent-foreground font-heading tracking-wider shadow-cta hover:opacity-95 py-5"
+                className="w-full sm:w-auto bg-white text-[hsl(220,18%,12%)] hover:bg-white/90 font-heading text-sm sm:text-base tracking-wider px-8 sm:px-12 py-5"
                 onClick={() => openQuiz()}
               >
                 Подобрать курс
