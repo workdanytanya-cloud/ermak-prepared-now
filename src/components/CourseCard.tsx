@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import { Clock, Users, ArrowRight, CalendarSearch } from "lucide-react";
+import { Clock, Users, Check, CalendarSearch } from "lucide-react";
 import type { Course } from "@/data/courses";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -21,13 +21,7 @@ const CourseCard = ({ course, lightMode }: Props) => {
   const [phone, setPhone] = useState("");
   const [submitted, setSubmitted] = useState(false);
 
-  const forWhomShort = course.forWhom[0] ?? "Подходит под разные задачи";
-  const scarcity =
-    course.spotsLeft <= 3
-      ? "Набор почти закрыт"
-      : course.spotsLeft <= 5
-        ? `Осталось ${course.spotsLeft} ${course.spotsLeft === 5 ? 'мест' : 'места'}`
-        : null;
+  const isMilitary = course.audience === "military" || course.filterTags.includes("military");
 
   const handleDateInquiry = (e: React.FormEvent) => {
     e.preventDefault();
@@ -50,49 +44,71 @@ const CourseCard = ({ course, lightMode }: Props) => {
   return (
     <>
       <div
-        className={`group border rounded-lg overflow-hidden transition-all duration-300 flex flex-col min-h-[480px] hover:-translate-y-0.5 hover:shadow-glow ${
+        className={`group border rounded-lg overflow-hidden transition-all duration-300 flex flex-col hover:-translate-y-0.5 hover:shadow-glow ${
           lightMode
             ? "bg-white border-[hsl(40,5%,80%)] hover:border-[hsl(38,90%,50%)]/45"
             : "bg-card-gradient border-border hover:border-accent/35"
         }`}
       >
-        <div className="relative h-40 sm:h-44 overflow-hidden flex items-center justify-center bg-muted shrink-0">
+        {/* IMAGE */}
+        <div className="relative h-44 sm:h-48 overflow-hidden flex items-center justify-center bg-muted shrink-0">
           <img
             src={course.image}
             alt={course.title}
             loading="lazy"
             className="w-full h-full object-cover group-hover:scale-[1.03] transition-transform duration-500"
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-card to-transparent" />
-          {scarcity && (
+          <div className="absolute inset-0 bg-gradient-to-t from-card via-card/40 to-transparent" />
+
+          {/* TRIGGER badge */}
+          {course.trigger && (
             <div className="absolute top-3 right-3">
-              <Badge
-                className={`text-[10px] font-heading tracking-wide uppercase ${
-                  course.spotsLeft <= 3 ? "bg-destructive text-destructive-foreground" : "bg-accent text-accent-foreground"
-                }`}
-              >
-                {scarcity}
+              <Badge className="text-[10px] font-heading tracking-wide uppercase bg-destructive text-destructive-foreground">
+                {course.trigger}
               </Badge>
             </div>
           )}
         </div>
 
         <div className="p-4 sm:p-5 flex flex-col flex-1">
+          {/* TITLE */}
           <h3
-            className={`font-heading text-base sm:text-lg font-semibold mb-1 leading-tight line-clamp-2 ${
+            className={`font-heading text-sm sm:text-base font-semibold mb-3 leading-tight line-clamp-2 ${
               lightMode ? "text-civil" : "text-foreground"
             }`}
           >
             {course.title}
           </h3>
-          <p className={`text-[11px] sm:text-xs mb-2 font-medium uppercase tracking-wide ${lightMode ? "text-accent" : "text-accent"}`}>
-            Для кого: <span className={`font-body normal-case ${lightMode ? "text-civil-muted" : "text-muted-foreground"}`}>{forWhomShort}</span>
-          </p>
-          <p className={`text-xs mb-3 line-clamp-3 flex-1 leading-relaxed ${lightMode ? "text-civil-muted" : "text-muted-foreground"} sm:text-xs`}>
-            <span className={`font-heading text-[10px] uppercase tracking-wider ${lightMode ? "text-civil" : "text-foreground"}`}>Результат: </span>
-            {course.result}
-          </p>
 
+          {/* SITUATION (pain) */}
+          <div className={`text-xs leading-relaxed mb-3 ${lightMode ? "text-civil-muted" : "text-muted-foreground"}`}>
+            <span className={`font-heading text-[10px] uppercase tracking-wider block mb-1 ${lightMode ? "text-civil" : "text-accent"}`}>
+              {isMilitary ? "Ситуация" : "Знакомо?"}
+            </span>
+            <p className="italic opacity-90">{course.situation}</p>
+          </div>
+
+          {/* RESULT */}
+          <div className="mb-3">
+            <span className={`font-heading text-[10px] uppercase tracking-wider block mb-1 ${lightMode ? "text-civil" : "text-accent"}`}>
+              Результат
+            </span>
+            <p className={`text-xs font-medium leading-relaxed ${lightMode ? "text-civil" : "text-foreground"}`}>
+              {course.result}
+            </p>
+          </div>
+
+          {/* SPECIFICS */}
+          <ul className="space-y-1.5 mb-4 flex-1">
+            {course.specifics.map((item, i) => (
+              <li key={i} className={`flex items-start gap-2 text-xs leading-snug ${lightMode ? "text-civil-muted" : "text-muted-foreground"}`}>
+                <Check className="w-3.5 h-3.5 shrink-0 mt-0.5 text-accent" />
+                <span>{item}</span>
+              </li>
+            ))}
+          </ul>
+
+          {/* META: duration + format */}
           <div
             className={`flex flex-wrap items-center gap-x-3 gap-y-1 text-[10px] sm:text-xs mb-3 ${lightMode ? "text-civil-muted" : "text-muted-foreground"}`}
           >
@@ -104,14 +120,13 @@ const CourseCard = ({ course, lightMode }: Props) => {
             </span>
           </div>
 
+          {/* PRICE + DATE */}
           <div className="mt-auto space-y-3">
             <div className="flex items-end justify-between gap-2">
               <div className="min-w-0">
-                <span className={`text-lg sm:text-xl font-heading font-bold text-accent`}>{course.price.toLocaleString("ru-RU")} ₽</span>
-                {course.totalSpots != null && (
-                  <span className={`text-[10px] block ${lightMode ? "text-civil-muted" : "text-muted-foreground"}`}>
-                    Осталось {course.spotsLeft} из {course.totalSpots} мест
-                  </span>
+                <span className="text-lg sm:text-xl font-heading font-bold text-accent">{course.price.toLocaleString("ru-RU")} ₽</span>
+                {course.priceNote && (
+                  <span className={`text-[10px] block ${lightMode ? "text-civil-muted" : "text-muted-foreground"}`}>{course.priceNote}</span>
                 )}
                 {course.hasDate ? (
                   <span className={`text-xs block mt-0.5 ${lightMode ? "text-civil-muted" : "text-muted-foreground"}`}>{course.nextDate}</span>
@@ -130,28 +145,34 @@ const CourseCard = ({ course, lightMode }: Props) => {
               </div>
             </div>
 
-            <div className="flex flex-col gap-2">
+            {/* CTA */}
+            <Button
+              type="button"
+              size="sm"
+              className="w-full bg-cta-gradient text-accent-foreground font-heading tracking-wider shadow-cta hover:opacity-95 transition-opacity"
+              onClick={() => openBooking(course.id)}
+            >
+              Записаться на курс
+            </Button>
+
+            {/* MICRO-PUSH */}
+            <p className={`text-[10px] text-center ${lightMode ? "text-civil-muted" : "text-muted-foreground"}`}>
+              {course.microPush}
+            </p>
+
+            {/* DETAILS link */}
+            <Link to={`/course/${course.id}`} className="w-full block">
               <Button
                 type="button"
                 size="sm"
-                className="w-full bg-cta-gradient text-accent-foreground font-heading tracking-wider shadow-cta hover:opacity-95 transition-opacity"
-                onClick={() => openBooking(course.id)}
+                variant="ghost"
+                className={`w-full font-heading tracking-wide text-xs border border-transparent hover:border-border ${
+                  lightMode ? "text-civil hover:bg-black/5" : "text-muted-foreground hover:text-foreground"
+                }`}
               >
-                Записаться
+                Узнать подробности
               </Button>
-              <Link to={`/course/${course.id}`} className="w-full">
-                <Button
-                  type="button"
-                  size="sm"
-                  variant="ghost"
-                  className={`w-full font-heading tracking-wide border border-transparent hover:border-border ${
-                    lightMode ? "text-civil hover:bg-black/5" : "text-muted-foreground hover:text-foreground"
-                  }`}
-                >
-                  Подробнее <ArrowRight className="w-3.5 h-3.5 ml-1 opacity-70" />
-                </Button>
-              </Link>
-            </div>
+            </Link>
           </div>
 
           {course.installment && (
