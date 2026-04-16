@@ -13,6 +13,11 @@ export function useSiteData() {
       name?: string;
       text?: string;
       rating?: number;
+      author?: string;
+      age?: string;
+      course?: string;
+      result_short?: string;
+      audience_type?: string;
     }[],
     settings: {} as Record<string, string>,
   };
