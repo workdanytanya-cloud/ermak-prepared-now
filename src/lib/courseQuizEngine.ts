@@ -25,16 +25,30 @@ export function scoreCoursesByQuiz(answers: CourseQuizAnswers, list: Course[]): 
   if (answers.audience) {
     switch (answers.audience) {
       case "self":
-        add(scores, ["first-aid", "women-safety", "pistol", "individual"], 2);
+        add(scores, ["first-aid", "women-safety", "pistol-civil", "individual-civil"], 2);
         break;
       case "family":
-        add(scores, ["first-aid", "women-safety", "tactical-medicine"], 3);
+        add(scores, ["first-aid", "women-safety", "tactical-medicine-civil"], 3);
         break;
       case "work":
-        add(scores, ["tactical-medicine", "pistol", "events", "first-aid", "women-safety"], 3);
+        add(scores, ["tactical-medicine-civil", "pistol-civil", "events-civil", "first-aid", "women-safety"], 3);
         break;
       case "service":
-        add(scores, ["ak-operator", "tactical-training", "tactical-medicine", "field-intensive", "engineering", "weekend-practice"], 4);
+        add(
+          scores,
+          [
+            "ak-operator-military",
+            "tactical-training",
+            "tactical-medicine-military",
+            "field-intensive-military",
+            "engineering",
+            "weekend-practice",
+            "pistol-military",
+            "individual-military",
+            "events-military",
+          ],
+          4,
+        );
         break;
     }
   }
@@ -42,13 +56,29 @@ export function scoreCoursesByQuiz(answers: CourseQuizAnswers, list: Course[]): 
   if (answers.experience) {
     switch (answers.experience) {
       case "none":
-        add(scores, ["first-aid", "women-safety", "ak-operator"], 2);
+        add(scores, ["first-aid", "women-safety", "ak-operator-civil", "engineering-civil"], 2);
         break;
       case "basic":
-        add(scores, ["tactical-medicine", "pistol", "tactical-training", "engineering"], 2);
+        add(
+          scores,
+          ["tactical-medicine-civil", "tactical-medicine-military", "pistol-civil", "pistol-military", "tactical-training", "engineering"],
+          2,
+        );
         break;
       case "advanced":
-        add(scores, ["field-intensive", "engineering", "tactical-training", "weekend-practice", "tactical-medicine"], 3);
+        add(
+          scores,
+          [
+            "field-intensive-civil",
+            "field-intensive-military",
+            "engineering",
+            "tactical-training",
+            "weekend-practice",
+            "weekend-practice-civil",
+            "tactical-medicine-military",
+          ],
+          3,
+        );
         break;
     }
   }
@@ -56,16 +86,16 @@ export function scoreCoursesByQuiz(answers: CourseQuizAnswers, list: Course[]): 
   if (answers.priority) {
     switch (answers.priority) {
       case "first-aid":
-        add(scores, ["first-aid", "tactical-medicine"], 5);
+        add(scores, ["first-aid", "tactical-medicine-civil", "tactical-medicine-military"], 5);
         break;
       case "safety":
-        add(scores, ["women-safety", "pistol", "individual"], 5);
+        add(scores, ["women-safety", "pistol-civil", "individual-civil"], 5);
         break;
       case "fire":
-        add(scores, ["ak-operator", "pistol", "weekend-practice"], 5);
+        add(scores, ["ak-operator-civil", "ak-operator-military", "pistol-civil", "pistol-military", "weekend-practice", "weekend-practice-civil"], 5);
         break;
       case "tactics":
-        add(scores, ["tactical-training", "field-intensive", "engineering", "events"], 5);
+        add(scores, ["tactical-training", "field-intensive-civil", "field-intensive-military", "engineering", "events-civil", "events-military"], 5);
         break;
     }
   }
