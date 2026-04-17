@@ -71,22 +71,25 @@ const trustItems = [
 const civilCourseIds = [
   "first-aid",
   "women-safety",
-  "tactical-medicine",
-  "pistol",
-  "weekend-practice",
-  "individual",
-  "events",
+  "tactical-medicine-civil",
+  "pistol-civil",
+  "ak-operator-civil",
+  "engineering-civil",
+  "field-intensive-civil",
+  "weekend-practice-civil",
+  "individual-civil",
+  "events-civil",
 ];
 const militaryCourseIds = [
-  "ak-operator",
-  "tactical-medicine",
+  "ak-operator-military",
+  "tactical-medicine-military",
   "tactical-training",
-  "pistol",
+  "pistol-military",
   "engineering",
-  "field-intensive",
+  "field-intensive-military",
   "weekend-practice",
-  "individual",
-  "events",
+  "individual-military",
+  "events-military",
 ];
 
 const instructorsData = [
