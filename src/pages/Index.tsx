@@ -155,7 +155,7 @@ const instructorsData = [
   {
     name: "Подоксенов Владимир Александрович",
     role: "Инструктор",
-    photo: "/instructor-podoksenov.jpg",
+    photo: "/instructors/instructor-podoksenov.png",
     specialization: "Тактическая медицина, догоспитальная помощь",
     experienceLabel: "ВМА им. Кирова, протоколы ТССС / ТАКМЕД",
     directions: ["Такмед", "Кровотечения", "Санинструктор"],
