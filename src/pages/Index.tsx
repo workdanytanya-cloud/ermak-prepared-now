@@ -123,7 +123,7 @@ const instructorsData = [
   {
     name: "Дедов Михаил Владимирович",
     role: "Старший инструктор",
-    photo: "/Дедов М.jpg",
+    photo: "/instructors/instructor-dedov.png",
     specialization: "Рукопашный бой, стрельба, спецподготовка",
     experienceLabel: "Инструктор с 2014 года, участник БД",
     directions: ["Ножевой бой", "Тактика", "Такмед"],
