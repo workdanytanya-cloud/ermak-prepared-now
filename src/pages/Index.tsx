@@ -176,7 +176,7 @@ const instructorsData = [
   {
     name: "Воронков Алексей Евгеньевич",
     role: "Инструктор",
-    photo: "/Толмач.jpg",
+    photo: "/instructors/instructor-voronkov.png",
     specialization: "Тактическая медицина и первая помощь",
     experienceLabel: "Педагогическое образование, фельдшер",
     directions: ["Такмед", "Первая помощь"],
