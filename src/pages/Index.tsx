@@ -96,7 +96,7 @@ const instructorsData = [
   {
     name: "Данюкин Андрей Игоревич",
     role: "Руководитель ЦСП «ЕРМАК»",
-    photo: "/Данюкин.png",
+    photo: "/instructors/instructor-danyukin.png",
     specialization: "Тактическая и огневая подготовка, работа с группами",
     experienceLabel: "Служебный и инструкторский опыт — многие годы",
     directions: ["Огневая подготовка", "ТСП", "Детские лагеря"],
