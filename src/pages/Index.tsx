@@ -71,29 +71,32 @@ const trustItems = [
 const civilCourseIds = [
   "first-aid",
   "women-safety",
-  "tactical-medicine",
-  "pistol",
-  "weekend-practice",
-  "individual",
-  "events",
+  "tactical-medicine-civil",
+  "pistol-civil",
+  "ak-operator-civil",
+  "engineering-civil",
+  "field-intensive-civil",
+  "weekend-practice-civil",
+  "individual-civil",
+  "events-civil",
 ];
 const militaryCourseIds = [
-  "ak-operator",
-  "tactical-medicine",
+  "ak-operator-military",
+  "tactical-medicine-military",
   "tactical-training",
-  "pistol",
+  "pistol-military",
   "engineering",
-  "field-intensive",
+  "field-intensive-military",
   "weekend-practice",
-  "individual",
-  "events",
+  "individual-military",
+  "events-military",
 ];
 
 const instructorsData = [
   {
     name: "Данюкин Андрей Игоревич",
     role: "Руководитель ЦСП «ЕРМАК»",
-    photo: "/Данюкин.png",
+    photo: "/instructors/instructor-danyukin.png",
     specialization: "Тактическая и огневая подготовка, работа с группами",
     experienceLabel: "Служебный и инструкторский опыт — многие годы",
     directions: ["Огневая подготовка", "ТСП", "Детские лагеря"],
@@ -120,7 +123,7 @@ const instructorsData = [
   {
     name: "Дедов Михаил Владимирович",
     role: "Старший инструктор",
-    photo: "/Дедов М.jpg",
+    photo: "/instructors/instructor-dedov.png",
     specialization: "Рукопашный бой, стрельба, спецподготовка",
     experienceLabel: "Инструктор с 2014 года, участник БД",
     directions: ["Ножевой бой", "Тактика", "Такмед"],
@@ -152,7 +155,7 @@ const instructorsData = [
   {
     name: "Подоксенов Владимир Александрович",
     role: "Инструктор",
-    photo: "/instructor-podoksenov.jpg",
+    photo: "/instructors/instructor-podoksenov.png",
     specialization: "Тактическая медицина, догоспитальная помощь",
     experienceLabel: "ВМА им. Кирова, протоколы ТССС / ТАКМЕД",
     directions: ["Такмед", "Кровотечения", "Санинструктор"],
@@ -173,7 +176,7 @@ const instructorsData = [
   {
     name: "Воронков Алексей Евгеньевич",
     role: "Инструктор",
-    photo: "/Толмач.jpg",
+    photo: "/instructors/instructor-voronkov.png",
     specialization: "Тактическая медицина и первая помощь",
     experienceLabel: "Педагогическое образование, фельдшер",
     directions: ["Такмед", "Первая помощь"],
@@ -194,7 +197,7 @@ const instructorsData = [
   {
     name: "Мария Александровна",
     role: "Инструктор по женской безопасности",
-    photo: "/Мария Александровна .png",
+    photo: "/instructors/audience-women.png",
     specialization: "Личная безопасность женщин, правовой контекст",
     experienceLabel: "Юрист 16+ лет, спорт — ММА / CJJ / крав-мага",
     directions: ["Женская безопасность", "Самооборона"],
