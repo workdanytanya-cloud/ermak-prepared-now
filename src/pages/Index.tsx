@@ -197,7 +197,7 @@ const instructorsData = [
   {
     name: "Мария Александровна",
     role: "Инструктор по женской безопасности",
-    photo: "/Мария Александровна .png",
+    photo: "/instructors/audience-women.png",
     specialization: "Личная безопасность женщин, правовой контекст",
     experienceLabel: "Юрист 16+ лет, спорт — ММА / CJJ / крав-мага",
     directions: ["Женская безопасность", "Самооборона"],
