@@ -199,7 +199,7 @@ const instructorsData = [
     role: "Инструктор по женской безопасности",
     photo: "/instructors/audience-women.png",
     specialization: "Личная безопасность женщин, правовой контекст",
-    experienceLabel: "Юрист 16+ лет, спорт — ММА / CJJ / крав-мага",
+    experienceLabel: "Юрист 16+ лет, спорт — ММА /  крав-мага",
     directions: ["Женская безопасность", "Самооборона"],
     fullExp: `Мария Александровна — инструктор по женской безопасности.
 
@@ -466,7 +466,7 @@ const Index = () => {
             <h2 className="font-heading text-2xl sm:text-3xl md:text-5xl font-bold text-foreground text-center mb-3 sm:mb-4">
               В критической ситуации <span className="text-gradient">не будет времени думать</span>
             </h2>
-            <p className="text-muted-foreground max-w-2xl mx-auto mb-10 md:mb-16 text-sm sm:text-base leading-relaxed text-justify">
+            <p className="text-muted-foreground max-w-2xl mx-auto mb-10 md:mb-16 text-sm sm:text-base leading-relaxed">
               Потеря контроля = потеря времени. {"\n"}Ошибка = последствия. {"\n"}Отсутствие навыка = ступор.
             </p>
           </AnimatedSection>
@@ -511,7 +511,7 @@ const Index = () => {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
             <AnimatedSection>
               <div className="rounded-lg border border-[hsl(40,5%,80%)] bg-civil p-6 md:p-8 h-full">
-                <h3 className="font-heading text-xl text-civil mb-4">Для гражданских</h3>
+                <h3 className="font-heading text-xl text-civil mb-4">Обычные граждане</h3>
                 <ul className="space-y-2 text-civil-muted text-sm md:text-base">
                   <li className="flex items-start gap-2">
                     <ChevronRight className="w-4 h-4 mt-0.5 text-accent" /> Остановите кровотечение за 30-60 секунд
@@ -527,7 +527,7 @@ const Index = () => {
             </AnimatedSection>
             <AnimatedSection delay={0.05}>
               <div className="rounded-lg border border-border bg-card-gradient p-6 md:p-8 h-full">
-                <h3 className="font-heading text-xl text-foreground mb-4">Для силовых</h3>
+                <h3 className="font-heading text-xl text-foreground mb-4">Силовые направления</h3>
                 <ul className="space-y-2 text-muted-foreground text-sm md:text-base">
                   <li className="flex items-start gap-2">
                     <ChevronRight className="w-4 h-4 mt-0.5 text-accent" /> Работа по протоколам в стрессе
