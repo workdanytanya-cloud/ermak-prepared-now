@@ -302,7 +302,7 @@ export const courses: Course[] = [
     totalSpots: 18,
     nextDate: "16–17 мая 2026",
     hasDate: true,
-    image: "/tactical-trenches (2).png",
+    image: "/tactical-trenches.png",
     audience: "military",
     filterTags: ["military", "tactics"],
     program: [
@@ -491,7 +491,7 @@ export const courses: Course[] = [
     totalSpots: 14,
     nextDate: "Еженедельно",
     hasDate: false,
-    image: "/weekend-practice (2).png",
+    image: "/weekend-practice.png",
     audience: "military",
     filterTags: ["military", "firearms", "tactics", "individual"],
     program: [
@@ -580,7 +580,7 @@ export const courses: Course[] = [
     spotsLeft: 20,
     nextDate: "Любая дата",
     hasDate: false,
-    image: "/individual-training (1).png",
+    image: "/individual-training.png",
     audience: "both",
     filterTags: ["civil", "military", "individual", "tactical-medicine", "firearms"],
     program: [
