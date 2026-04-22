@@ -309,7 +309,7 @@ const Index = () => {
         <div className="relative z-30 pt-20 pb-6 px-4 bg-gradient-to-b from-[hsl(220,20%,7%)] to-[hsl(220,20%,7%)]/80 md:absolute md:top-0 md:left-0 md:right-0 md:bg-none md:pt-20 md:pb-0">
           <div className="container mx-auto text-center max-w-4xl">
             <h1 className="font-heading text-xl sm:text-2xl md:text-4xl lg:text-5xl font-bold text-white leading-tight mb-2">
-              Навыки, которые работают в реальных ситуациях - не в теории
+              Навыки, которые работают в реальных ситуациях - только практика
             </h1>
             <p className="text-[hsl(40,10%,78%)] text-xs sm:text-sm font-body font-normal leading-relaxed md:text-sm">
               Подготовка для гражданских и силовых структур.
@@ -350,7 +350,7 @@ const Index = () => {
                   <ChevronRight className="w-3 h-3" /> Первая помощь
                 </li>
                 <li className="flex items-center gap-1">
-                  <ChevronRight className="w-3 h-3" /> Самооборона
+                  <ChevronRight className="w-3 h-3" /> Личная безопасность
                 </li>
                 <li className="flex items-center gap-1">
                   <ChevronRight className="w-3 h-3" /> Поведение в опасных ситуациях
@@ -439,7 +439,7 @@ const Index = () => {
         <div className="container mx-auto">
           <AnimatedSection>
             <h2 className="font-heading text-2xl sm:text-3xl md:text-4xl font-bold text-foreground text-center mb-2 md:mb-4">
-              Подготовка, а не <span className="text-gradient">"рассказали и отпустили"</span>
+              РЕАЛЬНАЯ ПОДГОТОВКА, <span className="text-gradient">С НЕОБХОДИМЫМ МИНИМУМОМ</span>
             </h2>
             <p className="text-center text-muted-foreground text-sm max-w-2xl mx-auto mb-8 md:mb-12 leading-relaxed">
               Подготовка под реальные задачи, а не "для отчёта".
@@ -464,7 +464,7 @@ const Index = () => {
         <div className="container mx-auto">
           <AnimatedSection>
             <h2 className="font-heading text-2xl sm:text-3xl md:text-5xl font-bold text-foreground text-center mb-3 sm:mb-4">
-              В критической ситуации <span className="text-gradient">не будет времени думать</span>
+              В критической ситуации <span className="text-gradient">мозг отключается - работают только устойчивые навыки</span>
             </h2>
             <p className="text-muted-foreground max-w-2xl mx-auto mb-10 md:mb-16 text-sm sm:text-base leading-relaxed">
               Потеря контроля = потеря времени. {"\n"}Ошибка = последствия. {"\n"}Отсутствие навыка = ступор.
@@ -514,7 +514,7 @@ const Index = () => {
                 <h3 className="font-heading text-xl text-civil mb-4">Обычные граждане</h3>
                 <ul className="space-y-2 text-civil-muted text-sm md:text-base">
                   <li className="flex items-start gap-2">
-                    <ChevronRight className="w-4 h-4 mt-0.5 text-accent" /> Остановите кровотечение за 30-60 секунд
+                    <ChevronRight className="w-4 h-4 mt-0.5 text-accent" /> Гарантированно остановите кровотечение
                   </li>
                   <li className="flex items-start gap-2">
                     <ChevronRight className="w-4 h-4 mt-0.5 text-accent" /> Поймёте, как действовать при ДТП и травмах
