@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { Phone, Mail, MapPin } from "lucide-react";
+import { Phone, MapPin } from "lucide-react";
 
 const Footer = () => (
   <footer id="contacts" className="bg-card border-t border-border">
@@ -27,9 +27,6 @@ const Footer = () => (
           <div className="flex flex-col gap-3">
             <a href="tel:+79994675684" className="flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors">
               <Phone className="w-4 h-4 text-primary" /> +7 999 467 56 84
-            </a>
-            <a href="mailto:ermakcentrnsk@gmail.com" className="flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors">
-              <Mail className="w-4 h-4 text-primary" /> ermakcentrnsk@gmail.com
             </a>
             <div className="flex items-start gap-2 text-sm text-muted-foreground">
               <MapPin className="w-4 h-4 text-primary mt-0.5" /> Красный проспект, 11, Новосибирск

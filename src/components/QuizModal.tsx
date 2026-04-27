@@ -147,7 +147,7 @@ const QuizModal = ({ open, onOpenChange, onRequestBooking }: Props) => {
                   <div className="space-y-2">
                     {(
                       [
-                        { id: "first-aid" as const, label: "Первая помощь в критике" },
+                        { id: "first-aid" as const, label: "Первая помощь в критической ситуации" },
                         { id: "safety" as const, label: "Личная безопасность" },
                         { id: "fire" as const, label: "Огневая подготовка" },
                         { id: "tactics" as const, label: "Тактика / выездные интенсивы" },
