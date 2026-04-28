@@ -22,7 +22,6 @@ const CourseCard = ({ course, lightMode }: Props) => {
   const [submitted, setSubmitted] = useState(false);
 
   const isMilitary = course.audience === "military" || course.filterTags.includes("military");
-  const shouldShowFullImage = course.id === "pistol-military";
 
   const handleDateInquiry = (e: React.FormEvent) => {
     e.preventDefault();
@@ -52,33 +51,12 @@ const CourseCard = ({ course, lightMode }: Props) => {
         }`}
       >
         {/* IMAGE */}
-        <div
-          className={`relative overflow-hidden flex items-center justify-center bg-muted shrink-0 ${
-            shouldShowFullImage ? "h-72 sm:h-80" : "h-56 sm:h-64"
-          }`}
-        >
-          {shouldShowFullImage && (
-            <div
-              className="absolute inset-0 scale-110"
-              style={{
-                backgroundImage: `url(${course.image})`,
-                backgroundSize: "cover",
-                backgroundPosition: "center",
-                filter: "blur(10px)",
-                opacity: 0.35,
-              }}
-              aria-hidden="true"
-            />
-          )}
+        <div className="relative overflow-hidden flex items-center justify-center bg-muted shrink-0 h-56 sm:h-64">
           <img
             src={course.image}
             alt={course.title}
             loading="lazy"
-            className={`w-full h-full ${
-              shouldShowFullImage
-                ? "object-contain object-top bg-muted group-hover:scale-100"
-                : "object-cover object-center group-hover:scale-[1.03]"
-            } transition-transform duration-500`}
+            className="w-full h-full object-cover object-center group-hover:scale-[1.03] transition-transform duration-500"
           />
           <div className="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-card/80 to-transparent pointer-events-none" />
 
