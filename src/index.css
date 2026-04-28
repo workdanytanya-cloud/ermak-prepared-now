@@ -255,10 +255,13 @@
   .card-military::before {
     background: linear-gradient(
       to right,
-      rgba(0, 0, 0, 0.9) 0%,
-      rgba(0, 0, 0, 0.8) 40%,
-      rgba(0, 0, 0, 0.5) 65%,
-      rgba(0, 0, 0, 0.18) 85%,
+      rgba(0, 0, 0, 0.93) 0%,
+      rgba(0, 0, 0, 0.84) 24%,
+      rgba(0, 0, 0, 0.66) 42%,
+      rgba(0, 0, 0, 0.46) 58%,
+      rgba(0, 0, 0, 0.27) 72%,
+      rgba(0, 0, 0, 0.12) 84%,
+      rgba(0, 0, 0, 0.04) 92%,
       transparent 100%
     );
   }
