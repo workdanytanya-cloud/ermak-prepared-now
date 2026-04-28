@@ -88,8 +88,8 @@ const militaryCourseIds = [
   "engineering",
   "field-intensive-military",
   "weekend-practice",
-  "events-military",
   "individual-military",
+  "events-military",
 ];
 
 const instructorsData = [
@@ -224,8 +224,12 @@ const Index = () => {
   const [activeInstructor, setActiveInstructor] = useState<number | null>(null);
   const [hoveredSide, setHoveredSide] = useState<"civil" | "military" | null>(null);
 
-  const civilCourses = courses.filter((c) => civilCourseIds.includes(c.id));
-  const militaryCourses = courses.filter((c) => militaryCourseIds.includes(c.id));
+  const civilCourses = courses
+    .filter((c) => civilCourseIds.includes(c.id))
+    .sort((a, b) => civilCourseIds.indexOf(a.id) - civilCourseIds.indexOf(b.id));
+  const militaryCourses = courses
+    .filter((c) => militaryCourseIds.includes(c.id))
+    .sort((a, b) => militaryCourseIds.indexOf(a.id) - militaryCourseIds.indexOf(b.id));
   const uniqueMilitaryCourses = militaryCourses.filter((c, i, arr) => arr.findIndex((x) => x.id === c.id) === i);
   const catalogCivilCourses = civilCourses;
   const catalogMilitaryCourses = uniqueMilitaryCourses;
