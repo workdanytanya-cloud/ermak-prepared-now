@@ -47,7 +47,9 @@ const Footer = () => (
       <div className="border-t border-border mt-12 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
         <p className="text-xs text-muted-foreground">© 2026 ЦСП «ЕРМАК». Все права защищены.</p>
         <div className="flex gap-6">
-          <a href="#" className="text-xs text-muted-foreground hover:text-foreground transition-colors">Политика конфиденциальности</a>
+          <Link to="/privacy-policy" className="text-xs text-muted-foreground hover:text-foreground transition-colors">
+            Политика конфиденциальности
+          </Link>
           <a href="#" className="text-xs text-muted-foreground hover:text-foreground transition-colors">Оферта</a>
         </div>
       </div>
