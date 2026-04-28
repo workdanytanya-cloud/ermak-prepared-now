@@ -7,6 +7,7 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import ScrollToTop from "@/components/ScrollToTop";
 import MobileStickyCta from "@/components/MobileStickyCta";
+import ExitIntentModal from "@/components/ExitIntentModal";
 import { LeadUiProvider } from "@/contexts/LeadUiContext";
 import Index from "./pages/Index.tsx";
 import CoursesPage from "./pages/CoursesPage.tsx";
@@ -34,6 +35,7 @@ const App = () => (
           </Routes>
           <Footer />
           <MobileStickyCta />
+          <ExitIntentModal />
         </LeadUiProvider>
       </BrowserRouter>
     </TooltipProvider>
