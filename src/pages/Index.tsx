@@ -88,8 +88,8 @@ const militaryCourseIds = [
   "engineering",
   "field-intensive-military",
   "weekend-practice",
-  "individual-military",
   "events-military",
+  "individual-military",
 ];
 
 const instructorsData = [
@@ -324,14 +324,14 @@ const Index = () => {
             <AnimatedSection>
               <motion.a
                 href="#civil"
-                className="card card-civil group block border border-[hsl(40,5%,80%)]/45 min-h-[300px] md:min-h-[360px]"
+                className="card civil-card card-civil group block border border-[hsl(40,5%,80%)]/45"
                 animate={{ scale: hoveredSide === "civil" ? 1.02 : 1 }}
                 transition={{ duration: 0.25, ease: "easeOut" }}
                 onMouseEnter={() => setHoveredSide("civil")}
                 onMouseLeave={() => setHoveredSide(null)}
               >
-                <img src="/hero-civil.jpg" alt="Гражданские" className="absolute inset-0" />
-                <div className="content h-[calc(100%-40px)] flex flex-col">
+                <img src="/hero-civil.jpg" alt="Гражданские" />
+                <div className="content">
                   <h2 className="font-heading text-3xl sm:text-4xl text-white leading-none">ГРАЖДАНСКИЕ</h2>
                   <ul className="mt-4 space-y-1.5 text-[hsl(40,10%,86%)] text-sm sm:text-base">
                     <li className="flex items-center gap-2"><ChevronRight className="w-4 h-4" /> Первая помощь</li>
@@ -350,14 +350,14 @@ const Index = () => {
             <AnimatedSection delay={0.05}>
               <motion.a
                 href="#military"
-                className="card card-military group block border border-border min-h-[300px] md:min-h-[360px]"
+                className="card force-card card-military group block border border-border"
                 animate={{ scale: hoveredSide === "military" ? 1.02 : 1 }}
                 transition={{ duration: 0.25, ease: "easeOut" }}
                 onMouseEnter={() => setHoveredSide("military")}
                 onMouseLeave={() => setHoveredSide(null)}
               >
-                <img src="/hero-military.jpg" alt="Силовые структуры" className="absolute inset-0" />
-                <div className="content h-[calc(100%-40px)] flex flex-col">
+                <img src="/hero-military.jpg" alt="Силовые структуры" />
+                <div className="content">
                   <h2 className="font-heading text-3xl sm:text-4xl text-white leading-none">СИЛОВЫЕ СТРУКТУРЫ</h2>
                   <ul className="mt-4 space-y-1.5 text-[hsl(210,10%,84%)] text-sm sm:text-base">
                     <li className="flex items-center gap-2"><ChevronRight className="w-4 h-4" /> Тактическая медицина</li>

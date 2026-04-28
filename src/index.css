@@ -134,7 +134,10 @@
     position: relative;
     overflow: hidden;
     border-radius: 16px;
+    aspect-ratio: 16 / 9;
     transition: transform 0.3s ease;
+    background-size: cover;
+    background-position: center center;
   }
 
   .card:hover {
@@ -142,9 +145,12 @@
   }
 
   .card img {
+    position: absolute;
+    inset: 0;
     width: 100%;
     height: 100%;
     object-fit: cover;
+    object-position: right center;
   }
 
   .card::before {
@@ -160,18 +166,23 @@
       transparent 100%
     );
     z-index: 1;
+    pointer-events: none;
   }
 
   .card .content {
     position: absolute;
     top: 24px;
     left: 24px;
+    bottom: 24px;
     z-index: 2;
-    max-width: 45%;
-    background: rgba(0, 0, 0, 0.28);
-    backdrop-filter: blur(4px);
+    width: 40%;
+    max-width: 42%;
+    min-width: 38%;
+    background: transparent;
     padding: 14px;
     border-radius: 12px;
+    display: flex;
+    flex-direction: column;
   }
 
   .card h2 {
@@ -183,6 +194,19 @@
 
   .card ul {
     opacity: 0.9;
+  }
+
+  .civil-card {
+    background-position: right center;
+  }
+
+  .force-card {
+    background-position: right center;
+  }
+
+  .civil-card img,
+  .force-card img {
+    object-position: right center;
   }
 
   .card-military::before {
@@ -198,17 +222,54 @@
 
   @media (max-width: 1024px) {
     .card .content {
-      max-width: 58%;
+      width: 46%;
+      max-width: 50%;
+      min-width: 42%;
     }
   }
 
   @media (max-width: 768px) {
+    .card {
+      aspect-ratio: auto;
+      display: flex;
+      flex-direction: column;
+      min-height: auto;
+      background-position: center center;
+    }
+
+    .card::before {
+      display: none;
+    }
+
+    .card img {
+      position: relative;
+      inset: auto;
+      width: 100%;
+      aspect-ratio: 4 / 3;
+      height: auto;
+      object-fit: contain;
+      object-position: center top;
+      background: hsl(220 20% 7%);
+    }
+
     .card .content {
-      top: 16px;
-      left: 16px;
-      right: 16px;
-      max-width: calc(100% - 32px);
-      padding: 12px;
+      position: relative;
+      top: auto;
+      left: auto;
+      right: auto;
+      bottom: auto;
+      width: 100%;
+      max-width: 100%;
+      min-width: 100%;
+      border-radius: 0;
+      padding: 16px;
+      background: hsl(220 20% 7%);
+    }
+
+    .card h2 {
+      font-size: 36px;
+      line-height: 1;
+      margin-bottom: 10px;
     }
   }
 }
