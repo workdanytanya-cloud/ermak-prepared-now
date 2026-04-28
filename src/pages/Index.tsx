@@ -324,15 +324,14 @@ const Index = () => {
             <AnimatedSection>
               <motion.a
                 href="#civil"
-                className="group relative block rounded-xl overflow-hidden border border-[hsl(40,5%,80%)]/45 min-h-[300px] md:min-h-[360px]"
+                className="card-civil group block border border-[hsl(40,5%,80%)]/45 min-h-[300px] md:min-h-[360px]"
                 animate={{ scale: hoveredSide === "civil" ? 1.02 : 1 }}
                 transition={{ duration: 0.25, ease: "easeOut" }}
                 onMouseEnter={() => setHoveredSide("civil")}
                 onMouseLeave={() => setHoveredSide(null)}
               >
-                <img src="/hero-civil.jpg" alt="Гражданские" className="absolute inset-0 w-full h-full object-cover" />
-                <div className="absolute inset-0 bg-black/62 group-hover:bg-black/68 transition-colors" />
-                <div className="relative z-10 p-5 sm:p-6 h-full flex flex-col">
+                <div className="absolute inset-0 z-[1] bg-black/25 group-hover:bg-black/35 transition-colors" />
+                <div className="content h-[calc(100%-40px)] flex flex-col">
                   <h2 className="font-heading text-3xl sm:text-4xl text-white leading-none">ГРАЖДАНСКИЕ</h2>
                   <ul className="mt-4 space-y-1.5 text-[hsl(40,10%,86%)] text-sm sm:text-base">
                     <li className="flex items-center gap-2"><ChevronRight className="w-4 h-4" /> Первая помощь</li>
