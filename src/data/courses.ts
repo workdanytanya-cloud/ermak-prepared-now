@@ -835,7 +835,7 @@ export const courses: Course[] = [
     totalSpots: 30,
     nextDate: "Любая дата",
     hasDate: false,
-    image: "/силовые направления/выездные мероприятия силов.png",
+    image: "/силовые направления/выездные мероприятия силов.jpg",
     audience: "military",
     filterTags: ["military", "events"],
     program: [
