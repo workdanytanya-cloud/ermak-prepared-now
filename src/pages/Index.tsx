@@ -17,7 +17,7 @@ const faqData = [
   },
   {
     q: "Можно ли прийти без физподготовки?",
-    a: "Да. Мы не гоняем «на спортзал»: важна техника, безопасность и правильные решения. Нагрузку дозируем под группу.",
+    a: "Да. Формат без перегруза «как в спортзале»: важны техника, безопасность и правильные решения. Нагрузку дозируем под группу.",
   },
   {
     q: "Подойдёт ли курс обычному человеку без службы?",
@@ -118,7 +118,7 @@ const instructorsData = [
 
 Награждён государственными наградами, а также благодарственными письмами правительства за личный вклад в воспитании детей.
 
-Если ваши дети ездили на наши военные сезоны, то знают о его брутальности не понаслышке. Андрей Игоревич будет интересен вашему ребёнку, как личность, а вам, как профессионал своего дела. Он очень компетентен и востребован в том, что делает.`,
+Если ваши дети ездили на наши военные сезоны, то знают о его брутальности на личном опыте. Андрей Игоревич будет интересен вашему ребёнку, как личность, а вам, как профессионал своего дела. Он очень компетентен и востребован в том, что делает.`,
   },
   {
     name: "Дедов Михаил Владимирович",
@@ -265,14 +265,14 @@ const Index = () => {
             type: "civil" as const,
           },
           {
-            text: "Дочь подавилась на площадке. В голове сразу вылез сценарий отработки на курсе — сделала всё, как учили. Через 10 секунд она дышала. Панику окружающих было не передать",
+            text: "Дочь подавилась на площадке. В голове сразу вылез сценарий отработки на курсе — сделала всё, как учили. Через 10 секунд она дышала. Уровень тревоги вокруг был запредельным",
             author: "Мария, 28 лет",
             course: "Первая помощь",
             outcome: "Спокойные действия вместо паники",
             type: "civil" as const,
           },
           {
-            text: "После курса тактики действовал уверенно. Знал, как работать в группе, как входить в помещение, как прикрывать. Это не теория — это навык.",
+            text: "После курса тактики действовал уверенно. Знал, как работать в группе, как входить в помещение, как прикрывать. Это чистый прикладной навык.",
             author: "Сергей, 29 лет",
             course: "Тактическая подготовка",
             outcome: "Уверенная работа в составе звена",
@@ -286,7 +286,7 @@ const Index = () => {
             type: "military" as const,
           },
           {
-            text: "Прошла женскую безопасность. Теперь иначе смотрю на привычные маршруты. Вижу опасности, знаю, как реагировать. Это спокойствие, а не паранойя.",
+            text: "Прошла женскую безопасность. Теперь иначе смотрю на привычные маршруты. Вижу опасности, знаю, как реагировать. Это спокойствие и контроль.",
             author: "Екатерина, 31 год",
             course: "Женская безопасность",
             outcome: "Иначе читаю среду и риски",
@@ -308,7 +308,7 @@ const Index = () => {
         {/* Hero title — static on mobile, absolute on md+ */}
         <div className="relative z-30 pt-20 pb-6 px-4 bg-gradient-to-b from-[hsl(220,20%,7%)] to-[hsl(220,20%,7%)]/80 md:absolute md:top-0 md:left-0 md:right-0 md:bg-none md:pt-20 md:pb-0">
           <div className="container mx-auto text-center max-w-4xl">
-            <h1 className="font-heading text-xl sm:text-2xl md:text-4xl lg:text-5xl font-bold text-white leading-tight mb-2">
+            <h1 className="font-heading text-3xl sm:text-4xl md:text-5xl font-bold text-white leading-[1.05] mb-3 max-w-3xl mx-auto">
               Навыки, которые работают в реальных ситуациях - только практика
             </h1>
             <p className="text-[hsl(40,10%,78%)] text-xs sm:text-sm font-body font-normal leading-relaxed md:text-sm">
@@ -336,7 +336,7 @@ const Index = () => {
                 width={960}
                 height={1080}
               />
-              <div className="absolute inset-0 bg-gradient-to-b from-[hsl(40,10%,20%)]/70 via-[hsl(40,10%,15%)]/50 to-[hsl(40,10%,10%)]/80" />
+              <div className="absolute inset-0 bg-gradient-to-b from-[hsl(40,10%,20%)]/55 via-[hsl(40,10%,15%)]/35 to-[hsl(40,10%,10%)]/62" />
             </div>
             <div className="relative z-10 text-center px-4 sm:px-6 py-8 md:py-0 max-w-lg flex flex-col items-center justify-center">
               <h2 className="font-heading text-2xl sm:text-3xl lg:text-4xl font-bold text-white leading-[0.95] mb-2 sm:mb-4 md:text-2xl">
@@ -383,7 +383,7 @@ const Index = () => {
                 width={960}
                 height={1080}
               />
-              <div className="absolute inset-0 bg-gradient-to-b from-[hsl(220,20%,8%)]/80 via-[hsl(220,20%,8%)]/60 to-[hsl(220,20%,8%)]/90" />
+              <div className="absolute inset-0 bg-gradient-to-b from-[hsl(220,20%,8%)]/60 via-[hsl(220,20%,8%)]/42 to-[hsl(220,20%,8%)]/72" />
             </div>
             <div className="relative z-10 text-center px-4 sm:px-6 py-8 md:py-0 max-w-lg flex flex-col items-center justify-center">
               <h2 className="font-heading text-2xl sm:text-3xl lg:text-4xl font-bold text-white leading-[0.95] mb-2 sm:mb-4 md:text-2xl">
@@ -442,7 +442,7 @@ const Index = () => {
               РЕАЛЬНАЯ ПОДГОТОВКА, <span className="text-gradient">С НЕОБХОДИМЫМ МИНИМУМОМ</span>
             </h2>
             <p className="text-center text-muted-foreground text-sm max-w-2xl mx-auto mb-8 md:mb-12 leading-relaxed">
-              Подготовка под реальные задачи, а не "для отчёта".
+              Подготовка под реальные задачи и прикладной результат.
             </p>
           </AnimatedSection>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 md:gap-4">
@@ -456,47 +456,6 @@ const Index = () => {
               </AnimatedSection>
             ))}
           </div>
-        </div>
-      </section>
-
-      {/* PAIN BLOCK */}
-      <section className="py-16 md:py-28 px-4 md:px-8 bg-[hsl(220,18%,8%)] border-y border-border/80">
-        <div className="container mx-auto">
-          <AnimatedSection>
-            <h2 className="font-heading text-2xl sm:text-3xl md:text-5xl font-bold text-foreground text-center mb-3 sm:mb-4">
-              В критической ситуации <span className="text-gradient">мозг отключается - работают только устойчивые навыки</span>
-            </h2>
-            <p className="text-muted-foreground max-w-2xl mx-auto mb-10 md:mb-16 text-sm sm:text-base leading-relaxed">
-              Потеря контроля = потеря времени. {"\n"}Ошибка = последствия. {"\n"}Отсутствие навыка = ступор.
-            </p>
-          </AnimatedSection>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6 mb-4 sm:mb-6">
-            {[
-              {
-                icon: AlertTriangle,
-                title: "Гражданским",
-                text: <>Скорая может не успеть. Первые минуты - решающие. И именно Вы окажетесь рядом.</>,
-              },
-              {
-                icon: Shield,
-                title: "Силовым",
-                text: <>В условиях стресса работает не знание - работает навык, доведённый до автоматизма.</>,
-              },
-            ].map((item, i) => (
-              <AnimatedSection key={i} delay={i * 0.1}>
-                <div className="bg-card-gradient border border-border rounded-lg p-6 md:p-7 hover:border-accent/30 hover:shadow-glow transition-all duration-300 h-full min-h-[220px] flex flex-col">
-                  <item.icon className="w-10 h-10 text-accent mb-4 shrink-0" />
-                  <h3 className="font-heading text-lg md:text-xl font-semibold text-foreground mb-3 leading-tight">
-                    {item.title}
-                  </h3>
-                  <p className="text-sm text-muted-foreground leading-relaxed flex-1">{item.text}</p>
-                </div>
-              </AnimatedSection>
-            ))}
-          </div>
-          <p className="text-center text-sm text-muted-foreground max-w-3xl mx-auto">
-            Решение принимается заранее. Когда начнётся критическая ситуация, гуглить будет уже поздно.
-          </p>
         </div>
       </section>
 
@@ -542,6 +501,47 @@ const Index = () => {
               </div>
             </AnimatedSection>
           </div>
+        </div>
+      </section>
+
+      {/* PAIN BLOCK */}
+      <section className="py-16 md:py-28 px-4 md:px-8 bg-[hsl(220,18%,8%)] border-y border-border/80">
+        <div className="container mx-auto">
+          <AnimatedSection>
+            <h2 className="font-heading text-2xl sm:text-3xl md:text-5xl font-bold text-foreground text-center mb-3 sm:mb-4">
+              В критической ситуации <span className="text-gradient">мозг отключается - работают только устойчивые навыки</span>
+            </h2>
+            <p className="text-muted-foreground max-w-2xl mx-auto mb-10 md:mb-16 text-sm sm:text-base leading-relaxed">
+              Потеря контроля = потеря времени. {"\n"}Ошибка = последствия. {"\n"}Отсутствие навыка = ступор.
+            </p>
+          </AnimatedSection>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6 mb-4 sm:mb-6">
+            {[
+              {
+                icon: AlertTriangle,
+                title: "Гражданским",
+                text: <>Скорая часто едет дольше ожиданий. Первые минуты - решающие. Именно Вы окажетесь рядом.</>,
+              },
+              {
+                icon: Shield,
+                title: "Силовым",
+                text: <>В условиях стресса срабатывает навык, доведённый до автоматизма.</>,
+              },
+            ].map((item, i) => (
+              <AnimatedSection key={i} delay={i * 0.1}>
+                <div className="bg-card-gradient border border-border rounded-lg p-6 md:p-7 hover:border-accent/30 hover:shadow-glow transition-all duration-300 h-full min-h-[220px] flex flex-col">
+                  <item.icon className="w-10 h-10 text-accent mb-4 shrink-0" />
+                  <h3 className="font-heading text-lg md:text-xl font-semibold text-foreground mb-3 leading-tight">
+                    {item.title}
+                  </h3>
+                  <p className="text-sm text-muted-foreground leading-relaxed flex-1">{item.text}</p>
+                </div>
+              </AnimatedSection>
+            ))}
+          </div>
+          <p className="text-center text-sm text-muted-foreground max-w-3xl mx-auto">
+            Решение принимается заранее. Когда начнётся критическая ситуация, гуглить будет уже поздно.
+          </p>
         </div>
       </section>
 
@@ -753,10 +753,10 @@ const Index = () => {
         <div className="container mx-auto">
           <AnimatedSection>
             <h2 className="font-heading text-2xl sm:text-3xl md:text-5xl font-bold text-foreground text-center mb-8 md:mb-16">
-              Не лекции - <span className="text-gradient">реальные сценарии</span>
+              Практика и <span className="text-gradient">реальные сценарии</span>
             </h2>
             <p className="text-center text-muted-foreground text-sm sm:text-base max-w-2xl mx-auto mb-8 md:-mt-8 md:mb-12">
-              Вы не только слушаете. Вы делаете.
+              Вы сразу работаете в практических сценариях.
             </p>
           </AnimatedSection>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-8 max-w-5xl mx-auto">
@@ -782,7 +782,7 @@ const Index = () => {
               {
                 step: "04",
                 title: "Повтор до автоматизма",
-                text: "Отработка до состояния, когда не нужно думать.",
+                text: "Отработка до состояния автоматической реакции.",
                 icon: Clock,
               },
             ].map((s, i) => (
@@ -837,7 +837,7 @@ const Index = () => {
               Вы либо умеете - либо нет
             </h2>
             <p className="text-muted-foreground text-sm sm:text-base md:text-lg leading-relaxed">
-              В момент, когда что-то случится, не будет второго шанса "подготовиться".
+              В момент, когда что-то случится, второго шанса на подготовку уже нет.
               <br className="hidden sm:block" />
               Решение принимается заранее.
             </p>

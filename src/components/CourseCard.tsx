@@ -44,7 +44,7 @@ const CourseCard = ({ course, lightMode }: Props) => {
   return (
     <>
       <div
-        className={`group border rounded-lg overflow-hidden transition-all duration-300 flex flex-col hover:-translate-y-0.5 hover:shadow-glow ${
+        className={`group border rounded-lg overflow-hidden transition-all duration-300 flex flex-col h-full min-h-[760px] hover:-translate-y-0.5 hover:shadow-glow ${
           lightMode
             ? "bg-white border-[hsl(40,5%,80%)] hover:border-[hsl(38,90%,50%)]/45"
             : "bg-card-gradient border-border hover:border-accent/35"
@@ -73,7 +73,7 @@ const CourseCard = ({ course, lightMode }: Props) => {
         <div className="p-4 sm:p-5 flex flex-col flex-1">
           {/* TITLE */}
           <h3
-            className={`font-heading text-sm sm:text-base font-semibold mb-3 leading-tight line-clamp-2 ${
+            className={`font-heading text-sm sm:text-base font-semibold mb-3 leading-tight ${
               lightMode ? "text-civil" : "text-foreground"
             }`}
           >

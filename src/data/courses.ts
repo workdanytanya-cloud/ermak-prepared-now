@@ -81,7 +81,7 @@ export const courses: Course[] = [
     totalSpots: 16,
     nextDate: "Апрель 2026",
     hasDate: false,
-    image: "/courses/civil/first-aid-course.png",
+    image: "/гражданские курсы/first-aid-course.png",
     audience: "civil",
     filterTags: ["civil", "first-aid"],
     program: [
@@ -135,7 +135,7 @@ export const courses: Course[] = [
     totalSpots: 14,
     nextDate: "18–19 апреля 2026",
     hasDate: true,
-    image: "/courses/civil/women-safety.png",
+    image: "/гражданские курсы/women-safety.png",
     audience: "civil",
     filterTags: ["civil", "women-safety"],
     program: [
@@ -188,7 +188,7 @@ export const courses: Course[] = [
     totalSpots: 14,
     nextDate: "Апрель 2026",
     hasDate: false,
-    image: "/courses/civil/ak-operator-civil.png",
+    image: "/гражданские курсы/Оператор АК гражд.png",
     audience: "civil",
     filterTags: ["civil", "firearms"],
     program: [
@@ -240,7 +240,7 @@ export const courses: Course[] = [
     totalSpots: 14,
     nextDate: "Апрель 2026",
     hasDate: false,
-    image: "/courses/military/ak-operator-military.png",
+    image: "/силовые направления/Оператор АК.png",
     audience: "military",
     filterTags: ["military", "firearms"],
     program: [
@@ -287,7 +287,7 @@ export const courses: Course[] = [
     totalSpots: 16,
     nextDate: "25–26 апреля 2026",
     hasDate: true,
-    image: "/courses/civil/tacmed-civil.png",
+    image: "/гражданские курсы/такмед.гражд.png",
     audience: "civil",
     filterTags: ["civil", "tactical-medicine", "first-aid"],
     program: [
@@ -336,7 +336,7 @@ export const courses: Course[] = [
     totalSpots: 16,
     nextDate: "25–26 апреля 2026",
     hasDate: true,
-    image: "/courses/military/tacmed-military.png",
+    image: "/силовые направления/такмед.силов.png",
     audience: "military",
     filterTags: ["military", "tactical-medicine", "first-aid"],
     program: [
@@ -390,7 +390,7 @@ export const courses: Course[] = [
     totalSpots: 18,
     nextDate: "16–17 мая 2026",
     hasDate: true,
-    image: "/courses/military/tactics-military.png",
+    image: "/силовые направления/тактика.силов.png",
     audience: "military",
     filterTags: ["military", "tactics"],
     program: [
@@ -440,7 +440,7 @@ export const courses: Course[] = [
     totalSpots: 16,
     nextDate: "23–24 мая 2026",
     hasDate: true,
-    image: "/courses/civil/applied-pistol-civil.png",
+    image: "/гражданские курсы/Прикл. пист.гражд.png",
     audience: "civil",
     filterTags: ["civil", "pistol", "firearms"],
     program: [
@@ -478,7 +478,7 @@ export const courses: Course[] = [
     totalSpots: 16,
     nextDate: "23–24 мая 2026",
     hasDate: true,
-    image: "/courses/military/applied-pistol-military.png",
+    image: "/силовые направления/прикл.пист.силов.png",
     audience: "military",
     filterTags: ["military", "pistol", "firearms"],
     program: [
@@ -519,7 +519,7 @@ export const courses: Course[] = [
     totalSpots: 20,
     nextDate: "30–31 мая 2026",
     hasDate: true,
-    image: "/courses/military/engineering-military.png",
+    image: "/силовые направления/инжен.силов.png",
     audience: "military",
     filterTags: ["military", "tactics", "field"],
     program: [
@@ -567,7 +567,7 @@ export const courses: Course[] = [
     totalSpots: 18,
     nextDate: "По набору группы",
     hasDate: false,
-    image: "/courses/civil/engineering-civil.png",
+    image: "/гражданские курсы/инжен.гражд.png",
     audience: "civil",
     filterTags: ["civil", "tactics", "field"],
     program: [
@@ -610,7 +610,7 @@ export const courses: Course[] = [
     totalSpots: 24,
     nextDate: "22–27 июня 2026",
     hasDate: true,
-    image: "/courses/civil/field-civil.png",
+    image: "/гражданские курсы/полевой.гражд.png",
     audience: "civil",
     filterTags: ["civil", "field", "tactics", "firearms", "tactical-medicine"],
     program: [
@@ -657,7 +657,7 @@ export const courses: Course[] = [
     totalSpots: 24,
     nextDate: "22–27 июня 2026",
     hasDate: true,
-    image: "/courses/military/field-military.png",
+    image: "/силовые направления/выездные мероприятия силов.png",
     audience: "military",
     filterTags: ["military", "field", "tactics", "firearms", "tactical-medicine"],
     program: [
@@ -705,7 +705,7 @@ export const courses: Course[] = [
     totalSpots: 14,
     nextDate: "Еженедельно",
     hasDate: false,
-    image: "/courses/military/practice-military.png",
+    image: "/силовые направления/практ.бой.подг.силов.jpg",
     audience: "military",
     filterTags: ["military", "firearms", "tactics", "individual"],
     program: [
@@ -752,7 +752,7 @@ export const courses: Course[] = [
     totalSpots: 14,
     nextDate: "Еженедельно",
     hasDate: false,
-    image: "/courses/civil/practice-civil.png",
+    image: "/гражданские курсы/практ.бой.под.гражд.png",
     audience: "civil",
     filterTags: ["civil", "firearms", "tactics", "individual"],
     program: [
@@ -794,7 +794,7 @@ export const courses: Course[] = [
     totalSpots: 30,
     nextDate: "Любая дата",
     hasDate: false,
-    image: "/courses/civil/outdoor-civil.png",
+    image: "/гражданские курсы/выездные мероприятия гражд.png",
     audience: "civil",
     filterTags: ["civil", "events"],
     program: [
@@ -835,7 +835,7 @@ export const courses: Course[] = [
     totalSpots: 30,
     nextDate: "Любая дата",
     hasDate: false,
-    image: "/courses/military/outdoor-military.png",
+    image: "/силовые направления/выездные мероприятия силов.png",
     audience: "military",
     filterTags: ["military", "events"],
     program: [
@@ -875,7 +875,7 @@ export const courses: Course[] = [
     spotsLeft: 20,
     nextDate: "Любая дата",
     hasDate: false,
-    image: "/courses/civil/individual-civil.png",
+    image: "/гражданские курсы/индив.тренгражд.png",
     audience: "civil",
     filterTags: ["civil", "individual", "tactical-medicine", "firearms"],
     program: [
@@ -916,7 +916,7 @@ export const courses: Course[] = [
     spotsLeft: 20,
     nextDate: "Любая дата",
     hasDate: false,
-    image: "/courses/military/individual-military.png",
+    image: "/силовые направления/индив.трен.силов.png",
     audience: "military",
     filterTags: ["military", "individual", "tactical-medicine", "firearms"],
     program: [
