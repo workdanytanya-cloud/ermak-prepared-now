@@ -306,15 +306,17 @@ const Index = () => {
       {/* SPLIT HERO */}
       <section className="relative min-h-[100svh] flex flex-col overflow-hidden">
         {/* Hero title — static on mobile, absolute on md+ */}
-        <div className="relative z-30 pt-20 pb-6 px-4 bg-gradient-to-b from-[hsl(220,20%,7%)] to-[hsl(220,20%,7%)]/80 md:absolute md:top-0 md:left-0 md:right-0 md:bg-none md:pt-20 md:pb-0">
+        <div className="relative z-30 pt-20 pb-6 px-4 bg-gradient-to-b from-[hsl(220,20%,7%)] to-[hsl(220,20%,7%)]/80 md:absolute md:top-0 md:left-0 md:right-0 md:bg-none md:pt-24 md:pb-0">
           <div className="container mx-auto text-center max-w-4xl">
-            <h1 className="font-heading text-3xl sm:text-4xl md:text-5xl font-bold text-white leading-[1.05] mb-3 max-w-3xl mx-auto">
+            <div className="mx-auto max-w-3xl rounded-lg bg-[hsl(220,20%,7%)]/45 backdrop-blur-[2px] px-4 py-3 md:bg-transparent md:backdrop-blur-0 md:px-0 md:py-0">
+            <h1 className="font-heading text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-white leading-[1.08] mb-3 max-w-3xl mx-auto">
               Навыки, которые работают в реальных ситуациях - только практика
             </h1>
-            <p className="text-[hsl(40,10%,78%)] text-sm sm:text-base font-body font-normal leading-relaxed md:text-base">
+            <p className="text-[hsl(40,10%,78%)] text-sm sm:text-base font-body font-normal leading-relaxed md:text-lg">
               Подготовка для гражданских и силовых структур.
               <br className="hidden sm:block" />С практикой, сценариями и отработкой до автоматизма.
             </p>
+            </div>
           </div>
         </div>
 
@@ -342,10 +344,11 @@ const Index = () => {
               <h2 className="font-heading text-2xl sm:text-3xl lg:text-4xl font-bold text-white leading-[0.95] mb-2 sm:mb-4 md:text-2xl">
                 ГРАЖДАНСКИЕ
               </h2>
-              <p className="text-[hsl(40,10%,72%)] text-xs sm:text-sm md:text-base mb-2 sm:mb-3 font-body font-normal">
+              <div className="bg-black/35 rounded-md px-3 py-2">
+              <p className="text-[hsl(40,10%,85%)] text-xs sm:text-sm md:text-base mb-2 sm:mb-3 font-body font-normal">
                 Если рядом станет плохо - Вы знаете, что делать?
               </p>
-              <ul className="text-[hsl(40,10%,72%)] text-[11px] sm:text-xs mb-4 sm:mb-6 text-left space-y-1">
+              <ul className="text-[hsl(40,10%,85%)] text-[11px] sm:text-xs mb-1 text-left space-y-1">
                 <li className="flex items-center gap-1">
                   <ChevronRight className="w-3 h-3" /> Первая помощь
                 </li>
@@ -356,6 +359,7 @@ const Index = () => {
                   <ChevronRight className="w-3 h-3" /> Поведение в опасных ситуациях
                 </li>
               </ul>
+              </div>
               <a href="#civil">
                 <Button
                   size="lg"
@@ -508,7 +512,7 @@ const Index = () => {
       <section className="py-16 md:py-28 px-4 md:px-8 bg-[hsl(220,18%,8%)] border-y border-border/80">
         <div className="container mx-auto">
           <AnimatedSection>
-            <h2 className="font-heading text-2xl sm:text-3xl md:text-5xl font-bold leading-[1.1] text-foreground text-center mb-3 sm:mb-4">
+            <h2 className="font-heading text-2xl sm:text-3xl md:text-5xl font-bold leading-[1.22] text-foreground text-center mb-3 sm:mb-4">
               В критической ситуации <span className="text-gradient">мозг отключается - работают только устойчивые навыки</span>
             </h2>
             <p className="text-muted-foreground mx-auto mb-10 md:mb-16 text-sm sm:text-base leading-relaxed text-center md:whitespace-nowrap">

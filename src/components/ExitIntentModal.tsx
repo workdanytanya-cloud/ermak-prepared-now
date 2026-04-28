@@ -1,7 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { useLocation } from "react-router-dom";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import { Button } from "@/components/ui/button";
 
 const STORAGE_KEY = "ermak_exit_intent_shown";
 const TG_LINK = "https://t.me/ErmakCenter";
@@ -63,11 +62,9 @@ const ExitIntentModal = () => {
         <p className="text-sm text-foreground leading-relaxed">👉 В канале - разборы, сценарии и реальные ситуации</p>
 
         <div className="space-y-2">
-          <a href={TG_LINK} target="_blank" rel="noopener noreferrer" className="block">
-            <Button className="w-full bg-cta-gradient text-accent-foreground font-heading tracking-wider shadow-cta hover:opacity-95">
-              Подписаться
-            </Button>
-          </a>
+          <div className="w-full bg-cta-gradient text-accent-foreground font-heading tracking-wider shadow-cta rounded-md py-3 text-center">
+            Выберите удобный для себя канал
+          </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
             <a href={MAX_LINK} target="_blank" rel="noopener noreferrer" className="block">
