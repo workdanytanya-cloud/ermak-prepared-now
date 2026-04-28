@@ -1,0 +1,15 @@
+node_modules
+dist
+dist-ssr
+.git
+.github
+.cursor
+.idea
+.vscode
+*.log
+*.local
+coverage
+data/*.db-shm
+data/*.db-wal
+new sait. ermak
+public/public.rar
