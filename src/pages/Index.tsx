@@ -334,8 +334,12 @@ const Index = () => {
                 onMouseEnter={() => setHoveredSide("civil")}
                 onMouseLeave={() => setHoveredSide(null)}
               >
-                <img src="/hero-civil.jpg" alt="Гражданские" />
-                <div className="content">
+                <div
+                  className="card-image"
+                  style={{ backgroundImage: "url('/hero-civil.jpg')" }}
+                  aria-hidden="true"
+                />
+                <div className="card-content">
                   <h2 className="font-heading text-3xl sm:text-4xl text-white leading-none">ГРАЖДАНСКИЕ</h2>
                   <ul className="mt-4 space-y-1.5 text-[hsl(40,10%,86%)] text-sm sm:text-base">
                     <li className="flex items-center gap-2"><ChevronRight className="w-4 h-4" /> Первая помощь</li>
@@ -360,8 +364,12 @@ const Index = () => {
                 onMouseEnter={() => setHoveredSide("military")}
                 onMouseLeave={() => setHoveredSide(null)}
               >
-                <img src="/hero-military.jpg" alt="Силовые структуры" />
-                <div className="content">
+                <div
+                  className="card-image"
+                  style={{ backgroundImage: "url('/hero-military.jpg')" }}
+                  aria-hidden="true"
+                />
+                <div className="card-content">
                   <h2 className="font-heading text-3xl sm:text-4xl text-white leading-none">СИЛОВЫЕ СТРУКТУРЫ</h2>
                   <ul className="mt-4 space-y-1.5 text-[hsl(210,10%,84%)] text-sm sm:text-base">
                     <li className="flex items-center gap-2"><ChevronRight className="w-4 h-4" /> Тактическая медицина</li>

@@ -58,8 +58,10 @@ const CourseCard = ({ course, lightMode }: Props) => {
             alt={course.title}
             loading="lazy"
             className={`w-full h-full ${
-              shouldShowFullImage ? "object-contain object-center bg-muted" : "object-cover object-center"
-            } group-hover:scale-[1.03] transition-transform duration-500`}
+              shouldShowFullImage
+                ? "object-contain object-top bg-muted group-hover:scale-100"
+                : "object-cover object-center group-hover:scale-[1.03]"
+            } transition-transform duration-500`}
           />
           <div className="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-card/80 to-transparent pointer-events-none" />
 
