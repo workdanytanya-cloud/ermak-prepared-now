@@ -303,138 +303,100 @@ const Index = () => {
 
   return (
     <div className="min-h-screen pb-28 md:pb-0">
-      {/* SPLIT HERO */}
-      <section className="relative min-h-[100svh] flex flex-col overflow-hidden">
-        {/* Hero title — static on mobile, absolute on md+ */}
-        <div className="relative z-30 pt-20 pb-6 px-4 bg-gradient-to-b from-[hsl(220,20%,7%)] to-[hsl(220,20%,7%)]/80 md:absolute md:top-0 md:left-0 md:right-0 md:bg-none md:pt-24 md:pb-0">
-          <div className="container mx-auto text-center max-w-4xl">
-            <div className="mx-auto max-w-3xl rounded-lg bg-[hsl(220,20%,7%)]/45 backdrop-blur-[2px] px-4 py-3 md:bg-transparent md:backdrop-blur-0 md:px-0 md:py-0">
-            <h1 className="font-heading text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-white leading-[1.08] mb-3 max-w-3xl mx-auto">
-              Навыки, которые работают в реальных ситуациях - только практика
-            </h1>
-            <p className="text-[hsl(40,10%,78%)] text-sm sm:text-base font-body font-normal leading-relaxed md:text-lg">
-              Подготовка для гражданских и силовых структур.
-              <br className="hidden sm:block" />С практикой, сценариями и отработкой до автоматизма.
-            </p>
+      {/* HERO */}
+      <section className="relative overflow-hidden border-b border-border/60 bg-[hsl(220,20%,7%)]">
+        <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/75 to-black/78 pointer-events-none" />
+        <div className="relative container mx-auto px-4 pt-24 md:pt-28 pb-8 md:pb-12">
+          <AnimatedSection>
+            <div className="max-w-4xl mx-auto text-center mb-8 md:mb-10">
+              <h1 className="font-heading text-4xl sm:text-5xl md:text-6xl font-bold text-white leading-[1.04]">
+                Навыки, которые работают в реальных ситуациях
+              </h1>
+              <p className="mt-4 text-[hsl(40,10%,82%)] text-base sm:text-lg leading-relaxed max-w-2xl mx-auto">
+                Практическая подготовка для гражданских и силовых.
+                <br className="hidden sm:block" />
+                Сценарии, отработка, результат.
+              </p>
             </div>
+          </AnimatedSection>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
+            <AnimatedSection>
+              <motion.a
+                href="#civil"
+                className="group relative block rounded-xl overflow-hidden border border-[hsl(40,5%,80%)]/45 min-h-[300px] md:min-h-[360px]"
+                animate={{ scale: hoveredSide === "civil" ? 1.02 : 1 }}
+                transition={{ duration: 0.25, ease: "easeOut" }}
+                onMouseEnter={() => setHoveredSide("civil")}
+                onMouseLeave={() => setHoveredSide(null)}
+              >
+                <img src="/hero-civil.jpg" alt="Гражданские" className="absolute inset-0 w-full h-full object-cover" />
+                <div className="absolute inset-0 bg-black/62 group-hover:bg-black/68 transition-colors" />
+                <div className="relative z-10 p-5 sm:p-6 h-full flex flex-col">
+                  <h2 className="font-heading text-3xl sm:text-4xl text-white leading-none">ГРАЖДАНСКИЕ</h2>
+                  <ul className="mt-4 space-y-1.5 text-[hsl(40,10%,86%)] text-sm sm:text-base">
+                    <li className="flex items-center gap-2"><ChevronRight className="w-4 h-4" /> Первая помощь</li>
+                    <li className="flex items-center gap-2"><ChevronRight className="w-4 h-4" /> Личная безопасность</li>
+                    <li className="flex items-center gap-2"><ChevronRight className="w-4 h-4" /> Поведение в критических ситуациях</li>
+                  </ul>
+                  <div className="mt-auto pt-5">
+                    <Button type="button" size="lg" className="bg-cta-gradient text-accent-foreground font-heading tracking-wider">
+                      Я для себя
+                    </Button>
+                  </div>
+                </div>
+              </motion.a>
+            </AnimatedSection>
+
+            <AnimatedSection delay={0.05}>
+              <motion.a
+                href="#military"
+                className="group relative block rounded-xl overflow-hidden border border-border min-h-[300px] md:min-h-[360px]"
+                animate={{ scale: hoveredSide === "military" ? 1.02 : 1 }}
+                transition={{ duration: 0.25, ease: "easeOut" }}
+                onMouseEnter={() => setHoveredSide("military")}
+                onMouseLeave={() => setHoveredSide(null)}
+              >
+                <img src="/hero-military.jpg" alt="Силовые структуры" className="absolute inset-0 w-full h-full object-cover" />
+                <div className="absolute inset-0 bg-black/72 group-hover:bg-black/78 transition-colors" />
+                <div className="relative z-10 p-5 sm:p-6 h-full flex flex-col">
+                  <h2 className="font-heading text-3xl sm:text-4xl text-white leading-none">СИЛОВЫЕ СТРУКТУРЫ</h2>
+                  <ul className="mt-4 space-y-1.5 text-[hsl(210,10%,84%)] text-sm sm:text-base">
+                    <li className="flex items-center gap-2"><ChevronRight className="w-4 h-4" /> Тактическая медицина</li>
+                    <li className="flex items-center gap-2"><ChevronRight className="w-4 h-4" /> Огневая подготовка</li>
+                    <li className="flex items-center gap-2"><ChevronRight className="w-4 h-4" /> Работа в условиях риска</li>
+                  </ul>
+                  <div className="mt-auto pt-5">
+                    <Button type="button" size="lg" className="bg-cta-gradient text-accent-foreground font-heading tracking-wider">
+                      Я для работы
+                    </Button>
+                  </div>
+                </div>
+              </motion.a>
+            </AnimatedSection>
           </div>
-        </div>
 
-        {/* Two halves */}
-        <div className="flex flex-col md:flex-row flex-1">
-          {/* Civil side */}
-          <motion.div
-            className="relative flex-1 min-h-[44svh] md:min-h-0 flex items-center justify-center cursor-pointer overflow-hidden"
-            animate={{ flex: hoveredSide === "civil" ? 1.06 : hoveredSide === "military" ? 0.94 : 1 }}
-            transition={{ duration: 0.4, ease: "easeOut" }}
-            onMouseEnter={() => setHoveredSide("civil")}
-            onMouseLeave={() => setHoveredSide(null)}
-          >
-            <div className="absolute inset-0">
-              <img
-                src="/hero-civil.jpg"
-                alt="Гражданская подготовка"
-                className="w-full h-full object-cover"
-                width={960}
-                height={1080}
-              />
-              <div className="absolute inset-0 bg-gradient-to-b from-[hsl(40,10%,20%)]/55 via-[hsl(40,10%,15%)]/35 to-[hsl(40,10%,10%)]/62" />
-            </div>
-            <div className="relative z-10 text-center px-4 sm:px-6 py-8 md:py-0 max-w-lg flex flex-col items-center justify-center">
-              <h2 className="font-heading text-2xl sm:text-3xl lg:text-4xl font-bold text-white leading-[0.95] mb-2 sm:mb-4 md:text-2xl">
-                ГРАЖДАНСКИЕ
-              </h2>
-              <div className="bg-black/35 rounded-md px-3 py-2">
-              <p className="text-[hsl(40,10%,85%)] text-xs sm:text-sm md:text-base mb-2 sm:mb-3 font-body font-normal">
-                Если рядом станет плохо - Вы знаете, что делать?
-              </p>
-              <ul className="text-[hsl(40,10%,85%)] text-[11px] sm:text-xs mb-1 text-left space-y-1">
-                <li className="flex items-center gap-1">
-                  <ChevronRight className="w-3 h-3" /> Первая помощь
-                </li>
-                <li className="flex items-center gap-1">
-                  <ChevronRight className="w-3 h-3" /> Личная безопасность
-                </li>
-                <li className="flex items-center gap-1">
-                  <ChevronRight className="w-3 h-3" /> Поведение в опасных ситуациях
-                </li>
-              </ul>
-              </div>
-              <a href="#civil">
-                <Button
-                  size="lg"
-                  className="bg-cta-gradient text-accent-foreground font-heading text-sm sm:text-base tracking-wider shadow-cta hover:opacity-90 px-5 sm:px-7 py-4 sm:py-5"
-                >
-                  Я для себя
-                </Button>
-              </a>
-            </div>
-          </motion.div>
-
-          {/* Military side */}
-          <motion.div
-            className="relative flex-1 min-h-[44svh] md:min-h-0 flex items-center justify-center cursor-pointer overflow-hidden"
-            animate={{ flex: hoveredSide === "military" ? 1.06 : hoveredSide === "civil" ? 0.94 : 1 }}
-            transition={{ duration: 0.4, ease: "easeOut" }}
-            onMouseEnter={() => setHoveredSide("military")}
-            onMouseLeave={() => setHoveredSide(null)}
-          >
-            <div className="absolute inset-0">
-              <img
-                src="/hero-military.jpg"
-                alt="Подготовка для силовых"
-                className="w-full h-full object-cover"
-                width={960}
-                height={1080}
-              />
-              <div className="absolute inset-0 bg-gradient-to-b from-[hsl(220,20%,8%)]/60 via-[hsl(220,20%,8%)]/42 to-[hsl(220,20%,8%)]/72" />
-            </div>
-            <div className="relative z-10 text-center px-4 sm:px-6 py-8 md:py-0 max-w-lg flex flex-col items-center justify-center">
-              <h2 className="font-heading text-2xl sm:text-3xl lg:text-4xl font-bold text-white leading-[0.95] mb-2 sm:mb-4 md:text-2xl">
-                СИЛОВЫЕ СТРУКТУРЫ
-              </h2>
-              <p className="text-[hsl(210,10%,72%)] text-xs sm:text-sm md:text-base mb-2 sm:mb-3 font-body font-normal">
-                Ошибки в реальной ситуации стоят слишком дорого.
-              </p>
-              <ul className="text-[hsl(210,10%,72%)] text-[11px] sm:text-xs mb-4 sm:mb-6 text-left space-y-1">
-                <li className="flex items-center gap-1">
-                  <ChevronRight className="w-3 h-3" /> Тактическая медицина
-                </li>
-                <li className="flex items-center gap-1">
-                  <ChevronRight className="w-3 h-3" /> Огневая и тактическая подготовка
-                </li>
-                <li className="flex items-center gap-1">
-                  <ChevronRight className="w-3 h-3" /> Работа в условиях риска
-                </li>
-              </ul>
-              <a href="#military">
-                <Button
-                  size="lg"
-                  className="bg-cta-gradient text-accent-foreground font-heading text-sm sm:text-base tracking-wider shadow-cta hover:opacity-90 px-5 sm:px-7 py-4 sm:py-5"
-                >
-                  Я для службы / работы
-                </Button>
-              </a>
-            </div>
-          </motion.div>
-        </div>
-        {/* Bottom CTA bar — static on mobile to avoid overlap */}
-        <div className="relative md:absolute md:bottom-0 md:left-0 md:right-0 z-30 pointer-events-none bg-gradient-to-t from-background via-background/80 to-transparent pt-6 md:pt-12 pb-4 md:pb-6">
-          <div className="pointer-events-auto container mx-auto px-3 sm:px-4">
-            <p className="text-center font-heading text-[9px] sm:text-[10px] tracking-[0.2em] text-muted-foreground mb-3">
-              ОГРАНИЧЕННЫЕ ГРУППЫ. ПРАКТИКА С ИНСТРУКТОРАМИ.
-            </p>
-            <div className="flex justify-center max-w-md mx-auto">
+          <AnimatedSection delay={0.1}>
+            <div className="mt-6 md:mt-8 flex flex-col sm:flex-row gap-3 justify-center max-w-lg mx-auto">
               <Button
                 type="button"
                 size="lg"
-                className="w-full sm:w-auto bg-white text-[hsl(220,18%,12%)] hover:bg-white/90 font-heading text-sm sm:text-base tracking-wider px-8 sm:px-12 py-5"
+                className="w-full sm:w-auto bg-cta-gradient text-accent-foreground font-heading tracking-wider shadow-cta"
                 onClick={() => openQuiz()}
               >
                 Подобрать курс
               </Button>
+              <Button
+                type="button"
+                size="lg"
+                variant="outline"
+                className="w-full sm:w-auto border-border text-foreground hover:bg-secondary font-heading tracking-wider"
+                onClick={() => openBooking()}
+              >
+                Записаться
+              </Button>
             </div>
-          </div>
+          </AnimatedSection>
         </div>
       </section>
 
