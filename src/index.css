@@ -251,6 +251,7 @@
     background-position: right center;
   }
 
+  .card-civil::before,
   .card-military::before {
     background: linear-gradient(
       to right,

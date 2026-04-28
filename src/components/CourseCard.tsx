@@ -52,7 +52,24 @@ const CourseCard = ({ course, lightMode }: Props) => {
         }`}
       >
         {/* IMAGE */}
-        <div className="relative h-56 sm:h-64 overflow-hidden flex items-center justify-center bg-muted shrink-0">
+        <div
+          className={`relative overflow-hidden flex items-center justify-center bg-muted shrink-0 ${
+            shouldShowFullImage ? "h-72 sm:h-80" : "h-56 sm:h-64"
+          }`}
+        >
+          {shouldShowFullImage && (
+            <div
+              className="absolute inset-0 scale-110"
+              style={{
+                backgroundImage: `url(${course.image})`,
+                backgroundSize: "cover",
+                backgroundPosition: "center",
+                filter: "blur(10px)",
+                opacity: 0.35,
+              }}
+              aria-hidden="true"
+            />
+          )}
           <img
             src={course.image}
             alt={course.title}
