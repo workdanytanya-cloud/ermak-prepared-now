@@ -44,7 +44,7 @@ const CourseCard = ({ course, lightMode }: Props) => {
   return (
     <>
       <div
-        className={`group border rounded-lg overflow-hidden transition-all duration-300 flex flex-col h-full min-h-[760px] hover:-translate-y-0.5 hover:shadow-glow ${
+        className={`group border rounded-lg overflow-hidden transition-all duration-300 flex flex-col h-full min-h-[760px] md:h-[860px] hover:-translate-y-0.5 hover:shadow-glow ${
           lightMode
             ? "bg-white border-[hsl(40,5%,80%)] hover:border-[hsl(38,90%,50%)]/45"
             : "bg-card-gradient border-border hover:border-accent/35"
@@ -73,7 +73,7 @@ const CourseCard = ({ course, lightMode }: Props) => {
         <div className="p-4 sm:p-5 flex flex-col flex-1">
           {/* TITLE */}
           <h3
-            className={`font-heading text-sm sm:text-base font-semibold mb-3 leading-tight ${
+            className={`font-heading text-sm sm:text-base font-semibold mb-3 leading-tight md:line-clamp-2 ${
               lightMode ? "text-civil" : "text-foreground"
             }`}
           >
@@ -85,7 +85,7 @@ const CourseCard = ({ course, lightMode }: Props) => {
             <span className={`font-heading text-[10px] uppercase tracking-wider block mb-1 ${lightMode ? "text-civil" : "text-accent"}`}>
               {isMilitary ? "Ситуация" : "Знакомо?"}
             </span>
-            <p className="italic opacity-90">{course.situation}</p>
+            <p className="italic opacity-90 md:line-clamp-4">{course.situation}</p>
           </div>
 
           {/* RESULT */}
@@ -93,7 +93,7 @@ const CourseCard = ({ course, lightMode }: Props) => {
             <span className={`font-heading text-[10px] uppercase tracking-wider block mb-1 ${lightMode ? "text-civil" : "text-accent"}`}>
               Результат
             </span>
-            <p className={`text-xs font-medium leading-relaxed ${lightMode ? "text-civil" : "text-foreground"}`}>
+            <p className={`text-xs font-medium leading-relaxed md:line-clamp-3 ${lightMode ? "text-civil" : "text-foreground"}`}>
               {course.result}
             </p>
           </div>

@@ -106,7 +106,7 @@ const QuizModal = ({ open, onOpenChange, onRequestBooking }: Props) => {
                         key={o.id}
                         type="button"
                         variant="outline"
-                        className="w-full justify-start h-auto py-3 px-4 text-left bg-secondary/50 border-border hover:border-accent/50 hover:bg-secondary transition-all"
+                        className="w-full justify-start h-auto py-3 px-4 text-left bg-secondary/50 border-border text-foreground hover:border-accent/60 hover:bg-accent/15 hover:text-foreground transition-all"
                         onClick={() => setStep("audience", o.id)}
                       >
                         {o.label}
@@ -131,7 +131,7 @@ const QuizModal = ({ open, onOpenChange, onRequestBooking }: Props) => {
                         key={o.id}
                         type="button"
                         variant="outline"
-                        className="w-full justify-start h-auto py-3 px-4 text-left bg-secondary/50 border-border hover:border-accent/50 hover:bg-secondary transition-all"
+                        className="w-full justify-start h-auto py-3 px-4 text-left bg-secondary/50 border-border text-foreground hover:border-accent/60 hover:bg-accent/15 hover:text-foreground transition-all"
                         onClick={() => setStep("experience", o.id)}
                       >
                         {o.label}
@@ -157,7 +157,7 @@ const QuizModal = ({ open, onOpenChange, onRequestBooking }: Props) => {
                         key={o.id}
                         type="button"
                         variant="outline"
-                        className="w-full justify-start h-auto py-3 px-4 text-left bg-secondary/50 border-border hover:border-accent/50 hover:bg-secondary transition-all"
+                        className="w-full justify-start h-auto py-3 px-4 text-left bg-secondary/50 border-border text-foreground hover:border-accent/60 hover:bg-accent/15 hover:text-foreground transition-all"
                         onClick={() => setStep("priority", o.id)}
                       >
                         {o.label}
@@ -181,7 +181,7 @@ const QuizModal = ({ open, onOpenChange, onRequestBooking }: Props) => {
                         key={o.id}
                         type="button"
                         variant="outline"
-                        className="w-full justify-start h-auto py-3 px-4 text-left bg-secondary/50 border-border hover:border-accent/50 hover:bg-secondary transition-all"
+                        className="w-full justify-start h-auto py-3 px-4 text-left bg-secondary/50 border-border text-foreground hover:border-accent/60 hover:bg-accent/15 hover:text-foreground transition-all"
                         onClick={() => setStep("urgency", o.id)}
                       >
                         {o.label}

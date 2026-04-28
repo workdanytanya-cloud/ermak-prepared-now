@@ -195,7 +195,7 @@ const instructorsData = [
 Инструктор по первой помощи (АНО ДПО Сибирский институт безопасности).`,
   },
   {
-    name: "Мария Александровна",
+    name: "Мария Александровна Хартман",
     role: "Инструктор по женской безопасности",
     photo: "/instructors/audience-women.png",
     specialization: "Личная безопасность женщин, правовой контекст",
@@ -311,7 +311,7 @@ const Index = () => {
             <h1 className="font-heading text-3xl sm:text-4xl md:text-5xl font-bold text-white leading-[1.05] mb-3 max-w-3xl mx-auto">
               Навыки, которые работают в реальных ситуациях - только практика
             </h1>
-            <p className="text-[hsl(40,10%,78%)] text-xs sm:text-sm font-body font-normal leading-relaxed md:text-sm">
+            <p className="text-[hsl(40,10%,78%)] text-sm sm:text-base font-body font-normal leading-relaxed md:text-base">
               Подготовка для гражданских и силовых структур.
               <br className="hidden sm:block" />С практикой, сценариями и отработкой до автоматизма.
             </p>
@@ -508,11 +508,11 @@ const Index = () => {
       <section className="py-16 md:py-28 px-4 md:px-8 bg-[hsl(220,18%,8%)] border-y border-border/80">
         <div className="container mx-auto">
           <AnimatedSection>
-            <h2 className="font-heading text-2xl sm:text-3xl md:text-5xl font-bold text-foreground text-center mb-3 sm:mb-4">
+            <h2 className="font-heading text-2xl sm:text-3xl md:text-5xl font-bold leading-[1.1] text-foreground text-center mb-3 sm:mb-4">
               В критической ситуации <span className="text-gradient">мозг отключается - работают только устойчивые навыки</span>
             </h2>
-            <p className="text-muted-foreground max-w-2xl mx-auto mb-10 md:mb-16 text-sm sm:text-base leading-relaxed">
-              Потеря контроля = потеря времени. {"\n"}Ошибка = последствия. {"\n"}Отсутствие навыка = ступор.
+            <p className="text-muted-foreground mx-auto mb-10 md:mb-16 text-sm sm:text-base leading-relaxed text-center md:whitespace-nowrap">
+              Потеря контроля = потеря времени. Ошибка = последствия. Отсутствие навыка = ступор.
             </p>
           </AnimatedSection>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6 mb-4 sm:mb-6">
@@ -561,9 +561,9 @@ const Index = () => {
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
             {catalogCivilCourses.map((course, i) => (
               <AnimatedSection key={course.id} delay={i * 0.05}>
-                <div className="space-y-2">
+                <div className="space-y-2 h-full flex flex-col">
                   <CourseCard course={course} lightMode />
-                  <p className="text-xs text-civil-muted text-center">Осталось {course.spotsLeft} мест</p>
+                  <p className="text-xs text-civil-muted text-center mt-auto">Осталось {course.spotsLeft} мест</p>
                 </div>
               </AnimatedSection>
             ))}
@@ -587,9 +587,9 @@ const Index = () => {
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
             {catalogMilitaryCourses.map((course, i) => (
               <AnimatedSection key={course.id} delay={i * 0.05}>
-                <div className="space-y-2">
+                <div className="space-y-2 h-full flex flex-col">
                   <CourseCard course={course} />
-                  <p className="text-xs text-military-muted text-center">Осталось {course.spotsLeft} мест</p>
+                  <p className="text-xs text-military-muted text-center mt-auto">Осталось {course.spotsLeft} мест</p>
                 </div>
               </AnimatedSection>
             ))}
@@ -852,7 +852,7 @@ const Index = () => {
       >
         <div className="container mx-auto max-w-3xl text-center">
           <AnimatedSection>
-            <h2 className="font-heading text-2xl sm:text-3xl md:text-5xl font-bold text-foreground mb-4 sm:mb-5 leading-tight">
+            <h2 className="font-heading text-2xl sm:text-3xl md:text-5xl font-bold text-foreground mb-4 sm:mb-5 leading-[1.08]">
               Подберём курс под Вашу ситуацию <span className="text-gradient">за 1 минуту</span>
             </h2>
             <p className="text-muted-foreground mb-8 sm:mb-10 text-sm sm:text-lg leading-relaxed max-w-2xl mx-auto">

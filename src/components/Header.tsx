@@ -42,7 +42,13 @@ const Header = () => {
 
   return (
     <>
-      <header className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${scrolled ? "bg-background/95 backdrop-blur-md border-b border-border" : "bg-transparent"}`}>
+      <header
+        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+          scrolled
+            ? "bg-background/95 backdrop-blur-md border-b border-border"
+            : "bg-background/55 backdrop-blur-sm border-b border-border/40"
+        }`}
+      >
         <div className="container mx-auto flex items-center justify-between h-16 md:h-20 px-4">
           <Link to="/" className="font-heading text-2xl md:text-3xl font-bold tracking-wider text-foreground">
             ЕРМАК
@@ -50,14 +56,19 @@ const Header = () => {
 
           <nav className="hidden md:flex items-center gap-8">
             {navItems.map((item) => (
-              <Link key={item.href} to={item.href} onClick={(e) => handleNavClick(e, item.href)} className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors">
+              <Link
+                key={item.href}
+                to={item.href}
+                onClick={(e) => handleNavClick(e, item.href)}
+                className="text-sm font-medium text-foreground/85 hover:text-foreground transition-colors"
+              >
                 {item.label}
               </Link>
             ))}
           </nav>
 
           <div className="hidden md:flex items-center gap-4">
-            <a href="tel:+79994675684" className="flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors">
+            <a href="tel:+79994675684" className="flex items-center gap-2 text-sm text-foreground/85 hover:text-foreground transition-colors">
               <Phone className="w-4 h-4" />
               +7 999 467 56 84
             </a>
