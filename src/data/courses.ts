@@ -7,6 +7,7 @@ export type CourseFilterTag =
   | "first-aid"
   | "women-safety"
   | "tactical-medicine"
+  | "engineering"
   | "firearms"
   | "pistol"
   | "individual"
@@ -521,7 +522,7 @@ export const courses: Course[] = [
     hasDate: true,
     image: "/силовые направления/инжен.силов.png",
     audience: "military",
-    filterTags: ["military", "tactics", "field"],
+    filterTags: ["military", "engineering", "tactics", "field"],
     program: [
       "Устройство ручных гранат РГД-5, Ф1, РГ-42, РГО, РГН",
       "Устройство и разборка запала УЗРГМ-2, нюансы запала УДЗ",
@@ -569,7 +570,7 @@ export const courses: Course[] = [
     hasDate: false,
     image: "/гражданские курсы/инжен.гражд.png",
     audience: "civil",
-    filterTags: ["civil", "tactics", "field"],
+    filterTags: ["civil", "engineering", "tactics", "field"],
     program: [
       "Виды угроз и базовая теория",
       "Распознавание растяжек и подозрительных предметов",
@@ -940,6 +941,7 @@ export const filterTagLabels: Record<CourseFilterTag, string> = {
   "first-aid": "Первая помощь",
   "women-safety": "Женская безопасность",
   "tactical-medicine": "Тактическая медицина",
+  engineering: "Инженерная подготовка",
   firearms: "Огневая подготовка",
   pistol: "Прикладной пистолет",
   individual: "Индивидуальные тренировки",

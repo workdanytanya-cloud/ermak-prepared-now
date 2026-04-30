@@ -65,8 +65,8 @@ const CourseDetailPage = () => {
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
           <div className="lg:col-span-2">
             <AnimatedSection>
-              <div className="relative h-64 md:h-96 rounded-lg overflow-hidden mb-8">
-                <img src={course.image} alt={course.title} className="w-full h-full object-cover" />
+              <div className="relative h-64 md:h-96 rounded-lg overflow-hidden mb-8 bg-muted">
+                <img src={course.image} alt={course.title} className="w-full h-full object-contain md:object-cover" />
                 <div className="absolute inset-0 bg-gradient-to-t from-background/80 to-transparent" />
                 <div className="absolute bottom-6 left-6 flex gap-2">
                   <Badge className="bg-secondary text-secondary-foreground font-body">{levelLabels[course.level]}</Badge>

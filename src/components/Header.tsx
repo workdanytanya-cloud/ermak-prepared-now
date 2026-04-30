@@ -50,8 +50,18 @@ const Header = () => {
         }`}
       >
         <div className="container mx-auto flex items-center justify-between h-16 md:h-20 px-4">
-          <Link to="/" className="font-heading text-2xl md:text-3xl font-bold tracking-wider text-foreground">
-            ЕРМАК
+          <Link to="/" className="flex items-center gap-3 group">
+            <span className="w-10 h-10 md:w-11 md:h-11 rounded-md overflow-hidden border border-border/80 bg-card/70 shadow-sm shrink-0">
+              <img
+                src="/brand/logo-ermak-main.png"
+                alt="Логотип ЦСП Ермак"
+                className="w-full h-full object-cover"
+                loading="eager"
+              />
+            </span>
+            <span className="font-heading text-2xl md:text-3xl font-bold tracking-wider text-foreground group-hover:text-accent transition-colors">
+              ЕРМАК
+            </span>
           </Link>
 
           <nav className="hidden md:flex items-center gap-8">
