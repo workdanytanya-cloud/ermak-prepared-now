@@ -58,9 +58,9 @@ const ExitIntentModal = () => {
         </DialogHeader>
 
         <p className="text-sm text-muted-foreground leading-relaxed">
-          Даже если сейчас не готовы идти на курс - возьмите знания, которые могут пригодиться.
+          Даже если сейчас не готовы идти на курс — возьмите знания, которые могут пригодиться.
         </p>
-        <p className="text-sm text-foreground leading-relaxed">👉 В канале - разборы, сценарии и реальные ситуации</p>
+        <p className="text-sm text-foreground leading-relaxed">👉 В канале — разборы, сценарии и реальные ситуации.</p>
 
         <div className="space-y-2">
           <div className="w-full bg-cta-gradient text-accent-foreground font-heading tracking-wider shadow-cta rounded-md py-3 text-center">

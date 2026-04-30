@@ -176,7 +176,7 @@ const CourseCard = ({ course, lightMode }: Props) => {
           </div>
 
           {course.installment && (
-            <p className="text-[10px] text-muted-foreground text-center mt-2">Доступна без% рассрочка</p>
+            <p className="text-[10px] text-muted-foreground text-center mt-2">Доступна рассрочка без %</p>
           )}
         </div>
       </div>

@@ -81,6 +81,10 @@
     font-family: var(--font-heading);
     text-transform: uppercase;
     letter-spacing: 0.02em;
+    text-wrap: balance;
+  }
+  p, li {
+    text-wrap: pretty;
   }
 }
 

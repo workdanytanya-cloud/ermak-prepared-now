@@ -100,7 +100,7 @@ const instructorsData = [
     specialization: "Тактическая и огневая подготовка, работа с группами",
     experienceLabel: "Служебный и инструкторский опыт — более 10 лет.",
     directions: ["Огневая подготовка", "ТСП", "Детские лагеря"],
-    fullExp: `Данюкин Андрей Игоревич – руководитель центра специальной подготовки "Ермак", а также тренер СК "РОСТ".
+    fullExp: `Данюкин Андрей Игоревич — руководитель центра специальной подготовки «Ермак», а также тренер СК «РОСТ».
 
 Образование — высшее. Профессиональный военный. Службу проходил в различных силах специального назначения (в том числе на должности инструктора по физической подготовке и рукопашному бою).
 
@@ -131,12 +131,12 @@ const instructorsData = [
     specialization: "Рукопашный бой, стрельба, спецподготовка",
     experienceLabel: "Инструктор с 2014 года, участник БД",
     directions: ["Ножевой бой", "Тактика", "Такмед"],
-    fullExp: `Дедов Михаил Владимирович — старший инструктор центра специальной подготовки "Ермак".
+    fullExp: `Дедов Михаил Владимирович — старший инструктор центра специальной подготовки «Ермак».
 
 Опыт инструкторской деятельности с 2014 года.
 
-2014–2018 – инструктор по рукопашному и ножевому бою, СК «РОСТ».
-2022–наст.время – инструктор ЦСП «Ермак».
+2014–2018 — инструктор по рукопашному и ножевому бою, СК «РОСТ».
+2022 — наст. время — инструктор ЦСП «Ермак».
 
 Участник боевых действий.
 
@@ -168,7 +168,7 @@ const instructorsData = [
     specialization: "Тактическая медицина, догоспитальная помощь",
     experienceLabel: "ВМА им. Кирова, протоколы ТССС / ТАКМЕД",
     directions: ["Такмед", "Кровотечения", "Санинструктор"],
-    fullExp: `Подоксенов Владимир Александрович — инструктор центра специальной подготовки "Ермак".
+    fullExp: `Подоксенов Владимир Александрович — инструктор центра специальной подготовки «Ермак».
 
 Обучение в Военно-медицинской академии имени Кирова (филиал Москва).
 
@@ -189,7 +189,7 @@ const instructorsData = [
     specialization: "Тактическая медицина и первая помощь",
     experienceLabel: "Педагогическое образование, фельдшер",
     directions: ["Такмед", "Первая помощь"],
-    fullExp: `Воронков Алексей Евгеньевич — инструктор центра специальной подготовки "Ермак".
+    fullExp: `Воронков Алексей Евгеньевич — инструктор центра специальной подготовки «Ермак».
 
 Опыт инструкторской деятельности с 2021 года.
 
@@ -227,6 +227,12 @@ const instructorsData = [
 ];
 
 const Index = () => {
+  const formatTypo = (text: string) =>
+    text
+      .replace(/\s+([,.;:!?])/g, "$1")
+      .replace(/([,.;:!?])(?![\s»)\]])/g, "$1 ")
+      .replace(/\b([А-Яа-яA-Za-z]{1,2})\s+(?=[А-Яа-яA-Za-z])/g, "$1\u00A0");
+
   const { openBooking, openQuiz } = useLeadUi();
   const courses = useMergedCourses();
   const { faq, instructors: apiInstructors, reviews: apiReviews, settings } = useSiteData();
@@ -494,7 +500,7 @@ const Index = () => {
         <div className="container mx-auto">
           <AnimatedSection>
             <h2 className="font-heading text-2xl sm:text-3xl md:text-5xl font-bold leading-[1.22] text-foreground text-center mb-3 sm:mb-4">
-              В критической ситуации <span className="text-gradient">мозг отключается - работают только устойчивые навыки</span>
+              В критической ситуации <span className="text-gradient">мозг отключается — работают только устойчивые навыки</span>
             </h2>
             <p className="text-muted-foreground mx-auto mb-10 md:mb-16 text-sm sm:text-base leading-relaxed text-center md:whitespace-nowrap">
               Потеря контроля = потеря времени. Ошибка = последствия. Отсутствие навыка = ступор.
@@ -505,7 +511,7 @@ const Index = () => {
               {
                 icon: AlertTriangle,
                 title: "Гражданским",
-                text: <>Скорая часто едет дольше ожиданий. Первые минуты - решающие. Именно Вы окажетесь рядом.</>,
+                text: <>Скорая часто едет дольше ожиданий. Первые минуты — решающие. Именно Вы окажетесь рядом.</>,
               },
               {
                 icon: Shield,
@@ -659,7 +665,7 @@ const Index = () => {
                 </div>
               </DialogHeader>
               <p className="text-sm text-muted-foreground leading-relaxed mt-4 whitespace-pre-line">
-                {instructors[activeInstructor].fullExp}
+                {formatTypo(instructors[activeInstructor].fullExp)}
               </p>
             </>
           )}
@@ -710,12 +716,12 @@ const Index = () => {
                         <p
                           className={`leading-relaxed mb-4 text-sm flex-1 ${story.type === "civil" ? "text-civil" : "text-foreground"}`}
                         >
-                          «{story.text}»
+                          «{formatTypo(story.text)}»
                         </p>
                         <div
                           className={`text-xs font-medium mb-2 ${story.type === "civil" ? "text-civil" : "text-accent"}`}
                         >
-                          Итог: {story.outcome}
+                          Итог: {formatTypo(story.outcome)}
                         </div>
                         <div>
                           <p
@@ -805,7 +811,7 @@ const Index = () => {
                     {item.q}
                   </AccordionTrigger>
                   <AccordionContent className="text-muted-foreground leading-relaxed pb-5 text-sm md:text-[15px]">
-                    {item.a}
+                    {formatTypo(item.a)}
                   </AccordionContent>
                 </AccordionItem>
               ))}
@@ -819,7 +825,7 @@ const Index = () => {
         <div className="container mx-auto max-w-4xl text-center">
           <AnimatedSection>
             <h2 className="font-heading text-2xl sm:text-3xl md:text-5xl font-bold text-foreground mb-4">
-              Вы либо умеете - либо нет
+              Вы либо умеете — либо нет
             </h2>
             <p className="text-muted-foreground text-sm sm:text-base md:text-lg leading-relaxed">
               В момент, когда что-то случится, второго шанса на подготовку уже нет.

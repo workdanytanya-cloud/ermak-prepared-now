@@ -161,7 +161,7 @@ const CourseDetailPage = () => {
                 <div>
                   <span className="text-4xl font-heading font-bold text-accent">{course.price.toLocaleString("ru-RU")} ₽</span>
                   {course.priceNote && <p className="text-xs text-muted-foreground mt-1">{course.priceNote}</p>}
-                  {course.installment && <p className="text-xs text-muted-foreground mt-1">Доступна без% рассрочка 6/12 мес.</p>}
+                  {course.installment && <p className="text-xs text-muted-foreground mt-1">Доступна рассрочка без % на 6/12 мес.</p>}
                   {course.discount && <p className="text-xs text-accent mt-1">{course.discount}</p>}
                 </div>
 
