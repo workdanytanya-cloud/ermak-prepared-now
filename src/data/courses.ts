@@ -559,7 +559,7 @@ export const courses: Course[] = [
     ],
     trigger: "Ограниченное количество мест",
     microPush: "Ответим в течение 10 минут",
-    price: 18000,
+    price: 21000,
     duration: "2 дня, 20 часов",
     level: "beginner",
     category: "tactical",
