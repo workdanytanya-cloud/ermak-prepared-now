@@ -1,6 +1,11 @@
 import { Link } from "react-router-dom";
 import { Phone, MapPin } from "lucide-react";
 
+const ADDRESS_TEXT = "Красный проспект, 11, Новосибирск";
+const ADDRESS_QUERY = encodeURIComponent("Красный проспект 11 Новосибирск");
+const YANDEX_MAPS_URL = `https://yandex.ru/maps/?text=${ADDRESS_QUERY}`;
+const TWO_GIS_URL = `https://2gis.ru/novosibirsk/search/${encodeURIComponent("Красный проспект 11")}`;
+
 const Footer = () => (
   <footer id="contacts" className="bg-card border-t border-border">
     <div className="container mx-auto px-4 py-16">
@@ -28,8 +33,37 @@ const Footer = () => (
             <a href="tel:+79994675684" className="flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors">
               <Phone className="w-4 h-4 text-primary" /> +7 999 467 56 84
             </a>
-            <div className="flex items-start gap-2 text-sm text-muted-foreground">
-              <MapPin className="w-4 h-4 text-primary mt-0.5" /> Красный проспект, 11, Новосибирск
+            <div className="flex flex-col gap-1">
+              <a
+                href={YANDEX_MAPS_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-start gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors"
+                aria-label="Открыть адрес в Яндекс.Картах"
+              >
+                <MapPin className="w-4 h-4 text-primary mt-0.5 shrink-0" />
+                <span className="underline-offset-2 hover:underline">{ADDRESS_TEXT}</span>
+              </a>
+              <div className="flex items-center gap-2 pl-6 text-xs text-muted-foreground/80">
+                <span>Открыть в:</span>
+                <a
+                  href={YANDEX_MAPS_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="hover:text-foreground transition-colors underline-offset-2 hover:underline"
+                >
+                  Яндекс.Картах
+                </a>
+                <span aria-hidden="true" className="opacity-60">·</span>
+                <a
+                  href={TWO_GIS_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="hover:text-foreground transition-colors underline-offset-2 hover:underline"
+                >
+                  2ГИС
+                </a>
+              </div>
             </div>
           </div>
         </div>
