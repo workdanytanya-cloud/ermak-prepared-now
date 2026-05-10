@@ -4,11 +4,8 @@ import { Clock, Users, Check, CalendarSearch } from "lucide-react";
 import type { Course } from "@/data/courses";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import { Input } from "@/components/ui/input";
-import { toast } from "sonner";
 import { useLeadUi } from "@/contexts/LeadUiContext";
-import { saveApplication } from "@/lib/leads";
+import CourseInquiryDialog from "@/components/CourseInquiryDialog";
 
 interface Props {
   course: Course;
@@ -17,33 +14,13 @@ interface Props {
 
 const CourseCard = ({ course, lightMode }: Props) => {
   const { openBooking } = useLeadUi();
-  const [dateDialogOpen, setDateDialogOpen] = useState(false);
-  const [phone, setPhone] = useState("");
-  const [submitted, setSubmitted] = useState(false);
+  const [inquiryOpen, setInquiryOpen] = useState(false);
 
   const isMilitary = course.audience === "military" || course.filterTags.includes("military");
 
-  const handleDateInquiry = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!phone.trim()) {
-      toast.error("Введите номер телефона");
-      return;
-    }
-    saveApplication({
-      name: "Запрос даты",
-      phone: phone.trim(),
-      course: course.title,
-      date: new Date().toLocaleDateString("ru-RU"),
-      status: "new",
-      comments: [`Запрос даты: ${course.title}`],
-    });
-    setSubmitted(true);
-    setPhone("");
-  };
-
   return (
     <>
-      <div
+    <div
         className={`group border rounded-lg overflow-hidden transition-all duration-300 flex flex-col h-full min-h-[760px] md:h-[860px] hover:-translate-y-0.5 hover:shadow-glow ${
           lightMode
             ? "bg-white border-[hsl(40,5%,80%)] hover:border-[hsl(38,90%,50%)]/45"
@@ -133,10 +110,7 @@ const CourseCard = ({ course, lightMode }: Props) => {
                 ) : (
                   <button
                     type="button"
-                    onClick={() => {
-                      setDateDialogOpen(true);
-                      setSubmitted(false);
-                    }}
+                    onClick={() => setInquiryOpen(true)}
                     className="text-xs text-primary hover:text-accent transition-colors flex items-center gap-1 mt-1"
                   >
                     <CalendarSearch className="w-3 h-3" /> Уточнить дату
@@ -181,37 +155,12 @@ const CourseCard = ({ course, lightMode }: Props) => {
         </div>
       </div>
 
-      <Dialog open={dateDialogOpen} onOpenChange={setDateDialogOpen}>
-        <DialogContent className="bg-card border-border max-w-sm data-[state=open]:animate-in data-[state=open]:zoom-in-95 duration-200">
-          {submitted ? (
-            <div className="text-center py-6">
-              <DialogTitle className="font-heading text-xl text-foreground mb-3">Заявка отправлена</DialogTitle>
-              <p className="text-sm text-muted-foreground">Мы отправим вам ближайшую дату курса на указанный телефон.</p>
-              <Button onClick={() => setDateDialogOpen(false)} className="mt-4 bg-cta-gradient text-accent-foreground font-heading shadow-cta">
-                Хорошо
-              </Button>
-            </div>
-          ) : (
-            <>
-              <DialogHeader>
-                <DialogTitle className="font-heading text-lg text-foreground">Уточнить дату: {course.shortTitle}</DialogTitle>
-              </DialogHeader>
-              <form onSubmit={handleDateInquiry} className="space-y-4 mt-2">
-                <Input
-                  placeholder="Ваш телефон"
-                  type="tel"
-                  value={phone}
-                  onChange={(e) => setPhone(e.target.value)}
-                  className="bg-input border-border text-foreground placeholder:text-muted-foreground"
-                />
-                <Button type="submit" className="w-full bg-cta-gradient text-accent-foreground font-heading tracking-wider shadow-cta hover:opacity-90">
-                  Узнать дату
-                </Button>
-              </form>
-            </>
-          )}
-        </DialogContent>
-      </Dialog>
+      <CourseInquiryDialog
+        open={inquiryOpen}
+        onOpenChange={setInquiryOpen}
+        courseTitle={course.title}
+        courseShortTitle={course.shortTitle}
+      />
     </>
   );
 };

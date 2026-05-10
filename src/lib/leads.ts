@@ -2,6 +2,7 @@ import type { Application } from "@/data/applications";
 
 const STORAGE_KEY = "ermak_applications";
 const DEFAULT_LEAD_EMAIL = "panova.fortuna@gmail.com";
+const COURSE_INQUIRY_EMAIL = "ermakcentrnsk@gmail.com";
 
 export function loadApplications(): Application[] {
   try {
@@ -18,6 +19,32 @@ export function loadApplications(): Application[] {
   }
 }
 
+function appendApplicationToLocal(app: Application) {
+  const apps = loadApplications();
+  apps.push(app);
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(apps));
+}
+
+function deliverToEmail(payload: Record<string, unknown>, recipient: string) {
+  const webhook = import.meta.env.VITE_LEADS_WEBHOOK_URL as string | undefined;
+  if (webhook) {
+    fetch(webhook, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ type: "ermak_lead", recipient, ...payload }),
+    }).catch(() => {});
+  } else {
+    fetch(`https://formsubmit.co/ajax/${encodeURIComponent(recipient)}`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+      },
+      body: JSON.stringify({ ...payload, source: "ermak-site" }),
+    }).catch(() => {});
+  }
+}
+
 export function saveApplication(app: Omit<Application, "id" | "createdAt"> & { id?: string; createdAt?: string }): Application {
   const full: Application = {
     id: app.id ?? crypto.randomUUID(),
@@ -31,41 +58,80 @@ export function saveApplication(app: Omit<Application, "id" | "createdAt"> & { i
     desiredDate: app.desiredDate,
     comment: app.comment,
   };
-  const apps = loadApplications();
-  apps.push(full);
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(apps));
+  appendApplicationToLocal(full);
 
-  const webhook = import.meta.env.VITE_LEADS_WEBHOOK_URL as string | undefined;
   const recipient = (import.meta.env.VITE_LEADS_EMAIL_TO as string | undefined) || DEFAULT_LEAD_EMAIL;
-  if (webhook) {
-    fetch(webhook, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        type: "ermak_lead",
-        recipient,
-        ...full,
-      }),
-    }).catch(() => {});
-  } else {
-    // Fallback delivery to email without rendering recipient in UI.
-    fetch(`https://formsubmit.co/ajax/${encodeURIComponent(recipient)}`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json",
-      },
-      body: JSON.stringify({
-        name: full.name,
-        phone: full.phone,
-        course: full.course,
-        date: full.date,
-        desiredDate: full.desiredDate ?? "",
-        comment: full.comment ?? "",
-        source: "ermak-site",
-      }),
-    }).catch(() => {});
-  }
+  deliverToEmail(
+    {
+      name: full.name,
+      phone: full.phone,
+      course: full.course,
+      date: full.date,
+      desiredDate: full.desiredDate ?? "",
+      comment: full.comment ?? "",
+    },
+    recipient,
+  );
+
+  return full;
+}
+
+export type InquiryContactType = "email" | "phone";
+export type InquiryPhoneMethod = "call" | "telegram" | "max" | "sms";
+
+export interface CourseInquiryPayload {
+  courseTitle: string;
+  contactType: InquiryContactType;
+  email?: string;
+  phone?: string;
+  phoneMethod?: InquiryPhoneMethod;
+  question?: string;
+}
+
+export const inquiryPhoneMethodLabel: Record<InquiryPhoneMethod, string> = {
+  call: "Перезвонить",
+  telegram: "Telegram",
+  max: "MAX",
+  sms: "СМС",
+};
+
+export function sendCourseInquiry(inq: CourseInquiryPayload): Application {
+  const contactSummary =
+    inq.contactType === "email"
+      ? `Ответить на email: ${inq.email ?? ""}`
+      : `Ответить на телефон ${inq.phone ?? ""} — ${inquiryPhoneMethodLabel[inq.phoneMethod ?? "call"]}`;
+
+  const full: Application = {
+    id: crypto.randomUUID(),
+    name: "Запрос даты курса",
+    phone: inq.contactType === "phone" ? inq.phone ?? "" : "",
+    course: inq.courseTitle,
+    date: new Date().toLocaleDateString("ru-RU"),
+    status: "new",
+    comments: [
+      `Запрос даты курса: ${inq.courseTitle}`,
+      contactSummary,
+      inq.question ? `Вопрос: ${inq.question}` : "",
+    ].filter(Boolean),
+    createdAt: new Date().toISOString(),
+    comment: inq.question,
+  };
+  appendApplicationToLocal(full);
+
+  deliverToEmail(
+    {
+      _subject: `Запрос даты курса: ${inq.courseTitle}`,
+      type: "course_inquiry",
+      course: inq.courseTitle,
+      contactType: inq.contactType === "email" ? "Email" : "Телефон",
+      email: inq.email ?? "",
+      phone: inq.phone ?? "",
+      phoneMethod: inq.phoneMethod ? inquiryPhoneMethodLabel[inq.phoneMethod] : "",
+      question: inq.question ?? "",
+      summary: contactSummary,
+    },
+    COURSE_INQUIRY_EMAIL,
+  );
 
   return full;
 }
