@@ -16,9 +16,9 @@ const Footer = () => (
           <h4 className="font-heading text-sm font-semibold text-foreground mb-4 tracking-wider">Курсы</h4>
           <div className="flex flex-col gap-2">
             <Link to="/courses" className="text-sm text-muted-foreground hover:text-foreground transition-colors">Каталог курсов</Link>
-            <Link to="/courses" className="text-sm text-muted-foreground hover:text-foreground transition-colors">Тактическая медицина</Link>
-            <Link to="/courses" className="text-sm text-muted-foreground hover:text-foreground transition-colors">Женская безопасность</Link>
-            <Link to="/courses" className="text-sm text-muted-foreground hover:text-foreground transition-colors">Индивидуальные</Link>
+            <Link to="/courses?tags=tactical-medicine" className="text-sm text-muted-foreground hover:text-foreground transition-colors">Тактическая медицина</Link>
+            <Link to="/courses?tags=women-safety" className="text-sm text-muted-foreground hover:text-foreground transition-colors">Женская безопасность</Link>
+            <Link to="/courses?tags=individual" className="text-sm text-muted-foreground hover:text-foreground transition-colors">Индивидуальные</Link>
           </div>
         </div>
 
@@ -50,7 +50,6 @@ const Footer = () => (
           <Link to="/privacy-policy" className="text-xs text-muted-foreground hover:text-foreground transition-colors">
             Политика конфиденциальности
           </Link>
-          <a href="#" className="text-xs text-muted-foreground hover:text-foreground transition-colors">Оферта</a>
         </div>
       </div>
     </div>

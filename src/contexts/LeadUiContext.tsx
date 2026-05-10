@@ -2,8 +2,13 @@ import { createContext, useCallback, useContext, useMemo, useState, type Context
 import BookingForm from "@/components/BookingForm";
 import QuizModal from "@/components/QuizModal";
 
+export interface BookingOpenOptions {
+  /** Откуда пришёл клик (например, «Квиз», «Главная», «Sticky CTA»). */
+  source?: string;
+}
+
 type LeadUi = {
-  openBooking: (courseId?: string) => void;
+  openBooking: (courseId?: string, options?: BookingOpenOptions) => void;
   openQuiz: () => void;
 };
 
@@ -22,10 +27,12 @@ if (import.meta.env.DEV) {
 export function LeadUiProvider({ children }: { children: ReactNode }) {
   const [bookingOpen, setBookingOpen] = useState(false);
   const [preselectedCourse, setPreselectedCourse] = useState<string | undefined>();
+  const [bookingSourceOverride, setBookingSourceOverride] = useState<string | undefined>();
   const [quizOpen, setQuizOpen] = useState(false);
 
-  const openBooking = useCallback((courseId?: string) => {
+  const openBooking = useCallback((courseId?: string, options?: BookingOpenOptions) => {
     setPreselectedCourse(courseId);
+    setBookingSourceOverride(options?.source);
     setBookingOpen(true);
   }, []);
 
@@ -33,12 +40,15 @@ export function LeadUiProvider({ children }: { children: ReactNode }) {
 
   const handleBookingOpenChange = useCallback((open: boolean) => {
     setBookingOpen(open);
-    if (!open) setPreselectedCourse(undefined);
+    if (!open) {
+      setPreselectedCourse(undefined);
+      setBookingSourceOverride(undefined);
+    }
   }, []);
 
   const handleQuizBooking = useCallback((courseId?: string) => {
     setQuizOpen(false);
-    openBooking(courseId);
+    openBooking(courseId, { source: "Квиз «Подобрать курс»" });
   }, [openBooking]);
 
   const value = useMemo(() => ({ openBooking, openQuiz }), [openBooking, openQuiz]);
@@ -46,7 +56,12 @@ export function LeadUiProvider({ children }: { children: ReactNode }) {
   return (
     <LeadUiContext.Provider value={value}>
       {children}
-      <BookingForm open={bookingOpen} onOpenChange={handleBookingOpenChange} preselectedCourse={preselectedCourse} />
+      <BookingForm
+        open={bookingOpen}
+        onOpenChange={handleBookingOpenChange}
+        preselectedCourse={preselectedCourse}
+        sourceOverride={bookingSourceOverride}
+      />
       <QuizModal open={quizOpen} onOpenChange={setQuizOpen} onRequestBooking={handleQuizBooking} />
     </LeadUiContext.Provider>
   );

@@ -4,6 +4,12 @@ const STORAGE_KEY = "ermak_applications";
 const DEFAULT_LEAD_EMAIL = "panova.fortuna@gmail.com";
 const COURSE_INQUIRY_EMAIL = "ermakcentrnsk@gmail.com";
 
+// Значения по умолчанию для бота-приёмщика заявок ЦСП «Ермак».
+// Если нужно сменить (бот скомпрометирован / спам) — пишем @BotFather → /revoke → подставляем новый токен.
+// Можно переопределить через VITE_TELEGRAM_BOT_TOKEN / VITE_TELEGRAM_CHAT_ID на хостинге.
+const DEFAULT_TELEGRAM_BOT_TOKEN = "8674084495:AAGxZIyVeeLFLHDd-rvBEby0C3GPvZW_kTw";
+const DEFAULT_TELEGRAM_CHAT_ID = "489781325";
+
 export function loadApplications(): Application[] {
   try {
     const raw = localStorage.getItem(STORAGE_KEY);
@@ -23,6 +29,38 @@ function appendApplicationToLocal(app: Application) {
   const apps = loadApplications();
   apps.push(app);
   localStorage.setItem(STORAGE_KEY, JSON.stringify(apps));
+}
+
+function escapeHtml(input: string): string {
+  return input
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;");
+}
+
+/** «+7 999 123 45 67» → «+79991234567» (Telegram сам сделает кликабельным). */
+function normalizePhone(input?: string): string | undefined {
+  if (!input) return undefined;
+  const trimmed = input.trim();
+  if (!trimmed) return undefined;
+  const digits = trimmed.replace(/\D/g, "");
+  if (!digits) return trimmed;
+  if (digits.length === 11 && (digits.startsWith("7") || digits.startsWith("8"))) {
+    return `+7${digits.slice(1)}`;
+  }
+  if (digits.length === 10) return `+7${digits}`;
+  return trimmed.startsWith("+") ? `+${digits}` : `+${digits}`;
+}
+
+function nowMoscow(): string {
+  return new Date().toLocaleString("ru-RU", {
+    timeZone: "Asia/Novosibirsk",
+    day: "2-digit",
+    month: "2-digit",
+    year: "numeric",
+    hour: "2-digit",
+    minute: "2-digit",
+  });
 }
 
 function deliverToEmail(payload: Record<string, unknown>, recipient: string) {
@@ -55,27 +93,45 @@ function deliverToEmail(payload: Record<string, unknown>, recipient: string) {
     .catch((err) => console.warn("[leads] formsubmit unreachable", err));
 }
 
-function escapeHtml(input: string): string {
-  return input
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;");
+interface TelegramSection {
+  /** Заголовок поля. */
+  label: string;
+  /** Значение поля. Если пусто — секция пропускается. */
+  value?: string | null;
+  /** Если true — значение оборачивается в <code> (моноширинный, удобно копировать). */
+  monospace?: boolean;
 }
 
-function deliverToTelegram(title: string, lines: Array<[string, string | undefined]>) {
-  const token = import.meta.env.VITE_TELEGRAM_BOT_TOKEN as string | undefined;
-  const chatId = import.meta.env.VITE_TELEGRAM_CHAT_ID as string | undefined;
+function deliverToTelegram(opts: {
+  title: string;
+  intro?: string;
+  sections: TelegramSection[];
+  footer?: string;
+}) {
+  const token = (import.meta.env.VITE_TELEGRAM_BOT_TOKEN as string | undefined) || DEFAULT_TELEGRAM_BOT_TOKEN;
+  const chatId = (import.meta.env.VITE_TELEGRAM_CHAT_ID as string | undefined) || DEFAULT_TELEGRAM_CHAT_ID;
   if (!token || !chatId) {
     console.info("[leads] telegram skipped: token/chat_id not configured");
     return;
   }
 
-  const body = lines
-    .filter(([, v]) => v && v.toString().trim().length > 0)
-    .map(([k, v]) => `<b>${escapeHtml(k)}:</b> ${escapeHtml(String(v))}`)
+  const body = opts.sections
+    .filter((s) => s.value != null && String(s.value).trim().length > 0)
+    .map((s) => {
+      const v = String(s.value);
+      const renderedValue = s.monospace ? `<code>${escapeHtml(v)}</code>` : escapeHtml(v);
+      return `<b>${escapeHtml(s.label)}:</b> ${renderedValue}`;
+    })
     .join("\n");
 
-  const text = `<b>${escapeHtml(title)}</b>\n${body}`;
+  const parts = [
+    `<b>${escapeHtml(opts.title)}</b>`,
+    opts.intro ? escapeHtml(opts.intro) : "",
+    body,
+    opts.footer ? `<i>${escapeHtml(opts.footer)}</i>` : "",
+  ].filter(Boolean);
+
+  const text = parts.join("\n\n");
 
   fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
     method: "POST",
@@ -98,7 +154,19 @@ function deliverToTelegram(title: string, lines: Array<[string, string | undefin
     .catch((err) => console.error("[leads] telegram unreachable", err));
 }
 
-export function saveApplication(app: Omit<Application, "id" | "createdAt"> & { id?: string; createdAt?: string }): Application {
+// =============================================================
+// Заявка на запись (BookingForm)
+// =============================================================
+
+export interface BookingExtras {
+  /** Откуда пришёл лид: страница, кнопка, источник. */
+  source?: string;
+}
+
+export function saveApplication(
+  app: Omit<Application, "id" | "createdAt"> & { id?: string; createdAt?: string },
+  extras?: BookingExtras,
+): Application {
   const full: Application = {
     id: app.id ?? crypto.randomUUID(),
     name: app.name,
@@ -123,21 +191,31 @@ export function saveApplication(app: Omit<Application, "id" | "createdAt"> & { i
       date: full.date,
       desiredDate: full.desiredDate ?? "",
       comment: full.comment ?? "",
+      source: extras?.source ?? "",
     },
     recipient,
   );
 
-  deliverToTelegram(`🟢 Новая заявка: ${full.course}`, [
-    ["Имя", full.name],
-    ["Телефон", full.phone],
-    ["Курс", full.course],
-    ["Желаемая дата", full.desiredDate],
-    ["Комментарий", full.comment],
-    ["Дата подачи", full.date],
-  ]);
+  const phone = normalizePhone(full.phone);
+  deliverToTelegram({
+    title: "🟢 НОВАЯ ЗАЯВКА на курс",
+    intro: `Курс: «${full.course}»`,
+    sections: [
+      { label: "👤 Имя", value: full.name },
+      { label: "📞 Телефон", value: phone, monospace: true },
+      { label: "🗓 Желаемая дата", value: full.desiredDate },
+      { label: "💬 Комментарий", value: full.comment },
+      { label: "📍 Источник", value: extras?.source },
+    ],
+    footer: `Получено: ${nowMoscow()} (Новосибирск)`,
+  });
 
   return full;
 }
+
+// =============================================================
+// Запрос даты курса (CourseInquiryDialog)
+// =============================================================
 
 export type InquiryContactType = "email" | "phone";
 export type InquiryPhoneMethod = "call" | "telegram" | "max" | "sms";
@@ -149,6 +227,7 @@ export interface CourseInquiryPayload {
   phone?: string;
   phoneMethod?: InquiryPhoneMethod;
   question?: string;
+  source?: string;
 }
 
 export const inquiryPhoneMethodLabel: Record<InquiryPhoneMethod, string> = {
@@ -175,13 +254,14 @@ export function sendCourseInquiry(inq: CourseInquiryPayload): Application {
       `Запрос даты курса: ${inq.courseTitle}`,
       contactSummary,
       inq.question ? `Вопрос: ${inq.question}` : "",
+      inq.source ? `Источник: ${inq.source}` : "",
     ].filter(Boolean),
     createdAt: new Date().toISOString(),
     comment: inq.question,
   };
   appendApplicationToLocal(full);
 
-  // Best-effort: email через FormSubmit. В РФ часто блокируется ISP — это нормально, дубль через Telegram.
+  // Best-effort: email через FormSubmit. В РФ часто блокируется ISP — основной канал Telegram.
   deliverToEmail(
     {
       _subject: `Запрос даты курса: ${inq.courseTitle}`,
@@ -192,20 +272,30 @@ export function sendCourseInquiry(inq: CourseInquiryPayload): Application {
       phone: inq.phone ?? "",
       phoneMethod: inq.phoneMethod ? inquiryPhoneMethodLabel[inq.phoneMethod] : "",
       question: inq.question ?? "",
+      source: inq.source ?? "",
       summary: contactSummary,
     },
     COURSE_INQUIRY_EMAIL,
   );
 
-  // Основной надёжный канал
-  deliverToTelegram(`📅 Запрос даты курса: ${inq.courseTitle}`, [
-    ["Курс", inq.courseTitle],
-    ["Куда отвечать", inq.contactType === "email" ? "Email" : "Телефон"],
-    ["Email", inq.email],
-    ["Телефон", inq.phone],
-    ["Способ связи", inq.phoneMethod ? inquiryPhoneMethodLabel[inq.phoneMethod] : undefined],
-    ["Вопрос", inq.question],
-  ]);
+  const phone = normalizePhone(inq.phone);
+  const responseChannel =
+    inq.contactType === "email"
+      ? "Email"
+      : `${inquiryPhoneMethodLabel[inq.phoneMethod ?? "call"]} (на телефон)`;
+
+  deliverToTelegram({
+    title: "📅 ЗАПРОС ДАТЫ КУРСА",
+    intro: `Курс: «${inq.courseTitle}»`,
+    sections: [
+      { label: "📨 Куда ответить", value: responseChannel },
+      { label: "📧 Email", value: inq.email, monospace: true },
+      { label: "📞 Телефон", value: phone, monospace: true },
+      { label: "❓ Вопрос клиента", value: inq.question },
+      { label: "📍 Источник", value: inq.source },
+    ],
+    footer: `Получено: ${nowMoscow()} (Новосибирск)`,
+  });
 
   return full;
 }

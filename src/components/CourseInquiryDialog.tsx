@@ -66,6 +66,7 @@ const CourseInquiryDialog = ({ open, onOpenChange, courseTitle, courseShortTitle
 
     setLoading(true);
     try {
+      const sourcePath = typeof window !== "undefined" ? window.location.pathname + window.location.search : "";
       sendCourseInquiry({
         courseTitle,
         contactType,
@@ -73,6 +74,7 @@ const CourseInquiryDialog = ({ open, onOpenChange, courseTitle, courseShortTitle
         phone: contactType === "phone" ? phone.trim() : undefined,
         phoneMethod: contactType === "phone" ? phoneMethod : undefined,
         question: question.trim() || undefined,
+        source: `Кнопка «Уточнить дату» (${sourcePath || "сайт"})`,
       });
       setSubmitted(true);
     } catch {

@@ -16,9 +16,11 @@ interface Props {
   open: boolean;
   onOpenChange: (open: boolean) => void;
   preselectedCourse?: string;
+  /** Опциональная подпись источника заявки — например, «Квиз». */
+  sourceOverride?: string;
 }
 
-const BookingForm = ({ open, onOpenChange, preselectedCourse }: Props) => {
+const BookingForm = ({ open, onOpenChange, preselectedCourse, sourceOverride }: Props) => {
   const courses = useMergedCourses();
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
@@ -40,16 +42,25 @@ const BookingForm = ({ open, onOpenChange, preselectedCourse }: Props) => {
       return;
     }
     const course = courses.find((c) => c.id === courseId);
-    saveApplication({
-      name: name.trim(),
-      phone: phone.trim(),
-      course: course?.title || courseId,
-      date: new Date().toLocaleDateString("ru-RU"),
-      status: "new",
-      comments: [],
-      desiredDate: desiredDate.trim() || undefined,
-      comment: comment.trim() || undefined,
-    });
+    const sourcePath = typeof window !== "undefined" ? window.location.pathname + window.location.search : "";
+    const baseSource = preselectedCourse
+      ? `Кнопка «Записаться на курс» (${sourcePath || "сайт"})`
+      : `Кнопка «Записаться» (${sourcePath || "сайт"})`;
+    const source = sourceOverride ? `${sourceOverride} → ${baseSource}` : baseSource;
+
+    saveApplication(
+      {
+        name: name.trim(),
+        phone: phone.trim(),
+        course: course?.title || courseId,
+        date: new Date().toLocaleDateString("ru-RU"),
+        status: "new",
+        comments: [],
+        desiredDate: desiredDate.trim() || undefined,
+        comment: comment.trim() || undefined,
+      },
+      { source },
+    );
 
     setSubmitted(true);
     setName("");
