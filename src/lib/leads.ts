@@ -52,7 +52,50 @@ function deliverToEmail(payload: Record<string, unknown>, recipient: string) {
       const data = await r.json().catch(() => ({}));
       console.info("[leads] formsubmit response", r.status, data);
     })
-    .catch((err) => console.error("[leads] formsubmit error", err));
+    .catch((err) => console.warn("[leads] formsubmit unreachable", err));
+}
+
+function escapeHtml(input: string): string {
+  return input
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;");
+}
+
+function deliverToTelegram(title: string, lines: Array<[string, string | undefined]>) {
+  const token = import.meta.env.VITE_TELEGRAM_BOT_TOKEN as string | undefined;
+  const chatId = import.meta.env.VITE_TELEGRAM_CHAT_ID as string | undefined;
+  if (!token || !chatId) {
+    console.info("[leads] telegram skipped: token/chat_id not configured");
+    return;
+  }
+
+  const body = lines
+    .filter(([, v]) => v && v.toString().trim().length > 0)
+    .map(([k, v]) => `<b>${escapeHtml(k)}:</b> ${escapeHtml(String(v))}`)
+    .join("\n");
+
+  const text = `<b>${escapeHtml(title)}</b>\n${body}`;
+
+  fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      chat_id: chatId,
+      text,
+      parse_mode: "HTML",
+      disable_web_page_preview: true,
+    }),
+  })
+    .then(async (r) => {
+      const data = await r.json().catch(() => ({}));
+      if (!r.ok || (data && data.ok === false)) {
+        console.error("[leads] telegram error", r.status, data);
+      } else {
+        console.info("[leads] telegram delivered");
+      }
+    })
+    .catch((err) => console.error("[leads] telegram unreachable", err));
 }
 
 export function saveApplication(app: Omit<Application, "id" | "createdAt"> & { id?: string; createdAt?: string }): Application {
@@ -73,6 +116,7 @@ export function saveApplication(app: Omit<Application, "id" | "createdAt"> & { i
   const recipient = (import.meta.env.VITE_LEADS_EMAIL_TO as string | undefined) || DEFAULT_LEAD_EMAIL;
   deliverToEmail(
     {
+      _subject: `Новая заявка: ${full.course}`,
       name: full.name,
       phone: full.phone,
       course: full.course,
@@ -82,6 +126,15 @@ export function saveApplication(app: Omit<Application, "id" | "createdAt"> & { i
     },
     recipient,
   );
+
+  deliverToTelegram(`🟢 Новая заявка: ${full.course}`, [
+    ["Имя", full.name],
+    ["Телефон", full.phone],
+    ["Курс", full.course],
+    ["Желаемая дата", full.desiredDate],
+    ["Комментарий", full.comment],
+    ["Дата подачи", full.date],
+  ]);
 
   return full;
 }
@@ -128,6 +181,7 @@ export function sendCourseInquiry(inq: CourseInquiryPayload): Application {
   };
   appendApplicationToLocal(full);
 
+  // Best-effort: email через FormSubmit. В РФ часто блокируется ISP — это нормально, дубль через Telegram.
   deliverToEmail(
     {
       _subject: `Запрос даты курса: ${inq.courseTitle}`,
@@ -142,6 +196,16 @@ export function sendCourseInquiry(inq: CourseInquiryPayload): Application {
     },
     COURSE_INQUIRY_EMAIL,
   );
+
+  // Основной надёжный канал
+  deliverToTelegram(`📅 Запрос даты курса: ${inq.courseTitle}`, [
+    ["Курс", inq.courseTitle],
+    ["Куда отвечать", inq.contactType === "email" ? "Email" : "Телефон"],
+    ["Email", inq.email],
+    ["Телефон", inq.phone],
+    ["Способ связи", inq.phoneMethod ? inquiryPhoneMethodLabel[inq.phoneMethod] : undefined],
+    ["Вопрос", inq.question],
+  ]);
 
   return full;
 }
