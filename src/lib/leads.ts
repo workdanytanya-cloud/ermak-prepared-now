@@ -32,17 +32,27 @@ function deliverToEmail(payload: Record<string, unknown>, recipient: string) {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ type: "ermak_lead", recipient, ...payload }),
-    }).catch(() => {});
-  } else {
-    fetch(`https://formsubmit.co/ajax/${encodeURIComponent(recipient)}`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json",
-      },
-      body: JSON.stringify({ ...payload, source: "ermak-site" }),
-    }).catch(() => {});
+    }).catch((err) => console.error("[leads] webhook error", err));
+    return;
   }
+  fetch(`https://formsubmit.co/ajax/${encodeURIComponent(recipient)}`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Accept: "application/json",
+    },
+    body: JSON.stringify({
+      _captcha: "false",
+      _template: "table",
+      source: "ermak-site",
+      ...payload,
+    }),
+  })
+    .then(async (r) => {
+      const data = await r.json().catch(() => ({}));
+      console.info("[leads] formsubmit response", r.status, data);
+    })
+    .catch((err) => console.error("[leads] formsubmit error", err));
 }
 
 export function saveApplication(app: Omit<Application, "id" | "createdAt"> & { id?: string; createdAt?: string }): Application {
