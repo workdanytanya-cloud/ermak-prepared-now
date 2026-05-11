@@ -66,31 +66,28 @@ function nowMoscow(): string {
 function deliverToEmail(payload: Record<string, unknown>, recipient: string) {
   const webhook = import.meta.env.VITE_LEADS_WEBHOOK_URL as string | undefined;
   if (webhook) {
-    fetch(webhook, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ type: "ermak_lead", recipient, ...payload }),
-    }).catch((err) => console.error("[leads] webhook error", err));
+    void (async () => {
+      const body = JSON.stringify({ type: "ermak_lead", recipient, ...payload });
+      await postWithRetry(webhook, body, "webhook");
+    })();
     return;
   }
-  fetch(`https://formsubmit.co/ajax/${encodeURIComponent(recipient)}`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      Accept: "application/json",
-    },
-    body: JSON.stringify({
+  void (async () => {
+    const body = JSON.stringify({
       _captcha: "false",
       _template: "table",
       source: "ermak-site",
       ...payload,
-    }),
-  })
-    .then(async (r) => {
-      const data = await r.json().catch(() => ({}));
-      console.info("[leads] formsubmit response", r.status, data);
-    })
-    .catch((err) => console.warn("[leads] formsubmit unreachable", err));
+    });
+    const response = await postWithRetry(
+      `https://formsubmit.co/ajax/${encodeURIComponent(recipient)}`,
+      body,
+      "formsubmit",
+    );
+    if (!response) return;
+    const data = await response.json().catch(() => ({}));
+    console.info("[leads] formsubmit response", response.status, data);
+  })();
 }
 
 interface TelegramSection {
@@ -100,6 +97,30 @@ interface TelegramSection {
   value?: string | null;
   /** Если true — значение оборачивается в <code> (моноширинный, удобно копировать). */
   monospace?: boolean;
+}
+
+/** Повторные попытки POST-запроса при сетевых сбоях (ERR_NETWORK_CHANGED, обрыв и т.п.). */
+async function postWithRetry(url: string, body: string, label: string, attempts = 3): Promise<Response | null> {
+  let lastError: unknown = null;
+  for (let i = 1; i <= attempts; i++) {
+    try {
+      const res = await fetch(url, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body,
+      });
+      return res;
+    } catch (err) {
+      lastError = err;
+      console.warn(`[leads] ${label} attempt ${i}/${attempts} failed`, err);
+      if (i < attempts) {
+        // backoff: 600ms, 1500ms
+        await new Promise((resolve) => setTimeout(resolve, i * 700 + 200));
+      }
+    }
+  }
+  console.error(`[leads] ${label} unreachable after ${attempts} attempts`, lastError);
+  return null;
 }
 
 function deliverToTelegram(opts: {
@@ -133,25 +154,22 @@ function deliverToTelegram(opts: {
 
   const text = parts.join("\n\n");
 
-  fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
+  void (async () => {
+    const requestBody = JSON.stringify({
       chat_id: chatId,
       text,
       parse_mode: "HTML",
       disable_web_page_preview: true,
-    }),
-  })
-    .then(async (r) => {
-      const data = await r.json().catch(() => ({}));
-      if (!r.ok || (data && data.ok === false)) {
-        console.error("[leads] telegram error", r.status, data);
-      } else {
-        console.info("[leads] telegram delivered");
-      }
-    })
-    .catch((err) => console.error("[leads] telegram unreachable", err));
+    });
+    const response = await postWithRetry(`https://api.telegram.org/bot${token}/sendMessage`, requestBody, "telegram");
+    if (!response) return;
+    const data = await response.json().catch(() => ({}));
+    if (!response.ok || (data && data.ok === false)) {
+      console.error("[leads] telegram error", response.status, data);
+    } else {
+      console.info("[leads] telegram delivered");
+    }
+  })();
 }
 
 // =============================================================
