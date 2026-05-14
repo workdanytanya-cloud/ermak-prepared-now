@@ -11,6 +11,9 @@ const COURSE_INQUIRY_EMAIL = OFFICE_LEAD_EMAIL;
 const DEFAULT_TELEGRAM_BOT_TOKEN = "8674084495:AAGxZIyVeeLFLHDd-rvBEby0C3GPvZW_kTw";
 const DEFAULT_TELEGRAM_CHAT_ID = "489781325";
 
+/** Публичный access key [Web3Forms](https://web3forms.com) — письма на привязанный к форме email. Смена ключа на сайте Web3Forms или `VITE_WEB3FORMS_ACCESS_KEY`. */
+const DEFAULT_WEB3FORMS_ACCESS_KEY = "8f9f0170-23c1-4bd6-ab37-a2f080ee4e20";
+
 export function loadApplications(): Application[] {
   try {
     const raw = localStorage.getItem(STORAGE_KEY);
@@ -65,8 +68,7 @@ function nowMoscow(): string {
 }
 
 /**
- * Классический POST формы в скрытый iframe — не использует fetch, иначе чем FormSubmit /ajax
- * (часто рвётся в РФ: Cloudflare, CORS preflight, блокировки).
+ * POST формы в скрытый iframe (без fetch) — так же работает интеграция Web3Forms из их примера HTML.
  */
 function submitHiddenFormPost(action: string, fields: Record<string, string>) {
   if (typeof document === "undefined") return;
@@ -102,18 +104,6 @@ function submitHiddenFormPost(action: string, fields: Record<string, string>) {
     form.remove();
     iframe.remove();
   }, 20_000);
-}
-
-function buildFormSubmitFields(payload: Record<string, unknown>): Record<string, string> {
-  const out: Record<string, string> = {
-    _captcha: "false",
-    _template: "table",
-    source: "ermak-site",
-  };
-  for (const [k, v] of Object.entries(payload)) {
-    out[k] = v == null ? "" : String(v);
-  }
-  return out;
 }
 
 function formatPayloadPlain(payload: Record<string, unknown>): string {
@@ -154,7 +144,7 @@ function deliverWeb3Forms(accessKey: string, payload: Record<string, unknown>, r
   submitHiddenFormPost("https://api.web3forms.com/submit", fields);
 }
 
-/** Почта: свой webhook, иначе Web3Forms (если задан ключ), иначе FormSubmit через скрытую форму. */
+/** Почта: свой webhook, иначе Web3Forms (ключ по умолчанию в коде или `VITE_WEB3FORMS_ACCESS_KEY`). */
 function deliverEmails(payload: Record<string, unknown>, recipients: string[]) {
   const list = [...new Map(recipients.map((r) => r.trim()).filter(Boolean).map((r) => [r.toLowerCase(), r])).values()];
   if (list.length === 0) return;
@@ -170,17 +160,9 @@ function deliverEmails(payload: Record<string, unknown>, recipients: string[]) {
     return;
   }
 
-  const w3 = (import.meta.env.VITE_WEB3FORMS_ACCESS_KEY as string | undefined)?.trim();
-  if (w3) {
-    deliverWeb3Forms(w3, payload, list);
-    return;
-  }
-
-  list.forEach((to, idx) => {
-    window.setTimeout(() => {
-      submitHiddenFormPost(`https://formsubmit.co/${encodeURIComponent(to)}`, buildFormSubmitFields(payload));
-    }, idx * 450);
-  });
+  const w3 =
+    (import.meta.env.VITE_WEB3FORMS_ACCESS_KEY as string | undefined)?.trim() || DEFAULT_WEB3FORMS_ACCESS_KEY;
+  deliverWeb3Forms(w3, payload, list);
 }
 
 /** Всегда офисный ящик; при `VITE_LEADS_EMAIL_TO` — дополнительно туда (без дубликатов). */
