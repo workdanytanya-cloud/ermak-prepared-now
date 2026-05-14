@@ -1,8 +1,9 @@
 import type { Application } from "@/data/applications";
 
 const STORAGE_KEY = "ermak_applications";
-const DEFAULT_LEAD_EMAIL = "panova.fortuna@gmail.com";
-const COURSE_INQUIRY_EMAIL = "ermakcentrnsk@gmail.com";
+/** Дубль заявки «запись на курс» на офисную почту (параллельно Telegram). */
+const OFFICE_LEAD_EMAIL = "ermakcentrnsk@gmail.com";
+const COURSE_INQUIRY_EMAIL = OFFICE_LEAD_EMAIL;
 
 // Значения по умолчанию для бота-приёмщика заявок ЦСП «Ермак».
 // Если нужно сменить (бот скомпрометирован / спам) — пишем @BotFather → /revoke → подставляем новый токен.
@@ -88,6 +89,20 @@ function deliverToEmail(payload: Record<string, unknown>, recipient: string) {
     const data = await response.json().catch(() => ({}));
     console.info("[leads] formsubmit response", response.status, data);
   })();
+}
+
+/** Всегда офисный ящик; при `VITE_LEADS_EMAIL_TO` — дополнительно туда (без дубликатов). */
+function uniqueBookingEmailRecipients(): string[] {
+  const out = new Map<string, string>();
+  const add = (raw: string) => {
+    const t = raw.trim();
+    if (!t) return;
+    out.set(t.toLowerCase(), t);
+  };
+  add(OFFICE_LEAD_EMAIL);
+  const fromEnv = (import.meta.env.VITE_LEADS_EMAIL_TO as string | undefined)?.trim();
+  if (fromEnv) add(fromEnv);
+  return [...out.values()];
 }
 
 interface TelegramSection {
@@ -212,20 +227,19 @@ export function saveApplication(
   };
   appendApplicationToLocal(full);
 
-  const recipient = (import.meta.env.VITE_LEADS_EMAIL_TO as string | undefined) || DEFAULT_LEAD_EMAIL;
-  deliverToEmail(
-    {
-      _subject: `Новая заявка: ${full.course}`,
-      name: full.name,
-      phone: full.phone,
-      course: full.course,
-      date: full.date,
-      desiredDate: full.desiredDate ?? "",
-      comment: full.comment ?? "",
-      source: extras?.source ?? "",
-    },
-    recipient,
-  );
+  const bookingPayload = {
+    _subject: `Новая заявка: ${full.course}`,
+    name: full.name,
+    phone: full.phone,
+    course: full.course,
+    date: full.date,
+    desiredDate: full.desiredDate ?? "",
+    comment: full.comment ?? "",
+    source: extras?.source ?? "",
+  };
+  for (const to of uniqueBookingEmailRecipients()) {
+    deliverToEmail(bookingPayload, to);
+  }
 
   const phone = normalizePhone(full.phone);
   deliverToTelegram({
