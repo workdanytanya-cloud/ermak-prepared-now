@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -9,6 +9,8 @@ import { toast } from "sonner";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { CheckCircle, Send } from "lucide-react";
 import { saveApplication } from "@/lib/leads";
+import { detectPrivacyLevel, hasVpnSubmitOverride, setVpnSubmitOverride, clearPrivacyCache, type PrivacyLevel } from "@/lib/ipPrivacyCheck";
+import VpnPrivacyDialog from "@/components/VpnPrivacyDialog";
 
 const TG_URL = "https://t.me/ErmakCenter";
 
@@ -22,21 +24,24 @@ interface Props {
 
 const BookingForm = ({ open, onOpenChange, preselectedCourse, sourceOverride }: Props) => {
   const courses = useMergedCourses();
+  const formRef = useRef<HTMLFormElement>(null);
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
   const [courseId, setCourseId] = useState("");
   const [desiredDate, setDesiredDate] = useState("");
   const [comment, setComment] = useState("");
   const [submitted, setSubmitted] = useState(false);
+  const [privacyLevel, setPrivacyLevel] = useState<PrivacyLevel | null>(null);
+  const [vpnDialogOpen, setVpnDialogOpen] = useState(false);
 
   useEffect(() => {
     if (!open) return;
     setSubmitted(false);
     setCourseId(preselectedCourse ?? "");
+    void detectPrivacyLevel().then(setPrivacyLevel);
   }, [open, preselectedCourse]);
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
+  const submitLead = () => {
     if (!name.trim() || !phone.trim() || !courseId) {
       toast.error("Укажите имя, телефон и курс");
       return;
@@ -69,6 +74,28 @@ const BookingForm = ({ open, onOpenChange, preselectedCourse, sourceOverride }: 
     setComment("");
   };
 
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    void (async () => {
+      if (!name.trim() || !phone.trim() || !courseId) {
+        toast.error("Укажите имя, телефон и курс");
+        return;
+      }
+
+      let level = privacyLevel;
+      if (level === null) {
+        level = await detectPrivacyLevel();
+        setPrivacyLevel(level);
+      }
+      if (level === "suspicious" && !hasVpnSubmitOverride()) {
+        setVpnDialogOpen(true);
+        return;
+      }
+
+      submitLead();
+    })();
+  };
+
   const handleDialogChange = (next: boolean) => {
     if (!next) {
       setSubmitted(false);
@@ -77,6 +104,7 @@ const BookingForm = ({ open, onOpenChange, preselectedCourse, sourceOverride }: 
   };
 
   return (
+    <>
     <Dialog open={open} onOpenChange={handleDialogChange}>
       <DialogContent className="bg-card border-border max-w-md data-[state=open]:animate-in data-[state=open]:fade-in-0 data-[state=open]:zoom-in-95 duration-200">
         {submitted ? (
@@ -106,7 +134,7 @@ const BookingForm = ({ open, onOpenChange, preselectedCourse, sourceOverride }: 
                 Коротко оставьте контакты — администратор уточнит дату и группу.
               </p>
             </DialogHeader>
-            <form onSubmit={handleSubmit} className="space-y-4 mt-2">
+            <form ref={formRef} onSubmit={handleSubmit} className="space-y-4 mt-2">
               <div className="space-y-2">
                 <Label htmlFor="bf-name" className="text-muted-foreground">
                   Имя
@@ -184,6 +212,21 @@ const BookingForm = ({ open, onOpenChange, preselectedCourse, sourceOverride }: 
         )}
       </DialogContent>
     </Dialog>
+
+    <VpnPrivacyDialog
+      open={vpnDialogOpen}
+      onOpenChange={setVpnDialogOpen}
+      onRetryAfterVpnOff={() => {
+        clearPrivacyCache();
+        setPrivacyLevel(null);
+        toast.info("Отключите VPN, обновите страницу (Ctrl+F5) и снова нажмите «Отправить заявку».");
+      }}
+      onSubmitAnyway={() => {
+        setVpnSubmitOverride();
+        requestAnimationFrame(() => formRef.current?.requestSubmit());
+      }}
+    />
+    </>
   );
 };
 

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -7,6 +7,8 @@ import { Button } from "@/components/ui/button";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { toast } from "sonner";
 import { sendCourseInquiry, type InquiryContactType, type InquiryPhoneMethod } from "@/lib/leads";
+import { detectPrivacyLevel, hasVpnSubmitOverride, setVpnSubmitOverride, clearPrivacyCache, type PrivacyLevel } from "@/lib/ipPrivacyCheck";
+import VpnPrivacyDialog from "@/components/VpnPrivacyDialog";
 
 interface Props {
   open: boolean;
@@ -23,6 +25,7 @@ const phoneMethodOptions: { value: InquiryPhoneMethod; label: string }[] = [
 ];
 
 const CourseInquiryDialog = ({ open, onOpenChange, courseTitle, courseShortTitle }: Props) => {
+  const formRef = useRef<HTMLFormElement>(null);
   const [contactType, setContactType] = useState<InquiryContactType>("phone");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
@@ -30,6 +33,14 @@ const CourseInquiryDialog = ({ open, onOpenChange, courseTitle, courseShortTitle
   const [question, setQuestion] = useState("");
   const [submitted, setSubmitted] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [privacyLevel, setPrivacyLevel] = useState<PrivacyLevel | null>(null);
+  const [vpnDialogOpen, setVpnDialogOpen] = useState(false);
+
+  useEffect(() => {
+    if (open) {
+      void detectPrivacyLevel().then(setPrivacyLevel);
+    }
+  }, [open]);
 
   useEffect(() => {
     if (!open) {
@@ -64,27 +75,40 @@ const CourseInquiryDialog = ({ open, onOpenChange, courseTitle, courseShortTitle
       }
     }
 
-    setLoading(true);
-    try {
-      const sourcePath = typeof window !== "undefined" ? window.location.pathname + window.location.search : "";
-      sendCourseInquiry({
-        courseTitle,
-        contactType,
-        email: contactType === "email" ? email.trim() : undefined,
-        phone: contactType === "phone" ? phone.trim() : undefined,
-        phoneMethod: contactType === "phone" ? phoneMethod : undefined,
-        question: question.trim() || undefined,
-        source: `Кнопка «Уточнить дату» (${sourcePath || "сайт"})`,
-      });
-      setSubmitted(true);
-    } catch {
-      toast.error("Не удалось отправить — попробуйте ещё раз");
-    } finally {
-      setLoading(false);
-    }
+    void (async () => {
+      let level = privacyLevel;
+      if (level === null) {
+        level = await detectPrivacyLevel();
+        setPrivacyLevel(level);
+      }
+      if (level === "suspicious" && !hasVpnSubmitOverride()) {
+        setVpnDialogOpen(true);
+        return;
+      }
+
+      setLoading(true);
+      try {
+        const sourcePath = typeof window !== "undefined" ? window.location.pathname + window.location.search : "";
+        sendCourseInquiry({
+          courseTitle,
+          contactType,
+          email: contactType === "email" ? email.trim() : undefined,
+          phone: contactType === "phone" ? phone.trim() : undefined,
+          phoneMethod: contactType === "phone" ? phoneMethod : undefined,
+          question: question.trim() || undefined,
+          source: `Кнопка «Уточнить дату» (${sourcePath || "сайт"})`,
+        });
+        setSubmitted(true);
+      } catch {
+        toast.error("Не удалось отправить — попробуйте ещё раз");
+      } finally {
+        setLoading(false);
+      }
+    })();
   };
 
   return (
+    <>
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="bg-card border-border max-w-md data-[state=open]:animate-in data-[state=open]:zoom-in-95 duration-200">
         {submitted ? (
@@ -111,7 +135,7 @@ const CourseInquiryDialog = ({ open, onOpenChange, courseTitle, courseShortTitle
               </DialogDescription>
             </DialogHeader>
 
-            <form onSubmit={handleSubmit} className="space-y-4 mt-1">
+            <form ref={formRef} onSubmit={handleSubmit} className="space-y-4 mt-1">
               <div className="space-y-2">
                 <Label className="text-foreground text-sm">Куда удобнее получить ответ?</Label>
                 <RadioGroup
@@ -231,6 +255,21 @@ const CourseInquiryDialog = ({ open, onOpenChange, courseTitle, courseShortTitle
         )}
       </DialogContent>
     </Dialog>
+
+    <VpnPrivacyDialog
+      open={vpnDialogOpen}
+      onOpenChange={setVpnDialogOpen}
+      onRetryAfterVpnOff={() => {
+        clearPrivacyCache();
+        setPrivacyLevel(null);
+        toast.info("Отключите VPN, обновите страницу (Ctrl+F5) и снова нажмите «Отправить запрос».");
+      }}
+      onSubmitAnyway={() => {
+        setVpnSubmitOverride();
+        requestAnimationFrame(() => formRef.current?.requestSubmit());
+      }}
+    />
+    </>
   );
 };
 
