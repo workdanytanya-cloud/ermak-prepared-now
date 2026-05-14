@@ -64,31 +64,123 @@ function nowMoscow(): string {
   });
 }
 
-function deliverToEmail(payload: Record<string, unknown>, recipient: string) {
-  const webhook = import.meta.env.VITE_LEADS_WEBHOOK_URL as string | undefined;
+/**
+ * Классический POST формы в скрытый iframe — не использует fetch, иначе чем FormSubmit /ajax
+ * (часто рвётся в РФ: Cloudflare, CORS preflight, блокировки).
+ */
+function submitHiddenFormPost(action: string, fields: Record<string, string>) {
+  if (typeof document === "undefined") return;
+
+  const iframeName = `ermak_lead_${Date.now()}_${Math.random().toString(36).slice(2, 9)}`;
+  const iframe = document.createElement("iframe");
+  iframe.name = iframeName;
+  iframe.setAttribute("aria-hidden", "true");
+  iframe.tabIndex = -1;
+  iframe.style.cssText = "position:absolute;width:1px;height:1px;left:-9999px;top:-9999px;border:0;opacity:0";
+  document.body.appendChild(iframe);
+
+  const form = document.createElement("form");
+  form.method = "POST";
+  form.action = action;
+  form.target = iframeName;
+  form.acceptCharset = "UTF-8";
+  form.style.display = "none";
+
+  for (const [name, value] of Object.entries(fields)) {
+    const inp = document.createElement("input");
+    inp.type = "hidden";
+    inp.name = name;
+    inp.value = value;
+    form.appendChild(inp);
+  }
+
+  document.body.appendChild(form);
+  form.submit();
+  console.info("[leads] hidden form POST", action.replace(/\?.*$/, ""));
+
+  window.setTimeout(() => {
+    form.remove();
+    iframe.remove();
+  }, 20_000);
+}
+
+function buildFormSubmitFields(payload: Record<string, unknown>): Record<string, string> {
+  const out: Record<string, string> = {
+    _captcha: "false",
+    _template: "table",
+    source: "ermak-site",
+  };
+  for (const [k, v] of Object.entries(payload)) {
+    out[k] = v == null ? "" : String(v);
+  }
+  return out;
+}
+
+function formatPayloadPlain(payload: Record<string, unknown>): string {
+  return Object.entries(payload)
+    .filter(([, v]) => v != null && String(v).trim() !== "")
+    .map(([k, v]) => `${k}: ${String(v)}`)
+    .join("\n");
+}
+
+function deliverWeb3Forms(accessKey: string, payload: Record<string, unknown>, recipients: string[]) {
+  const subject = String(payload._subject ?? "Заявка с сайта ermakcentr.ru");
+  const name = String(payload.name ?? "Клиент (сайт)");
+  const visitorEmail =
+    typeof payload.email === "string" && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(payload.email.trim())
+      ? payload.email.trim()
+      : "";
+  const email = visitorEmail || OFFICE_LEAD_EMAIL;
+  const phone = String(payload.phone ?? "");
+  let message = formatPayloadPlain(payload);
+  if (recipients.length > 1) {
+    message += `\n\nКопии на: ${recipients.join(", ")}`;
+  }
+
+  const fields: Record<string, string> = {
+    access_key: accessKey,
+    subject,
+    name,
+    email,
+    from_name: "ermakcentr.ru",
+    message,
+  };
+  if (phone) fields.phone = phone;
+  if (visitorEmail) fields.replyto = visitorEmail;
+
+  const ccemail = recipients.filter((r) => r.toLowerCase() !== email.toLowerCase());
+  if (ccemail.length) fields.ccemail = ccemail.join(",");
+
+  submitHiddenFormPost("https://api.web3forms.com/submit", fields);
+}
+
+/** Почта: свой webhook, иначе Web3Forms (если задан ключ), иначе FormSubmit через скрытую форму. */
+function deliverEmails(payload: Record<string, unknown>, recipients: string[]) {
+  const list = [...new Map(recipients.map((r) => r.trim()).filter(Boolean).map((r) => [r.toLowerCase(), r])).values()];
+  if (list.length === 0) return;
+
+  const webhook = (import.meta.env.VITE_LEADS_WEBHOOK_URL as string | undefined)?.trim();
   if (webhook) {
-    void (async () => {
-      const body = JSON.stringify({ type: "ermak_lead", recipient, ...payload });
-      await postWithRetry(webhook, body, "webhook");
-    })();
+    for (const to of list) {
+      void (async () => {
+        const body = JSON.stringify({ type: "ermak_lead", recipient: to, ...payload });
+        await postWithRetry(webhook, body, "webhook");
+      })();
+    }
     return;
   }
-  void (async () => {
-    const body = JSON.stringify({
-      _captcha: "false",
-      _template: "table",
-      source: "ermak-site",
-      ...payload,
-    });
-    const response = await postWithRetry(
-      `https://formsubmit.co/ajax/${encodeURIComponent(recipient)}`,
-      body,
-      "formsubmit",
-    );
-    if (!response) return;
-    const data = await response.json().catch(() => ({}));
-    console.info("[leads] formsubmit response", response.status, data);
-  })();
+
+  const w3 = (import.meta.env.VITE_WEB3FORMS_ACCESS_KEY as string | undefined)?.trim();
+  if (w3) {
+    deliverWeb3Forms(w3, payload, list);
+    return;
+  }
+
+  list.forEach((to, idx) => {
+    window.setTimeout(() => {
+      submitHiddenFormPost(`https://formsubmit.co/${encodeURIComponent(to)}`, buildFormSubmitFields(payload));
+    }, idx * 450);
+  });
 }
 
 /** Всегда офисный ящик; при `VITE_LEADS_EMAIL_TO` — дополнительно туда (без дубликатов). */
@@ -237,9 +329,7 @@ export function saveApplication(
     comment: full.comment ?? "",
     source: extras?.source ?? "",
   };
-  for (const to of uniqueBookingEmailRecipients()) {
-    deliverToEmail(bookingPayload, to);
-  }
+  deliverEmails(bookingPayload, uniqueBookingEmailRecipients());
 
   const phone = normalizePhone(full.phone);
   deliverToTelegram({
@@ -306,10 +396,11 @@ export function sendCourseInquiry(inq: CourseInquiryPayload): Application {
   };
   appendApplicationToLocal(full);
 
-  // Best-effort: email через FormSubmit. В РФ часто блокируется ISP — основной канал Telegram.
-  deliverToEmail(
+  // Почта: webhook / Web3Forms / FormSubmit (скрытая форма) — см. deliverEmails.
+  deliverEmails(
     {
       _subject: `Запрос даты курса: ${inq.courseTitle}`,
+      name: `Запрос даты: ${inq.courseTitle}`,
       type: "course_inquiry",
       course: inq.courseTitle,
       contactType: inq.contactType === "email" ? "Email" : "Телефон",
@@ -320,7 +411,7 @@ export function sendCourseInquiry(inq: CourseInquiryPayload): Application {
       source: inq.source ?? "",
       summary: contactSummary,
     },
-    COURSE_INQUIRY_EMAIL,
+    [COURSE_INQUIRY_EMAIL],
   );
 
   const phone = normalizePhone(inq.phone);
