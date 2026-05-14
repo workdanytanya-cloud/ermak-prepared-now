@@ -100,13 +100,20 @@ interface TelegramSection {
 }
 
 /** Повторные попытки POST-запроса при сетевых сбоях (ERR_NETWORK_CHANGED, обрыв и т.п.). */
-async function postWithRetry(url: string, body: string, label: string, attempts = 3): Promise<Response | null> {
+async function postWithRetry(
+  url: string,
+  body: string,
+  label: string,
+  attempts = 3,
+  /** JSON тянет CORS preflight; у api.telegram.org OPTIONS даёт 501 — браузер режет запрос. Urlencoded = «простой» POST без preflight. */
+  contentType: "application/json" | "application/x-www-form-urlencoded" = "application/json",
+): Promise<Response | null> {
   let lastError: unknown = null;
   for (let i = 1; i <= attempts; i++) {
     try {
       const res = await fetch(url, {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: { "Content-Type": contentType },
         body,
       });
       return res;
@@ -155,13 +162,19 @@ function deliverToTelegram(opts: {
   const text = parts.join("\n\n");
 
   void (async () => {
-    const requestBody = JSON.stringify({
-      chat_id: chatId,
+    const requestBody = new URLSearchParams({
+      chat_id: String(chatId),
       text,
       parse_mode: "HTML",
-      disable_web_page_preview: true,
-    });
-    const response = await postWithRetry(`https://api.telegram.org/bot${token}/sendMessage`, requestBody, "telegram");
+      disable_web_page_preview: "true",
+    }).toString();
+    const response = await postWithRetry(
+      `https://api.telegram.org/bot${token}/sendMessage`,
+      requestBody,
+      "telegram",
+      3,
+      "application/x-www-form-urlencoded",
+    );
     if (!response) return;
     const data = await response.json().catch(() => ({}));
     if (!response.ok || (data && data.ok === false)) {
