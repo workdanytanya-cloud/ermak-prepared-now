@@ -67,45 +67,6 @@ function nowMoscow(): string {
   });
 }
 
-/**
- * POST формы в скрытый iframe (без fetch) — так же работает интеграция Web3Forms из их примера HTML.
- */
-function submitHiddenFormPost(action: string, fields: Record<string, string>) {
-  if (typeof document === "undefined") return;
-
-  const iframeName = `ermak_lead_${Date.now()}_${Math.random().toString(36).slice(2, 9)}`;
-  const iframe = document.createElement("iframe");
-  iframe.name = iframeName;
-  iframe.setAttribute("aria-hidden", "true");
-  iframe.tabIndex = -1;
-  iframe.style.cssText = "position:absolute;width:1px;height:1px;left:-9999px;top:-9999px;border:0;opacity:0";
-  document.body.appendChild(iframe);
-
-  const form = document.createElement("form");
-  form.method = "POST";
-  form.action = action;
-  form.target = iframeName;
-  form.acceptCharset = "UTF-8";
-  form.style.display = "none";
-
-  for (const [name, value] of Object.entries(fields)) {
-    const inp = document.createElement("input");
-    inp.type = "hidden";
-    inp.name = name;
-    inp.value = value;
-    form.appendChild(inp);
-  }
-
-  document.body.appendChild(form);
-  form.submit();
-  console.info("[leads] hidden form POST", action.replace(/\?.*$/, ""));
-
-  window.setTimeout(() => {
-    form.remove();
-    iframe.remove();
-  }, 20_000);
-}
-
 function formatPayloadPlain(payload: Record<string, unknown>): string {
   return Object.entries(payload)
     .filter(([, v]) => v != null && String(v).trim() !== "")
@@ -123,8 +84,13 @@ function deliverWeb3Forms(accessKey: string, payload: Record<string, unknown>, r
   const email = visitorEmail || OFFICE_LEAD_EMAIL;
   const phone = String(payload.phone ?? "");
   let message = formatPayloadPlain(payload);
-  if (recipients.length > 1) {
-    message += `\n\nКопии на: ${recipients.join(", ")}`;
+  const extraRecipients = recipients.filter((r) => r.toLowerCase() !== email.toLowerCase());
+  if (extraRecipients.length) {
+    // Не используем ccemail — на бесплатном плане Web3Forms отклоняет весь запрос («Pro feature»).
+    message += `\n\nДоп. получатель (перешлите вручную): ${extraRecipients.join(", ")}`;
+  }
+  if (!message.trim()) {
+    message = "(данные заявки в теме письма)";
   }
 
   const fields: Record<string, string> = {
@@ -138,13 +104,26 @@ function deliverWeb3Forms(accessKey: string, payload: Record<string, unknown>, r
   if (phone) fields.phone = phone;
   if (visitorEmail) fields.replyto = visitorEmail;
 
-  const ccemail = recipients.filter((r) => r.toLowerCase() !== email.toLowerCase());
-  if (ccemail.length) fields.ccemail = ccemail.join(",");
-
-  submitHiddenFormPost("https://api.web3forms.com/submit", fields);
+  void (async () => {
+    const body = new URLSearchParams(fields).toString();
+    const res = await postWithRetry(
+      "https://api.web3forms.com/submit",
+      body,
+      "web3forms",
+      3,
+      "application/x-www-form-urlencoded",
+    );
+    if (!res) return;
+    const data = (await res.json().catch(() => ({}))) as { success?: boolean; message?: string };
+    if (!res.ok || data.success === false) {
+      console.error("[leads] web3forms failed", res.status, data);
+      return;
+    }
+    console.info("[leads] web3forms delivered");
+  })();
 }
 
-/** Почта: свой webhook, иначе Web3Forms (ключ по умолчанию в коде или `VITE_WEB3FORMS_ACCESS_KEY`). */
+/** Почта: при `VITE_LEADS_WEBHOOK_URL` только webhook (Web3Forms не вызывается). Иначе Web3Forms (urlencoded fetch). */
 function deliverEmails(payload: Record<string, unknown>, recipients: string[]) {
   const list = [...new Map(recipients.map((r) => r.trim()).filter(Boolean).map((r) => [r.toLowerCase(), r])).values()];
   if (list.length === 0) return;
