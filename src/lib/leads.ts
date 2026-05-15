@@ -1,6 +1,7 @@
 import type { Application } from "@/data/applications";
 import { requestVkWallDuplicate } from "@/lib/vkLeadGateway";
 import { telegramProxyUrl, warnIfMixedContent } from "@/lib/leadsServer";
+import { toast } from "sonner";
 
 const STORAGE_KEY = "ermak_applications";
 /** Дубль заявки «запись на курс» на офисную почту (параллельно Telegram). */
@@ -234,7 +235,20 @@ function deliverToTelegram(opts: {
 
   void (async () => {
     const proxy = telegramProxyUrl();
+    const mixed =
+      typeof globalThis !== "undefined" &&
+      "location" in globalThis &&
+      globalThis.location.protocol === "https:" &&
+      proxy.startsWith("http://");
     warnIfMixedContent(proxy, "Telegram");
+
+    if (mixed) {
+      toast.warning(
+        "Telegram недоступен с сайта: настройте HTTPS-шлюз на VPS (api.ermakcentr.ru).",
+        { duration: 8000 },
+      );
+      return;
+    }
 
     if (proxy.includes("/telegram-send")) {
       const response = await postWithRetry(

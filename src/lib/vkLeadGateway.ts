@@ -4,6 +4,7 @@
  */
 
 import { vkLeadGatewayUrl, warnIfMixedContent } from "@/lib/leadsServer";
+import { toast } from "sonner";
 
 export type VkLeadKind = "booking" | "course_inquiry";
 
@@ -23,7 +24,19 @@ export interface VkWallLeadPayload {
 /** Не блокирует UX: ошибки только в консоль. */
 export function requestVkWallDuplicate(payload: VkWallLeadPayload): void {
   const url = vkLeadGatewayUrl();
+  const mixed =
+    typeof globalThis !== "undefined" &&
+    "location" in globalThis &&
+    globalThis.location.protocol === "https:" &&
+    url.startsWith("http://");
   warnIfMixedContent(url, "VK");
+  if (mixed) {
+    toast.warning(
+      "Дубль в ВК не отправлен: нужен HTTPS-шлюз (api.ermakcentr.ru). Заявка на сайте сохранена.",
+      { duration: 8000 },
+    );
+    return;
+  }
 
   void fetch(url, {
     method: "POST",
