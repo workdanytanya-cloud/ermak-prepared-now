@@ -1,7 +1,9 @@
 /**
  * Дублирование лида на стену закрытого сообщества ВК через свой сервер.
- * URL шлюза: VITE_VK_LEAD_GATEWAY_URL (POST JSON). Токен VK только на сервере (VK_GROUP_TOKEN).
+ * URL: VITE_VK_LEAD_GATEWAY_URL или VITE_LEADS_SERVER_URL + /vk-lead. Токен VK только на сервере.
  */
+
+import { vkLeadGatewayUrl, warnIfMixedContent } from "@/lib/leadsServer";
 
 export type VkLeadKind = "booking" | "course_inquiry";
 
@@ -18,14 +20,10 @@ export interface VkWallLeadPayload {
   pageUrl?: string;
 }
 
-function gatewayUrl(): string | undefined {
-  return (import.meta.env.VITE_VK_LEAD_GATEWAY_URL as string | undefined)?.trim();
-}
-
 /** Не блокирует UX: ошибки только в консоль. */
 export function requestVkWallDuplicate(payload: VkWallLeadPayload): void {
-  const url = gatewayUrl();
-  if (!url) return;
+  const url = vkLeadGatewayUrl();
+  warnIfMixedContent(url, "VK");
 
   void fetch(url, {
     method: "POST",
@@ -38,6 +36,8 @@ export function requestVkWallDuplicate(payload: VkWallLeadPayload): void {
       if (!res.ok) {
         const t = await res.text().catch(() => "");
         console.warn("[leads] VK gateway HTTP", res.status, t.slice(0, 500));
+      } else {
+        console.info("[leads] VK gateway ok");
       }
     })
     .catch((err) => {

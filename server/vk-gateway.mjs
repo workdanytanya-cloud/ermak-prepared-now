@@ -3,6 +3,7 @@
  *
  * Переменные окружения:
  *   VK_GROUP_TOKEN — ключ сообщества с правами wall (обязательно)
+ *   TELEGRAM_BOT_TOKEN, TELEGRAM_CHAT_ID — для POST /telegram-send (прокси из РФ)
  *   PORT — порт (по умолчанию 5055)
  *   VK_ALLOWED_ORIGINS — через запятую, для CORS (по умолчанию https://ermakcentr.ru,http://localhost:5173)
  *
@@ -15,6 +16,8 @@ import { URL } from "node:url";
 
 const PORT = Number(process.env.PORT) || 5055;
 const VK_TOKEN = process.env.VK_GROUP_TOKEN;
+const TG_TOKEN = process.env.TELEGRAM_BOT_TOKEN;
+const TG_CHAT_ID = process.env.TELEGRAM_CHAT_ID;
 const OWNER_ID = "-238725296";
 const VK_API_VERSION = "5.199";
 
@@ -102,6 +105,31 @@ async function postWall(message) {
   return { ok: true, data };
 }
 
+async function sendTelegram(text, parseMode = "HTML") {
+  if (!TG_TOKEN || !TG_CHAT_ID) {
+    console.error("[leads-server] TELEGRAM_BOT_TOKEN or TELEGRAM_CHAT_ID missing");
+    return { ok: false, error: "telegram_misconfigured" };
+  }
+  const params = new URLSearchParams({
+    chat_id: String(TG_CHAT_ID),
+    text: String(text).slice(0, 4096),
+    parse_mode: parseMode,
+    disable_web_page_preview: "true",
+  });
+  const res = await fetch(`https://api.telegram.org/bot${TG_TOKEN}/sendMessage`, {
+    method: "POST",
+    headers: { "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8" },
+    body: params.toString(),
+  });
+  const data = await res.json().catch(() => ({}));
+  if (!res.ok || data.ok === false) {
+    console.error("[leads-server] telegram failed", res.status, JSON.stringify(data).slice(0, 2000));
+    return { ok: false, data };
+  }
+  console.info("[leads-server] telegram ok");
+  return { ok: true, data };
+}
+
 function readBody(req) {
   return new Promise((resolve, reject) => {
     const chunks = [];
@@ -130,26 +158,48 @@ const server = http.createServer(async (req, res) => {
 
   const host = req.headers.host || "localhost";
   const url = new URL(req.url || "/", `http://${host}`);
-  if (req.method !== "POST" || url.pathname !== "/vk-lead") {
+
+  if (req.method !== "POST") {
     res.writeHead(404, { "Content-Type": "application/json", ...ch });
     return res.end(JSON.stringify({ ok: false, error: "not_found" }));
   }
 
-  let body;
-  try {
-    body = await readBody(req);
-  } catch {
-    res.writeHead(400, { "Content-Type": "application/json", ...ch });
-    return res.end(JSON.stringify({ ok: false, error: "invalid_json" }));
+  if (url.pathname === "/telegram-send") {
+    let body;
+    try {
+      body = await readBody(req);
+    } catch {
+      res.writeHead(400, { "Content-Type": "application/json", ...ch });
+      return res.end(JSON.stringify({ ok: false, error: "invalid_json" }));
+    }
+    const text = sanitize(body?.text, 4096);
+    if (!text) {
+      res.writeHead(400, { "Content-Type": "application/json", ...ch });
+      return res.end(JSON.stringify({ ok: false, error: "text_required" }));
+    }
+    await sendTelegram(text, body?.parse_mode === "Markdown" ? "Markdown" : "HTML");
+    res.writeHead(200, { "Content-Type": "application/json", ...ch });
+    return res.end(JSON.stringify({ ok: true }));
   }
 
-  const message = buildMessage(body);
-  await postWall(message);
+  if (url.pathname === "/vk-lead") {
+    let body;
+    try {
+      body = await readBody(req);
+    } catch {
+      res.writeHead(400, { "Content-Type": "application/json", ...ch });
+      return res.end(JSON.stringify({ ok: false, error: "invalid_json" }));
+    }
+    const message = buildMessage(body);
+    await postWall(message);
+    res.writeHead(200, { "Content-Type": "application/json", ...ch });
+    return res.end(JSON.stringify({ ok: true }));
+  }
 
-  res.writeHead(200, { "Content-Type": "application/json", ...ch });
-  res.end(JSON.stringify({ ok: true }));
+  res.writeHead(404, { "Content-Type": "application/json", ...ch });
+  res.end(JSON.stringify({ ok: false, error: "not_found" }));
 });
 
 server.listen(PORT, () => {
-  console.info(`[vk-gateway] listening on :${PORT}, POST /vk-lead`);
+  console.info(`[leads-server] :${PORT} — POST /vk-lead, POST /telegram-send`);
 });

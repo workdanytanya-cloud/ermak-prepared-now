@@ -17,6 +17,11 @@ interface ImportMetaEnv {
    */
   readonly VITE_TELEGRAM_SEND_PROXY_URL?: string;
   /**
+   * Базовый URL шлюза на VPS, например https://api.ermakcentr.ru или http://IP:5055.
+   * Из него собираются /vk-lead и /telegram-send, если не заданы отдельные URL.
+   */
+  readonly VITE_LEADS_SERVER_URL?: string;
+  /**
    * URL серверного шлюза для дубля заявки на стену ВК (POST JSON, см. server/vk-gateway.mjs).
    * Токен VK только на сервере: VK_GROUP_TOKEN.
    */

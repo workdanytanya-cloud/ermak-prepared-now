@@ -1,5 +1,6 @@
 import type { Application } from "@/data/applications";
 import { requestVkWallDuplicate } from "@/lib/vkLeadGateway";
+import { telegramProxyUrl, warnIfMixedContent } from "@/lib/leadsServer";
 
 const STORAGE_KEY = "ermak_applications";
 /** Дубль заявки «запись на курс» на офисную почту (параллельно Telegram). */
@@ -232,6 +233,27 @@ function deliverToTelegram(opts: {
   const text = parts.join("\n\n");
 
   void (async () => {
+    const proxy = telegramProxyUrl();
+    warnIfMixedContent(proxy, "Telegram");
+
+    if (proxy.includes("/telegram-send")) {
+      const response = await postWithRetry(
+        proxy,
+        JSON.stringify({ text, parse_mode: "HTML" }),
+        "telegram",
+        3,
+        "application/json",
+      );
+      if (!response) return;
+      const data = await response.json().catch(() => ({}));
+      if (!response.ok || (data && data.ok === false)) {
+        console.error("[leads] telegram proxy error", response.status, data);
+      } else {
+        console.info("[leads] telegram delivered (via VPS)");
+      }
+      return;
+    }
+
     const requestBody = new URLSearchParams({
       chat_id: String(chatId),
       text,
@@ -239,11 +261,7 @@ function deliverToTelegram(opts: {
       disable_web_page_preview: "true",
     }).toString();
 
-    const proxy = (import.meta.env.VITE_TELEGRAM_SEND_PROXY_URL as string | undefined)?.trim();
-    const endpoint = proxy
-      ? proxy
-      : `https://api.telegram.org/bot${token}/sendMessage`;
-
+    const endpoint = `https://api.telegram.org/bot${token}/sendMessage`;
     const response = await postWithRetry(endpoint, requestBody, "telegram", 3, "application/x-www-form-urlencoded");
     if (!response) return;
     const data = await response.json().catch(() => ({}));
