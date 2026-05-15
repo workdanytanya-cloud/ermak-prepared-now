@@ -177,6 +177,7 @@ const server = http.createServer(async (req, res) => {
       res.writeHead(400, { "Content-Type": "application/json", ...ch });
       return res.end(JSON.stringify({ ok: false, error: "text_required" }));
     }
+    console.info("[leads-server] received /telegram-send", { len: String(text).length });
     await sendTelegram(text, body?.parse_mode === "Markdown" ? "Markdown" : "HTML");
     res.writeHead(200, { "Content-Type": "application/json", ...ch });
     return res.end(JSON.stringify({ ok: true }));
@@ -190,6 +191,10 @@ const server = http.createServer(async (req, res) => {
       res.writeHead(400, { "Content-Type": "application/json", ...ch });
       return res.end(JSON.stringify({ ok: false, error: "invalid_json" }));
     }
+    console.info("[leads-server] received /vk-lead", {
+      kind: body?.kind,
+      course: sanitize(body?.course, 200),
+    });
     const message = buildMessage(body);
     await postWall(message);
     res.writeHead(200, { "Content-Type": "application/json", ...ch });
