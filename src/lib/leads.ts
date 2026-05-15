@@ -1,4 +1,5 @@
 import type { Application } from "@/data/applications";
+import { requestVkWallDuplicate } from "@/lib/vkLeadGateway";
 
 const STORAGE_KEY = "ermak_applications";
 /** Дубль заявки «запись на курс» на офисную почту (параллельно Telegram). */
@@ -307,6 +308,18 @@ export function saveApplication(
     footer: `Получено: ${nowMoscow()} (Новосибирск)`,
   });
 
+  const vkCommentParts: string[] = [];
+  if (full.desiredDate?.trim()) vkCommentParts.push(`Желаемая дата: ${full.desiredDate.trim()}`);
+  if (full.comment?.trim()) vkCommentParts.push(full.comment.trim());
+  requestVkWallDuplicate({
+    kind: "booking",
+    course: full.course,
+    name: full.name,
+    phone: full.phone,
+    comment: vkCommentParts.length ? vkCommentParts.join("\n") : undefined,
+    pageUrl: typeof globalThis !== "undefined" && "location" in globalThis ? globalThis.location.href : undefined,
+  });
+
   return full;
 }
 
@@ -393,6 +406,24 @@ export function sendCourseInquiry(inq: CourseInquiryPayload): Application {
       { label: "📍 Источник", value: inq.source },
     ],
     footer: `Получено: ${nowMoscow()} (Новосибирск)`,
+  });
+
+  const messengers =
+    inq.contactType === "email"
+      ? inq.email?.trim()
+        ? `Email: ${inq.email.trim()}`
+        : undefined
+      : `Предпочтительный канал: ${inquiryPhoneMethodLabel[inq.phoneMethod ?? "call"]}`;
+  const vkInquiryComment = [inq.question?.trim(), inq.source?.trim()].filter(Boolean).join("\n\n") || undefined;
+
+  requestVkWallDuplicate({
+    kind: "course_inquiry",
+    course: inq.courseTitle,
+    name: "не указано",
+    phone: inq.contactType === "phone" ? (inq.phone?.trim() || "—") : "—",
+    messengers,
+    comment: vkInquiryComment,
+    pageUrl: typeof globalThis !== "undefined" && "location" in globalThis ? globalThis.location.href : undefined,
   });
 
   return full;

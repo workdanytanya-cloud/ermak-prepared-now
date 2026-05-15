@@ -16,6 +16,11 @@ interface ImportMetaEnv {
    * Нужен, если с сайта `api.telegram.org` не открывается (таймаут в РФ). Токен бота храните только в скрипте прокси.
    */
   readonly VITE_TELEGRAM_SEND_PROXY_URL?: string;
+  /**
+   * URL серверного шлюза для дубля заявки на стену ВК (POST JSON, см. server/vk-gateway.mjs).
+   * Токен VK только на сервере: VK_GROUP_TOKEN.
+   */
+  readonly VITE_VK_LEAD_GATEWAY_URL?: string;
 }
 
 interface ImportMeta {
