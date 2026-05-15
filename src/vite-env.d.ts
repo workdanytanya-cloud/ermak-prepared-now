@@ -11,6 +11,11 @@ interface ImportMetaEnv {
   readonly VITE_TELEGRAM_BOT_TOKEN?: string;
   /** Telegram chat_id, куда бот пишет лиды (личный chat_id или id группы со знаком минус) */
   readonly VITE_TELEGRAM_CHAT_ID?: string;
+  /**
+   * URL своего прокси (например PHP на Timeweb), который POST-ит тело как есть на api.telegram.org/bot…/sendMessage.
+   * Нужен, если с сайта `api.telegram.org` не открывается (таймаут в РФ). Токен бота храните только в скрипте прокси.
+   */
+  readonly VITE_TELEGRAM_SEND_PROXY_URL?: string;
 }
 
 interface ImportMeta {

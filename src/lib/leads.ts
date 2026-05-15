@@ -6,6 +6,7 @@ const OFFICE_LEAD_EMAIL = "ermakcentrnsk@gmail.com";
 const COURSE_INQUIRY_EMAIL = OFFICE_LEAD_EMAIL;
 
 // Значения по умолчанию для бота-приёмщика заявок ЦСП «Ермак».
+// Если api.telegram.org с сайта недоступен (таймаут) — поднимите прокси (scripts/tg-proxy.example.php) и VITE_TELEGRAM_SEND_PROXY_URL.
 // Если нужно сменить (бот скомпрометирован / спам) — пишем @BotFather → /revoke → подставляем новый токен.
 // Можно переопределить через VITE_TELEGRAM_BOT_TOKEN / VITE_TELEGRAM_CHAT_ID на хостинге.
 const DEFAULT_TELEGRAM_BOT_TOKEN = "8674084495:AAGxZIyVeeLFLHDd-rvBEby0C3GPvZW_kTw";
@@ -236,13 +237,13 @@ function deliverToTelegram(opts: {
       parse_mode: "HTML",
       disable_web_page_preview: "true",
     }).toString();
-    const response = await postWithRetry(
-      `https://api.telegram.org/bot${token}/sendMessage`,
-      requestBody,
-      "telegram",
-      3,
-      "application/x-www-form-urlencoded",
-    );
+
+    const proxy = (import.meta.env.VITE_TELEGRAM_SEND_PROXY_URL as string | undefined)?.trim();
+    const endpoint = proxy
+      ? proxy
+      : `https://api.telegram.org/bot${token}/sendMessage`;
+
+    const response = await postWithRetry(endpoint, requestBody, "telegram", 3, "application/x-www-form-urlencoded");
     if (!response) return;
     const data = await response.json().catch(() => ({}));
     if (!response.ok || (data && data.ok === false)) {
