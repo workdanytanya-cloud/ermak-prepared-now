@@ -6,6 +6,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import ScrollToTop from "@/components/ScrollToTop";
+import YandexMetrika from "@/components/YandexMetrika";
 import MobileStickyCta from "@/components/MobileStickyCta";
 import ExitIntentModal from "@/components/ExitIntentModal";
 import { LeadUiProvider } from "@/contexts/LeadUiContext";
@@ -26,6 +27,7 @@ const App = () => (
       <BrowserRouter>
         <LeadUiProvider>
           <ScrollToTop />
+          <YandexMetrika />
           <Header />
           <Routes>
             <Route path="/" element={<Index />} />
