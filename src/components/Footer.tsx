@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import { Phone, MapPin } from "lucide-react";
+import { SITE_PHONE_DISPLAY, SITE_PHONE_TEL } from "@/lib/siteContacts";
 
 const ADDRESS_TEXT = "Красный проспект, 11, Новосибирск";
 const ADDRESS_QUERY = encodeURIComponent("Красный проспект 11 Новосибирск");
@@ -30,8 +31,8 @@ const Footer = () => (
         <div>
           <h4 className="font-heading text-sm font-semibold text-foreground mb-4 tracking-wider">Контакты</h4>
           <div className="flex flex-col gap-3">
-            <a href="tel:+79994675684" className="flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors">
-              <Phone className="w-4 h-4 text-primary" /> +7 999 467 56 84
+            <a href={SITE_PHONE_TEL} className="flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors">
+              <Phone className="w-4 h-4 text-primary" /> {SITE_PHONE_DISPLAY}
             </a>
             <div className="flex flex-col gap-1">
               <a

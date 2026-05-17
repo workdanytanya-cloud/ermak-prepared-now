@@ -9,6 +9,7 @@ import { motion } from "framer-motion";
 import { useLeadUi } from "@/contexts/LeadUiContext";
 import { useMergedCourses } from "@/hooks/useMergedCourses";
 import { useSiteData } from "@/hooks/useSiteData";
+import { SITE_PHONE_DISPLAY, SITE_PHONE_E164 } from "@/lib/siteContacts";
 
 const faqData = [
   {
@@ -313,8 +314,8 @@ const Index = () => {
           },
         ];
   const telegramLink = settings.social_telegram || "https://t.me/ErmakCenter";
-  const phoneValue = settings.phone || "+7 999 467 56 84";
-  const phoneLink = `tel:${phoneValue.replace(/[^\d+]/g, "")}`;
+  const phoneValue = settings.phone || SITE_PHONE_DISPLAY;
+  const phoneLink = `tel:${(phoneValue.replace(/[^\d+]/g, "") || SITE_PHONE_E164).replace(/^8/, "+7")}`;
 
   const scrollToId = (id: string) => {
     document.getElementById(id)?.scrollIntoView({ behavior: "smooth", block: "start" });

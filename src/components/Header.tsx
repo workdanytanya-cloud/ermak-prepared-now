@@ -4,6 +4,7 @@ import { Menu, X, Phone } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { motion, AnimatePresence } from "framer-motion";
 import { useLeadUi } from "@/contexts/LeadUiContext";
+import { SITE_PHONE_DISPLAY, SITE_PHONE_TEL } from "@/lib/siteContacts";
 
 const navItems = [
   { label: "Главная", href: "/" },
@@ -50,7 +51,7 @@ const Header = () => {
         }`}
       >
         <div className="container mx-auto flex items-center justify-between h-16 md:h-20 px-4">
-          <Link to="/" className="flex items-center gap-3 group">
+          <Link to="/" className="flex items-center gap-3 group cursor-pointer" aria-label="На главную — ЦСП Ермак">
             <span className="w-10 h-10 md:w-11 md:h-11 rounded-md overflow-hidden border border-border/80 bg-card/70 shadow-sm shrink-0">
               <img
                 src="/brand/logo-ermak-main.png"
@@ -78,9 +79,9 @@ const Header = () => {
           </nav>
 
           <div className="hidden md:flex items-center gap-4">
-            <a href="tel:+79994675684" className="flex items-center gap-2 text-sm text-foreground/85 hover:text-foreground transition-colors">
+            <a href={SITE_PHONE_TEL} className="flex items-center gap-2 text-sm text-foreground/85 hover:text-foreground transition-colors">
               <Phone className="w-4 h-4" />
-              +7 999 467 56 84
+              {SITE_PHONE_DISPLAY}
             </a>
             <Button onClick={() => openBooking()} className="bg-cta-gradient text-accent-foreground font-heading tracking-wider shadow-cta hover:opacity-90 transition-opacity">
               Записаться
@@ -106,8 +107,8 @@ const Header = () => {
                     {item.label}
                   </Link>
                 ))}
-                <a href="tel:+79994675684" className="flex items-center gap-2 text-muted-foreground">
-                  <Phone className="w-4 h-4" /> +7 999 467 56 84
+                <a href={SITE_PHONE_TEL} className="flex items-center gap-2 text-muted-foreground">
+                  <Phone className="w-4 h-4" /> {SITE_PHONE_DISPLAY}
                 </a>
                 <Button onClick={() => { setIsOpen(false); openBooking(); }} className="w-full bg-cta-gradient text-accent-foreground font-heading tracking-wider shadow-cta">
                   Записаться
