@@ -1,15 +1,12 @@
 node_modules
 dist
-dist-ssr
 .git
-.github
-.cursor
-.idea
-.vscode
-*.log
-*.local
-coverage
-data/*.db-shm
-data/*.db-wal
+.gitignore
+data
+*.md
+.env
+.env.*
+terminals
+agent-tools
+assets
 new sait. ermak
-public/public.rar
