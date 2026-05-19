@@ -11,5 +11,7 @@ describe("legacyRoutes", () => {
     expect(resolveLegacyRedirect("/engineeringtraining")).toBe("/course/engineering");
     expect(resolveLegacyRedirect("/deti")).toBe("/courses");
     expect(resolveLegacyRedirect("/samooborona")).toBe("/course/women-safety");
+    expect(resolveLegacyRedirect("/o-centre")).toBe("/#about");
+    expect(resolveLegacyRedirect("/combattraining")).toBe("/course/ak-operator-military");
   });
 });

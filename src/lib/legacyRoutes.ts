@@ -26,6 +26,17 @@ export const LEGACY_EXACT_REDIRECTS: Record<string, string> = {
   "/intensive": "/course/field-intensive-military",
   "/contacts": "/#contacts",
   "/kontakty": "/#contacts",
+  "/o-centre": "/#about",
+  "/o-centre/": "/#about",
+  "/o-czentre": "/#about",
+  "/about": "/#about",
+  "/o-nas": "/#about",
+  "/onas": "/#about",
+  "/otzyv": "/",
+  "/otzyvy": "/",
+  "/reviews": "/",
+  "/combattraining": "/course/ak-operator-military",
+  "/combattrainingns": "/course/ak-operator-military",
 };
 
 const LEGACY_KEYWORD_RULES: { test: RegExp; to: string }[] = [
@@ -39,6 +50,9 @@ const LEGACY_KEYWORD_RULES: { test: RegExp; to: string }[] = [
   { test: /field|polev|intensiv/i, to: "/course/field-intensive-military" },
   { test: /deti|lager|camp/i, to: "/courses" },
   { test: /video|raspisan|schedule/i, to: "/courses" },
+  { test: /o-centre|o-czentre|o_centre|ocentre|o-nas|onas|about|centre/i, to: "/#about" },
+  { test: /otzyv|review/i, to: "/" },
+  { test: /combat|ognev|firearm/i, to: "/course/ak-operator-military" },
 ];
 
 export function normalizePathname(pathname: string): string {

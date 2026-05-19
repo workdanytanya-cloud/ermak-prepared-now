@@ -21,6 +21,9 @@ const legacyRoutes = [
   "/csp-deti",
   "/video2",
   "/samooborona",
+  "/o-centre",
+  "/otzyv",
+  "/combattraining",
 ];
 
 const routes = [
