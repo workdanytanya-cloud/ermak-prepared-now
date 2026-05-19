@@ -14,7 +14,22 @@ const indexPath = join(dist, "index.html");
 const coursesFile = readFileSync(join(root, "src/data/courses.ts"), "utf8");
 const courseIds = [...coursesFile.matchAll(/^\s+id:\s*"([a-z0-9-]+)"/gm)].map((m) => m[1]);
 
-const routes = ["/courses", "/privacy-policy", "/admin", ...courseIds.map((id) => `/course/${id}`)];
+const legacyRoutes = [
+  "/engineeringtraining",
+  "/raspisanie",
+  "/deti",
+  "/csp-deti",
+  "/video2",
+  "/samooborona",
+];
+
+const routes = [
+  "/courses",
+  "/privacy-policy",
+  "/admin",
+  ...legacyRoutes,
+  ...courseIds.map((id) => `/course/${id}`),
+];
 
 function writeRoute(route) {
   const relative = route.replace(/^\//, "");

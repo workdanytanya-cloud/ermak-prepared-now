@@ -16,6 +16,7 @@ import CourseDetailPage from "./pages/CourseDetailPage.tsx";
 import AdminPage from "./pages/AdminPage.tsx";
 import PrivacyPolicyPage from "./pages/PrivacyPolicyPage.tsx";
 import NotFound from "./pages/NotFound.tsx";
+import RouteResolver from "./components/RouteResolver.tsx";
 
 const queryClient = new QueryClient();
 
@@ -26,6 +27,7 @@ const App = () => (
       <Sonner />
       <BrowserRouter>
         <LeadUiProvider>
+          <RouteResolver>
           <ScrollToTop />
           <YandexMetrika />
           <Header />
@@ -40,6 +42,7 @@ const App = () => (
           <Footer />
           <MobileStickyCta />
           <ExitIntentModal />
+          </RouteResolver>
         </LeadUiProvider>
       </BrowserRouter>
     </TooltipProvider>

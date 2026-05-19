@@ -1,15 +1,22 @@
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 import PageSeo from "@/components/PageSeo";
 import { seoPages } from "@/lib/seoPages";
 import { Button } from "@/components/ui/button";
+import { resolveLegacyRedirect } from "@/lib/legacyRoutes";
 
 const NotFound = () => {
   const location = useLocation();
+  const navigate = useNavigate();
 
   useEffect(() => {
+    const legacy = resolveLegacyRedirect(location.pathname);
+    if (legacy) {
+      navigate(legacy, { replace: true });
+      return;
+    }
     console.error("404 Error: User attempted to access non-existent route:", location.pathname);
-  }, [location.pathname]);
+  }, [location.pathname, navigate]);
 
   return (
     <>
