@@ -24,6 +24,7 @@ const legacyRoutes = [
   "/o-centre",
   "/otzyv",
   "/combattraining",
+  "/smi",
 ];
 
 const routes = [

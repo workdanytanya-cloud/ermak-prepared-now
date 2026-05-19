@@ -17,7 +17,7 @@ const RouteResolver = ({ children }: { children: React.ReactNode }) => {
   const legacyTarget = resolveLegacyRedirect(location.pathname);
 
   useEffect(() => {
-    if (normalized === location.pathname) return;
+    if (!location.pathname.endsWith("/index.html")) return;
     navigate(`${normalized}${location.search}${location.hash}`, { replace: true });
   }, [location.pathname, location.search, location.hash, normalized, navigate]);
 
@@ -27,10 +27,6 @@ const RouteResolver = ({ children }: { children: React.ReactNode }) => {
       return <Navigate to={{ pathname: "/", hash, search: location.search }} replace />;
     }
     return <Navigate to={`${legacyTarget}${location.search}`} replace />;
-  }
-
-  if (normalized !== location.pathname) {
-    return <Navigate to={`${normalized}${location.search}${location.hash}`} replace />;
   }
 
   return <>{children}</>;

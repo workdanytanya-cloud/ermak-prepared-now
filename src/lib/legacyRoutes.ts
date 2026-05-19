@@ -37,6 +37,7 @@ export const LEGACY_EXACT_REDIRECTS: Record<string, string> = {
   "/reviews": "/",
   "/combattraining": "/course/ak-operator-military",
   "/combattrainingns": "/course/ak-operator-military",
+  "/smi": "/",
 };
 
 const LEGACY_KEYWORD_RULES: { test: RegExp; to: string }[] = [
@@ -55,6 +56,7 @@ const LEGACY_KEYWORD_RULES: { test: RegExp; to: string }[] = [
   { test: /combat|ognev|firearm/i, to: "/course/ak-operator-military" },
 ];
 
+/** Убирает только /index.html из пути (не трогает завершающий / — иначе цикл с nginx) */
 export function normalizePathname(pathname: string): string {
   let path = pathname || "/";
 
@@ -62,15 +64,15 @@ export function normalizePathname(pathname: string): string {
     path = path.slice(0, -"/index.html".length) || "/";
   }
 
-  if (path.length > 1 && path.endsWith("/")) {
-    path = path.slice(0, -1);
-  }
-
   return path || "/";
 }
 
+function stripTrailingSlash(path: string): string {
+  return path.length > 1 && path.endsWith("/") ? path.slice(0, -1) : path;
+}
+
 export function resolveLegacyRedirect(pathname: string): string | null {
-  const path = normalizePathname(pathname);
+  const path = stripTrailingSlash(normalizePathname(pathname));
   const lower = path.toLowerCase();
 
   if (LEGACY_EXACT_REDIRECTS[path]) return LEGACY_EXACT_REDIRECTS[path];

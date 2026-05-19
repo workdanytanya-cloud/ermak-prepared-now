@@ -2,9 +2,9 @@ import { describe, it, expect } from "vitest";
 import { normalizePathname, resolveLegacyRedirect } from "@/lib/legacyRoutes";
 
 describe("legacyRoutes", () => {
-  it("normalizes index.html suffix and trailing slash", () => {
+  it("normalizes index.html suffix only", () => {
     expect(normalizePathname("/courses/index.html")).toBe("/courses");
-    expect(normalizePathname("/courses/")).toBe("/courses");
+    expect(normalizePathname("/courses/")).toBe("/courses/");
   });
 
   it("redirects old site URLs", () => {

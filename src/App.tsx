@@ -34,9 +34,13 @@ const App = () => (
           <Routes>
             <Route path="/" element={<Index />} />
             <Route path="/courses" element={<CoursesPage />} />
+            <Route path="/courses/" element={<CoursesPage />} />
             <Route path="/course/:id" element={<CourseDetailPage />} />
+            <Route path="/course/:id/" element={<CourseDetailPage />} />
             <Route path="/admin" element={<AdminPage />} />
+            <Route path="/admin/" element={<AdminPage />} />
             <Route path="/privacy-policy" element={<PrivacyPolicyPage />} />
+            <Route path="/privacy-policy/" element={<PrivacyPolicyPage />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
           <Footer />
