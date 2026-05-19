@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import { Clock, Users, Check, CalendarSearch } from "lucide-react";
 import type { Course } from "@/data/courses";
+import { courseShowsFixedDate } from "@/lib/courseDate";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { useLeadUi } from "@/contexts/LeadUiContext";
@@ -105,7 +106,7 @@ const CourseCard = ({ course, lightMode }: Props) => {
                 {course.priceNote && (
                   <span className={`text-[10px] block ${lightMode ? "text-civil-muted" : "text-muted-foreground"}`}>{course.priceNote}</span>
                 )}
-                {course.hasDate ? (
+                {courseShowsFixedDate(course) ? (
                   <span className={`text-xs block mt-0.5 ${lightMode ? "text-civil-muted" : "text-muted-foreground"}`}>{course.nextDate}</span>
                 ) : (
                   <button

@@ -10,6 +10,8 @@ import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
 import { MessageSquare, Filter, Lock, LayoutList, BookOpen } from "lucide-react";
 import { mergeCourses, updateCoursePatch, getCoursePatches, setCoursePatches, type CoursePatch } from "@/lib/courseStorage";
+import PageSeo from "@/components/PageSeo";
+import { seoPages } from "@/lib/seoPages";
 
 const ADMIN_PASSWORD = "ermak2026";
 
@@ -135,6 +137,13 @@ const AdminPage = () => {
   };
 
   return (
+    <>
+      <PageSeo
+        title={seoPages.admin.title}
+        description={seoPages.admin.description}
+        path={seoPages.admin.path}
+        noindex
+      />
     <div className="min-h-screen pt-24 pb-20">
       <div className="container mx-auto px-4">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
@@ -355,6 +364,7 @@ const AdminPage = () => {
         )}
       </div>
     </div>
+    </>
   );
 };
 

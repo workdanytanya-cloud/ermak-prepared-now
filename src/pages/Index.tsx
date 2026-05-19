@@ -10,6 +10,9 @@ import { useLeadUi } from "@/contexts/LeadUiContext";
 import { useMergedCourses } from "@/hooks/useMergedCourses";
 import { useSiteData } from "@/hooks/useSiteData";
 import { SITE_PHONE_DISPLAY, SITE_PHONE_E164 } from "@/lib/siteContacts";
+import PageSeo from "@/components/PageSeo";
+import { seoPages } from "@/lib/seoPages";
+import { breadcrumbJsonLd, organizationJsonLd, webSiteJsonLd } from "@/lib/seoStructuredData";
 
 const faqData = [
   {
@@ -322,6 +325,14 @@ const Index = () => {
   };
 
   return (
+    <>
+      <PageSeo
+        title={seoPages.home.title}
+        description={seoPages.home.description}
+        path={seoPages.home.path}
+        keywords={seoPages.home.keywords}
+        jsonLd={[organizationJsonLd(), webSiteJsonLd(), breadcrumbJsonLd([{ name: "Главная", path: "/" }])]}
+      />
     <div className="min-h-screen pb-28 md:pb-0">
       {/* HERO */}
       <section className="relative overflow-hidden border-b border-border/60 bg-[hsl(220,20%,7%)]">
@@ -895,6 +906,7 @@ const Index = () => {
         </div>
       </section>
     </div>
+    </>
   );
 };
 

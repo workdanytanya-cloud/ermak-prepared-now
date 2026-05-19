@@ -1,6 +1,8 @@
 /// <reference types="vite/client" />
 
 interface ImportMetaEnv {
+  /** Канонический URL сайта для SEO, sitemap и Open Graph (по умолчанию https://ermakcentr.ru) */
+  readonly VITE_SITE_URL?: string;
   /** Опционально: URL для POST JSON при новой заявке (n8n, свой бэкенд и т.д.) */
   readonly VITE_LEADS_WEBHOOK_URL?: string;
   /** Доп. ящик для копий заявки (офисный всегда в коде). */

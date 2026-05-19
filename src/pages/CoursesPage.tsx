@@ -6,6 +6,9 @@ import AnimatedSection from "@/components/AnimatedSection";
 import StickyBackButton from "@/components/StickyBackButton";
 import { Button } from "@/components/ui/button";
 import { useMergedCourses } from "@/hooks/useMergedCourses";
+import PageSeo from "@/components/PageSeo";
+import { seoPages } from "@/lib/seoPages";
+import { breadcrumbJsonLd } from "@/lib/seoStructuredData";
 
 const TAG_KEYS = Object.keys(filterTagLabels) as CourseFilterTag[];
 
@@ -110,7 +113,26 @@ const CoursesPage = () => {
 
   const categories = ["all", ...Object.keys(categoryLabels)];
 
+  const tagList = [...activeTags];
+  const filterTitle =
+    tagList.length === 1 ? filterTagLabels[tagList[0]] : tagList.length > 1 ? "по выбранным фильтрам" : null;
+  const seoTitle = filterTitle ? `${seoPages.courses.title}: ${filterTitle}` : seoPages.courses.title;
+  const seoDescription = filterTitle
+    ? `Курсы ЦСП «Ермак» — ${filterTitle.toLowerCase()}. ${seoPages.courses.description}`
+    : seoPages.courses.description;
+
   return (
+    <>
+      <PageSeo
+        title={seoTitle}
+        description={seoDescription}
+        path="/courses"
+        keywords={seoPages.courses.keywords}
+        jsonLd={breadcrumbJsonLd([
+          { name: "Главная", path: "/" },
+          { name: "Каталог курсов", path: "/courses" },
+        ])}
+      />
     <div className="min-h-screen pt-24 pb-28 md:pb-20">
       <div className="container mx-auto px-4">
         <StickyBackButton />
@@ -214,6 +236,7 @@ const CoursesPage = () => {
         )}
       </div>
     </div>
+    </>
   );
 };
 

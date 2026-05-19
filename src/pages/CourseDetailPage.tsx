@@ -10,6 +10,11 @@ import CourseCard from "@/components/CourseCard";
 import CourseInquiryDialog from "@/components/CourseInquiryDialog";
 import { useLeadUi } from "@/contexts/LeadUiContext";
 import { useMergedCourses } from "@/hooks/useMergedCourses";
+import { courseShowsFixedDate } from "@/lib/courseDate";
+import PageSeo from "@/components/PageSeo";
+import { breadcrumbJsonLd, courseJsonLd } from "@/lib/seoStructuredData";
+import { seoPages } from "@/lib/seoPages";
+import { truncateDescription } from "@/lib/siteSeo";
 
 const CourseDetailPage = () => {
   const navigate = useNavigate();
@@ -21,20 +26,45 @@ const CourseDetailPage = () => {
 
   if (!course) {
     return (
-      <div className="min-h-screen pt-32 text-center">
-        <h1 className="font-heading text-3xl text-foreground">Курс не найден</h1>
-        <Link to="/courses">
-          <Button className="mt-4" variant="outline">
-            К каталогу
-          </Button>
-        </Link>
-      </div>
+      <>
+        <PageSeo
+          title={seoPages.notFound.title}
+          description={seoPages.notFound.description}
+          noindex
+        />
+        <div className="min-h-screen pt-32 text-center">
+          <h1 className="font-heading text-3xl text-foreground">Курс не найден</h1>
+          <Link to="/courses">
+            <Button className="mt-4" variant="outline">
+              К каталогу
+            </Button>
+          </Link>
+        </div>
+      </>
     );
   }
 
   const related = list.filter((c) => c.category === course.category && c.id !== course.id).slice(0, 3);
 
+  const courseDescription = `${truncateDescription(course.description)} ${course.result}`;
+
   return (
+    <>
+      <PageSeo
+        title={course.shortTitle || course.title}
+        description={courseDescription}
+        path={`/course/${course.id}`}
+        image={course.image}
+        type="article"
+        jsonLd={[
+          courseJsonLd(course),
+          breadcrumbJsonLd([
+            { name: "Главная", path: "/" },
+            { name: "Каталог курсов", path: "/courses" },
+            { name: course.shortTitle || course.title, path: `/course/${course.id}` },
+          ]),
+        ]}
+      />
     <div className="min-h-screen pt-24 pb-24 md:pb-20">
       <div className="container mx-auto px-4">
         <StickyBackButton />
@@ -154,7 +184,7 @@ const CourseDetailPage = () => {
                   <div className="flex items-center gap-2 text-muted-foreground">
                     <Users className="w-4 h-4 text-accent" /> {course.format}
                   </div>
-                  {course.hasDate ? (
+                  {courseShowsFixedDate(course) ? (
                     <div className="flex items-center gap-2 text-muted-foreground">
                       <Calendar className="w-4 h-4 text-accent" /> {course.nextDate}
                     </div>
@@ -227,6 +257,7 @@ const CourseDetailPage = () => {
         courseShortTitle={course.shortTitle}
       />
     </div>
+    </>
   );
 };
 
