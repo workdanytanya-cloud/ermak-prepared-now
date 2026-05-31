@@ -75,6 +75,9 @@ export function resolveLegacyRedirect(pathname: string): string | null {
   const path = stripTrailingSlash(normalizePathname(pathname));
   const lower = path.toLowerCase();
 
+  // Актуальные URL курсов не трогаем: keyword-правила ловят подстроки (women → women-safety, pistol → pistol-civil)
+  if (path.startsWith("/course/")) return null;
+
   if (LEGACY_EXACT_REDIRECTS[path]) return LEGACY_EXACT_REDIRECTS[path];
   if (LEGACY_EXACT_REDIRECTS[lower]) return LEGACY_EXACT_REDIRECTS[lower];
 

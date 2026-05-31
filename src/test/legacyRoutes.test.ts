@@ -14,4 +14,11 @@ describe("legacyRoutes", () => {
     expect(resolveLegacyRedirect("/o-centre")).toBe("/#about");
     expect(resolveLegacyRedirect("/combattraining")).toBe("/course/ak-operator-military");
   });
+
+  it("does not rewrite modern /course/* URLs", () => {
+    expect(resolveLegacyRedirect("/course/women-safety")).toBeNull();
+    expect(resolveLegacyRedirect("/course/pistol-civil")).toBeNull();
+    expect(resolveLegacyRedirect("/course/field-intensive-civil")).toBeNull();
+    expect(resolveLegacyRedirect("/course/first-aid")).toBeNull();
+  });
 });
