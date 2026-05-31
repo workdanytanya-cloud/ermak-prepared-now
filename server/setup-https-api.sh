@@ -44,6 +44,7 @@ certbot --nginx -d "${DOMAIN}" --non-interactive --agree-tos -m "${EMAIL}" --red
 
 echo ""
 echo "Готово. Проверка:"
+echo "  curl -sS https://${DOMAIN}/health"
 echo "  curl -sS -X POST https://${DOMAIN}/vk-lead -H 'Content-Type: application/json' -d '{\"course\":\"Т\",\"name\":\"Т\",\"phone\":\"+79990000000\"}'"
 echo ""
 echo "В App Platform (Ermak2.0):"

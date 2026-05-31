@@ -1,4 +1,5 @@
 import type { Application } from "@/data/applications";
+import { submitLeadToCrm } from "@/lib/crmLead";
 import { requestVkWallDuplicate } from "@/lib/vkLeadGateway";
 import { telegramProxyUrl, warnIfMixedContent } from "@/lib/leadsServer";
 import { toast } from "sonner";
@@ -121,6 +122,10 @@ function deliverWeb3Forms(accessKey: string, payload: Record<string, unknown>, r
     const data = (await res.json().catch(() => ({}))) as { success?: boolean; message?: string };
     if (!res.ok || data.success === false) {
       console.error("[leads] web3forms failed", res.status, data);
+      toast.error(
+        "Письмо на почту не отправилось. Проверьте ключ Web3Forms (VITE_WEB3FORMS_ACCESS_KEY) в настройках хостинга.",
+        { duration: 10000 },
+      );
       return;
     }
     console.info("[leads] web3forms delivered");
@@ -352,6 +357,17 @@ export function saveApplication(
     pageUrl: typeof globalThis !== "undefined" && "location" in globalThis ? globalThis.location.href : undefined,
   });
 
+  void submitLeadToCrm({
+    name: full.name,
+    phone: full.phone,
+    selected_course: full.course,
+    comment: [full.comment, full.desiredDate ? `Желаемая дата: ${full.desiredDate}` : "", extras?.source ? `Источник: ${extras.source}` : ""]
+      .filter(Boolean)
+      .join("\n"),
+    form_name: "booking_form",
+    page_url: typeof globalThis !== "undefined" && "location" in globalThis ? globalThis.location.href : undefined,
+  });
+
   return full;
 }
 
@@ -457,6 +473,18 @@ export function sendCourseInquiry(inq: CourseInquiryPayload): Application {
     comment: vkInquiryComment,
     pageUrl: typeof globalThis !== "undefined" && "location" in globalThis ? globalThis.location.href : undefined,
   });
+
+  if (inq.contactType === "phone" && inq.phone?.trim()) {
+    void submitLeadToCrm({
+      name: "Без имени",
+      phone: inq.phone.trim(),
+      selected_course: inq.courseTitle,
+      comment: [inq.question, inq.source, `Канал: ${inquiryPhoneMethodLabel[inq.phoneMethod ?? "call"]}`].filter(Boolean).join("\n"),
+      preferred_contact_channel: inquiryPhoneMethodLabel[inq.phoneMethod ?? "call"],
+      form_name: "course_inquiry",
+      page_url: typeof globalThis !== "undefined" && "location" in globalThis ? globalThis.location.href : undefined,
+    });
+  }
 
   return full;
 }

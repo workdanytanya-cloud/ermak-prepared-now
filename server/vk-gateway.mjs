@@ -4,7 +4,7 @@
  * Переменные окружения:
  *   VK_GROUP_TOKEN — ключ сообщества с правами wall (обязательно)
  *   TELEGRAM_BOT_TOKEN, TELEGRAM_CHAT_ID — для POST /telegram-send (прокси из РФ)
- *   PORT — порт (по умолчанию 5055)
+ *   CRM_BACKEND_URL — URL CRM (по умолчанию http://127.0.0.1:8000) для POST /api/leads
  *   VK_ALLOWED_ORIGINS — через запятую, для CORS (по умолчанию https://ermakcentr.ru,http://localhost:5173)
  *
  * Запуск: VK_GROUP_TOKEN=... node server/vk-gateway.mjs
@@ -18,6 +18,7 @@ const PORT = Number(process.env.PORT) || 5055;
 const VK_TOKEN = process.env.VK_GROUP_TOKEN;
 const TG_TOKEN = process.env.TELEGRAM_BOT_TOKEN;
 const TG_CHAT_ID = process.env.TELEGRAM_CHAT_ID;
+const CRM_BACKEND_URL = (process.env.CRM_BACKEND_URL || "http://127.0.0.1:8000").replace(/\/$/, "");
 const OWNER_ID = "-238725296";
 const VK_API_VERSION = "5.199";
 
@@ -105,6 +106,31 @@ async function postWall(message) {
   return { ok: true, data };
 }
 
+async function proxyToCrm(body, req) {
+  const url = `${CRM_BACKEND_URL}/api/leads`;
+  try {
+    const res = await fetch(url, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+        "X-Forwarded-For": req.headers["x-forwarded-for"] || req.socket?.remoteAddress || "",
+      },
+      body: JSON.stringify(body),
+    });
+    const data = await res.json().catch(() => ({}));
+    if (!res.ok) {
+      console.error("[leads-server] CRM proxy failed", res.status, JSON.stringify(data).slice(0, 2000));
+    } else {
+      console.info("[leads-server] CRM proxy ok", { client_id: data?.client_id, new: data?.is_new_client });
+    }
+    return { status: res.status, data };
+  } catch (err) {
+    console.error("[leads-server] CRM unreachable at", url, err?.message || err);
+    return { status: 502, data: { success: false, error: "crm_unreachable" } };
+  }
+}
+
 async function sendTelegram(text, parseMode = "HTML") {
   if (!TG_TOKEN || !TG_CHAT_ID) {
     console.error("[leads-server] TELEGRAM_BOT_TOKEN or TELEGRAM_CHAT_ID missing");
@@ -159,9 +185,39 @@ const server = http.createServer(async (req, res) => {
   const host = req.headers.host || "localhost";
   const url = new URL(req.url || "/", `http://${host}`);
 
+  if (req.method === "GET" && url.pathname === "/health") {
+    res.writeHead(200, { "Content-Type": "application/json", ...ch });
+    return res.end(
+      JSON.stringify({
+        ok: true,
+        service: "ermak-leads",
+        vk: Boolean(VK_TOKEN),
+        telegram: Boolean(TG_TOKEN && TG_CHAT_ID),
+      }),
+    );
+  }
+
   if (req.method !== "POST") {
     res.writeHead(404, { "Content-Type": "application/json", ...ch });
     return res.end(JSON.stringify({ ok: false, error: "not_found" }));
+  }
+
+  if (url.pathname === "/api/leads") {
+    let body;
+    try {
+      body = await readBody(req);
+    } catch {
+      res.writeHead(400, { "Content-Type": "application/json", ...ch });
+      return res.end(JSON.stringify({ ok: false, error: "invalid_json" }));
+    }
+    console.info("[leads-server] received /api/leads", {
+      phone: sanitize(body?.phone, 20),
+      course: sanitize(body?.selected_course, 200),
+      form: sanitize(body?.form_name, 80),
+    });
+    const { status, data } = await proxyToCrm(body, req);
+    res.writeHead(status, { "Content-Type": "application/json", ...ch });
+    return res.end(JSON.stringify(data));
   }
 
   if (url.pathname === "/telegram-send") {
@@ -206,5 +262,5 @@ const server = http.createServer(async (req, res) => {
 });
 
 server.listen(PORT, () => {
-  console.info(`[leads-server] :${PORT} — POST /vk-lead, POST /telegram-send`);
+  console.info(`[leads-server] :${PORT} — POST /api/leads, /vk-lead, /telegram-send (CRM → ${CRM_BACKEND_URL})`);
 });
