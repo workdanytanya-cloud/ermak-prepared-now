@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "node scripts/generate-sitemap.mjs && vite build && node scripts/spa-route-html.mjs && node scripts/write-build-id.mjs",
+    "build": "node scripts/generate-sitemap.mjs && node scripts/write-build-id.mjs && vite build && node scripts/spa-route-html.mjs && node scripts/write-build-id.mjs && node scripts/mirror-out-dir.mjs",
     "sitemap": "node scripts/generate-sitemap.mjs",
     "build:dev": "vite build --mode development",
     "start": "vite preview --host 0.0.0.0 --port 4173",

@@ -1,5 +1,5 @@
 import { execSync } from "node:child_process";
-import { writeFileSync } from "node:fs";
+import { existsSync, writeFileSync } from "node:fs";
 
 let sha = "unknown";
 try {
@@ -9,5 +9,10 @@ try {
 }
 
 const stamp = `${sha} ${new Date().toISOString()}`;
-writeFileSync("build/build-id.txt", stamp, "utf8");
+
+writeFileSync("public/build-id.txt", stamp, "utf8");
+if (existsSync("build")) {
+  writeFileSync("build/build-id.txt", stamp, "utf8");
+}
+
 console.log(`build-id: ${stamp}`);
