@@ -58,7 +58,14 @@ const CourseCard = ({ course, lightMode }: Props) => {
             {course.title}
           </h3>
 
-          {/* SITUATION (pain) */}
+          {/* SITUATION / SUMMARY */}
+          {course.cardFootnote ? (
+            <div className={`text-xs leading-relaxed mb-3 flex-1 ${lightMode ? "text-civil-muted" : "text-muted-foreground"}`}>
+              <p className={lightMode ? "text-civil" : "text-foreground"}>{course.description}</p>
+              <p className="mt-2 opacity-90">{course.cardFootnote}</p>
+            </div>
+          ) : (
+            <>
           <div className={`text-xs leading-relaxed mb-3 ${lightMode ? "text-civil-muted" : "text-muted-foreground"}`}>
             <span className={`font-heading text-[10px] uppercase tracking-wider block mb-1 ${lightMode ? "text-civil" : "text-accent"}`}>
               {isMilitary ? "Ситуация" : "Знакомо?"}
@@ -85,6 +92,8 @@ const CourseCard = ({ course, lightMode }: Props) => {
               </li>
             ))}
           </ul>
+            </>
+          )}
 
           {/* META: duration + format */}
           <div
@@ -145,7 +154,7 @@ const CourseCard = ({ course, lightMode }: Props) => {
                   lightMode ? "text-civil hover:bg-black/5" : "text-muted-foreground hover:text-foreground"
                 }`}
               >
-                Узнать подробности
+                {course.detailsButtonLabel ?? "Узнать подробности"}
               </Button>
             </Link>
           </div>
