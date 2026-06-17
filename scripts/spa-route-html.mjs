@@ -8,7 +8,7 @@ import { fileURLToPath } from "node:url";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const root = join(__dirname, "..");
-const dist = join(root, "dist");
+const dist = join(root, "build");
 const indexPath = join(dist, "index.html");
 
 const coursesFile = readFileSync(join(root, "src/data/courses.ts"), "utf8");
@@ -46,4 +46,4 @@ for (const route of routes) {
   writeRoute(route);
 }
 
-console.log(`spa-route-html: ${routes.length} маршрутов (копии index.html в dist/)`);
+console.log(`spa-route-html: ${routes.length} маршрутов (копии index.html в build/)`);
