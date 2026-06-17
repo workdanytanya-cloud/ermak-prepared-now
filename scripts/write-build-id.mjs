@@ -11,8 +11,8 @@ try {
 const stamp = `${sha} ${new Date().toISOString()}`;
 
 writeFileSync("public/build-id.txt", stamp, "utf8");
-if (existsSync("build")) {
-  writeFileSync("build/build-id.txt", stamp, "utf8");
+if (existsSync("dist")) {
+  writeFileSync("dist/build-id.txt", stamp, "utf8");
 }
 
 console.log(`build-id: ${stamp}`);

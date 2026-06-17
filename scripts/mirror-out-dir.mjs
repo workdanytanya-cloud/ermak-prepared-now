@@ -15,8 +15,8 @@ function copyDir(src, dest) {
   }
 }
 
-const outDir = "build";
-const mirrorDir = "dist";
+const outDir = "dist";
+const mirrorDir = "build";
 
 if (!existsSync(outDir)) {
   console.error(`mirror-out-dir: ${outDir}/ не найден`);
