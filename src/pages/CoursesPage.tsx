@@ -7,6 +7,7 @@ import StickyBackButton from "@/components/StickyBackButton";
 import { Button } from "@/components/ui/button";
 import { useMergedCourses } from "@/hooks/useMergedCourses";
 import PageSeo from "@/components/PageSeo";
+import { courseShowsFixedDate } from "@/lib/courseDate";
 import { seoPages } from "@/lib/seoPages";
 import { breadcrumbJsonLd } from "@/lib/seoStructuredData";
 
@@ -65,8 +66,8 @@ const CoursesPage = () => {
     });
 
     const parseDateHint = (c: (typeof list)[0]) => {
-      if (c.hasDate && /\d{4}/.test(c.nextDate)) return 1;
-      if (c.hasDate) return 2;
+      if (courseShowsFixedDate(c) && /\d{4}/.test(c.nextDate)) return 1;
+      if (courseShowsFixedDate(c)) return 2;
       return 3;
     };
 

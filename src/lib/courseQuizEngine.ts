@@ -1,4 +1,5 @@
 import type { Course } from "@/data/courses";
+import { courseShowsFixedDate } from "@/lib/courseDate";
 
 export type QuizAudience = "self" | "family" | "work" | "service";
 export type QuizExperience = "none" | "basic" | "advanced";
@@ -102,7 +103,7 @@ export function scoreCoursesByQuiz(answers: CourseQuizAnswers, list: Course[]): 
 
   if (answers.urgency === "soon") {
     for (const c of list) {
-      if (c.hasDate) scores[c.id] += 1;
+      if (courseShowsFixedDate(c)) scores[c.id] += 1;
     }
   }
 

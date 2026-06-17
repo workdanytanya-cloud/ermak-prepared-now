@@ -2,7 +2,7 @@ import { courses as defaultCourses, type Course } from "@/data/courses";
 import { NO_FIXED_DATE_COURSE_IDS } from "@/lib/courseDate";
 
 /** Увеличивайте после правок дат в courses.ts — сбрасывает старые даты из /admin в localStorage */
-export const COURSES_DATA_REVISION = 3;
+export const COURSES_DATA_REVISION = 5;
 
 export type CoursePatch = Partial<
   Pick<Course, "spotsLeft" | "nextDate" | "hasDate" | "price" | "totalSpots" | "title" | "shortTitle">
