@@ -1,11 +1,14 @@
 {
   "name": "vite_react_shadcn_ts",
   "private": true,
-  "version": "0.0.0",
+  "version": "0.0.1",
   "type": "module",
+  "engines": {
+    "node": ">=20"
+  },
   "scripts": {
     "dev": "vite",
-    "build": "node scripts/generate-sitemap.mjs && node scripts/write-build-id.mjs && vite build && node scripts/spa-route-html.mjs && node scripts/write-build-id.mjs && node scripts/mirror-out-dir.mjs",
+    "build": "node scripts/write-build-id.mjs && node scripts/generate-sitemap.mjs && vite build && node scripts/spa-route-html.mjs && node scripts/verify-dist.mjs",
     "sitemap": "node scripts/generate-sitemap.mjs",
     "build:dev": "vite build --mode development",
     "start": "vite preview --host 0.0.0.0 --port 4173",
