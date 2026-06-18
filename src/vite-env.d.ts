@@ -28,6 +28,8 @@ interface ImportMetaEnv {
    * Токен VK только на сервере: VK_GROUP_TOKEN.
    */
   readonly VITE_VK_LEAD_GATEWAY_URL?: string;
+  /** Полный URL CRM API, например http://127.0.0.1:8000/api/leads или https://api.ermakcentr.ru/api/leads */
+  readonly VITE_CRM_API_URL?: string;
 }
 
 interface ImportMeta {
