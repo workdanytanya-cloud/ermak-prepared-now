@@ -94,14 +94,34 @@ const CourseDetailPage = () => {
 
             <AnimatedSection delay={0.1}>
               <h2 className="font-heading text-2xl font-bold text-foreground mb-6">Программа курса</h2>
-              <div className="space-y-3 mb-12">
-                {course.program.map((item, i) => (
-                  <div key={i} className="flex items-start gap-3 p-4 bg-card-gradient border border-border rounded-lg">
-                    <span className="text-sm font-heading text-accent font-bold shrink-0">{String(i + 1).padStart(2, "0")}</span>
-                    <span className="text-foreground">{item}</span>
-                  </div>
-                ))}
-              </div>
+              {course.programSections && course.programSections.length > 0 ? (
+                <div className="space-y-6 mb-12">
+                  {course.programSections.map((section) => (
+                    <div
+                      key={section.title}
+                      className="p-4 sm:p-5 bg-card-gradient border border-border rounded-lg"
+                    >
+                      <h3 className="font-heading text-lg font-bold text-foreground mb-3">{section.title}</h3>
+                      <ul className="space-y-2">
+                        {section.items.map((item) => (
+                          <li key={item} className="flex items-start gap-2 text-foreground text-sm leading-relaxed">
+                            <ChevronRight className="w-4 h-4 text-accent shrink-0 mt-0.5" /> {item}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                <div className="space-y-3 mb-12">
+                  {course.program.map((item, i) => (
+                    <div key={i} className="flex items-start gap-3 p-4 bg-card-gradient border border-border rounded-lg">
+                      <span className="text-sm font-heading text-accent font-bold shrink-0">{String(i + 1).padStart(2, "0")}</span>
+                      <span className="text-foreground">{item}</span>
+                    </div>
+                  ))}
+                </div>
+              )}
             </AnimatedSection>
 
             <AnimatedSection delay={0.15}>
